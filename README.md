@@ -43,3 +43,13 @@ Node.js 22.12+，执行 `npm ci`、`npm run dev`。`npm run dev`、`npm run buil
 仓库包含应用源码、锁定依赖、测试、资源处理脚本、需求/美术参考，以及运行所需的无损压缩模型源和贴图。`source-assets/bearroom.glb.br` 是Git中的模型源；`public/assets/bearroom.glb` 与 `.glb.gz` 均自动重建，不纳入Git。还原完全使用Node.js内置Brotli，无需Git LFS、额外依赖或网络下载。`docs/` 内图片是设计输入，不是运行画面验收截图。`delivery/` 仅保留空目录占位；检查脚本会在本机重新生成报告，不提交历史输出。
 
 不包含 node_modules、dist、部署身份信息、历史压缩交付包、Blender备份或浏览器截图。当前可编辑Blender工程与原始制作图另行保存，并不是构建网页的必需输入。资源说明见 `docs/assets.md`。
+
+## EdgeOne 自动部署
+
+`.github/workflows/deploy-edgeone.yml` 在每次推送到 `master` 时运行，也可在 Actions 页面选择 `master` 手动触发。流程使用 Node.js 22、`npm ci`、测试、生产构建和资源预算检查，通过后将 `dist/` 发布到 EdgeOne 生产环境；CLI 固定为 `edgeone@1.6.41`。
+
+首次使用需在 GitHub 仓库的 **Settings → Secrets and variables → Actions → Secrets** 中配置仓库 Secret `EDGEONE_API_TOKEN`，值为 EdgeOne 控制台生成的 API Token。不要放入普通 Variables、源码或构建配置；令牌仅注入部署步骤，不参与前端构建。
+
+项目名使用工作流环境变量 `EDGEONE_PROJECT_NAME`，自动取 `${{ github.event.repository.name }}`，无需写死仓库名。已有同名 EdgeOne 项目须为“直接上传”类型；不存在时 CLI 会自动创建。仓库改名也会改变目标项目名，请先确认对应项目。详见 [EdgeOne CLI 官方文档](https://pages.edgeone.ai/document/edgeone-cli)。
+
+生产部署串行运行，不取消正在执行的发布；部署前再次检查公开仓库 `master` 最新提交，跳过已被新提交取代的任务，避免旧版本在新版本之后发布。缺少令牌、测试失败、构建失败或资源预算超限都会阻止发布。
