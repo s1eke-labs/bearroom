@@ -48,6 +48,8 @@ Node.js 22.12+，执行 `npm ci`、`npm run dev`。`npm run dev`、`npm run buil
 
 `.github/workflows/deploy-edgeone.yml` 在每次推送到 `master` 时运行，也可在 Actions 页面选择 `master` 手动触发。流程使用 Node.js 22、`npm ci`、测试、生产构建和资源预算检查，通过后将 `dist/` 发布到 EdgeOne 生产环境；CLI 固定为 `edgeone@1.6.41`。
 
+运行器固定为 `ubuntu-24.04`，避免 `ubuntu-latest` 自动切换操作系统版本。`actions/checkout` v7.0.1 和 `actions/setup-node` v7.1.0 均固定到完整提交 SHA，使用 Node.js 24 运行 Action 本身；项目安装、测试与构建仍使用单独配置的 Node.js 22。
+
 首次使用需在 GitHub 仓库的 **Settings → Secrets and variables → Actions → Secrets** 中配置仓库 Secret `EDGEONE_API_TOKEN`，值为 EdgeOne 控制台生成的 API Token。不要放入普通 Variables、源码或构建配置；令牌仅注入部署步骤，不参与前端构建。
 
 项目名使用工作流环境变量 `EDGEONE_PROJECT_NAME`，自动取 `${{ github.event.repository.name }}`，无需写死仓库名。已有同名 EdgeOne 项目须为“直接上传”类型；不存在时 CLI 会自动创建。仓库改名也会改变目标项目名，请先确认对应项目。详见 [EdgeOne CLI 官方文档](https://pages.edgeone.ai/document/edgeone-cli)。
