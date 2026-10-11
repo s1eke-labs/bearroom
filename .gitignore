@@ -1,0 +1,34 @@
+# Dependencies and build outputs
+node_modules/
+dist/
+.vite/
+coverage/
+playwright-report/
+test-results/
+# Generated verification reports, screenshots, recordings
+delivery/*
+!delivery/.gitkeep
+# Local configuration, credentials and hosting identity
+.env
+.env.*
+!.env.example
+.npmrc
+.openai/
+.hosting*
+*.pem
+*.key
+# Editor, OS, logs and archive exports
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+*.zip
+*.tar
+*.tar.gz
+*.blend1
+
+# Rebuilt automatically from canonical Brotli GLB by npm lifecycle scripts
+/public/assets/bearroom.glb.gz
+
+/public/assets/bearroom.glb

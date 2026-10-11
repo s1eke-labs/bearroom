@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#18232c" />
+    <meta
+      name="description"
+      content="一间可以自由观察、听雨与弹琴的奶白小熊 Loft。"
+    />
+    <link rel="icon" href="/favicon.svg" />
+    <title>小熊的家 · bearroom</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas
+        id="room"
+        aria-label="小熊的三维 Loft，拖动观察，捏合缩放，直接点按琴键弹奏"
+        tabindex="0"
+      ></canvas>
+      <header>
+        <div class="wordmark">
+          <span class="bearmark">ʕ•ᴥ•ʔ</span>
+          <div>小熊的家<small>BEARROOM · 125㎡ LOFT</small></div>
+        </div>
+        <div class="mode-control" role="group" aria-label="昼夜模式">
+          <button id="night" class="selected" aria-pressed="true">
+            <span>☾</span>雨夜</button
+          ><button id="day" aria-pressed="false"><span>☀</span>晴日</button>
+        </div>
+      </header>
+      <div id="loading" role="status">
+        <div class="loading-bear">ʕ•ᴥ•ʔ</div>
+        <p>正在点亮小熊的家</p>
+        <div class="loading-track"><i id="load-progress"></i></div>
+        <small id="load-detail">载入空间与家具</small>
+      </div>
+      <aside class="bottom-bar">
+        <p id="hint">
+          单指转动 · 双指平移与缩放<br /><span>靠近钢琴，轻点琴键就能弹奏</span>
+        </p>
+        <button id="sound" aria-label="静音" aria-pressed="false">
+          ♫<span>声音</span></button
+        ><button id="help" aria-label="查看操作说明">?<span>操作</span></button>
+      </aside>
+      <div id="note" aria-live="polite"></div>
+      <dialog id="help-dialog">
+        <button class="close" aria-label="关闭说明">×</button>
+        <h2>慢慢看看，随手弹弹</h2>
+        <p>
+          一根手指拖动，转动视角。两根手指一起拖动可平移，张开或捏合可缩放。
+        </p>
+        <p>电脑上拖动转动，右键拖动平移，滚轮缩放。</p>
+        <p>
+          放大钢琴后，直接轻点黑键或白键。无需进入演奏模式，音符会自然消散。
+        </p>
+        <p>切换晴日与雨夜会保留你的视角。每件家具都在自己的节奏里。</p>
+        <small>建议开启设备媒体音量。真实手机性能尚待验收。</small>
+      </dialog>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
