@@ -1,0 +1,2615 @@
+{
+  "modelSha256": "b294de08c3b0cdf4a1db5c144e6a42d66d6ac5129fc65c872fcef4977a3e75a7",
+  "materials": {
+    "botanical_sage": {
+      "doubleSided": true,
+      "name": "botanical_sage",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.18000000715255737,
+          0.28999999165534973,
+          0.15000000596046448,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.800000011920929
+      }
+    },
+    "botanical_v17_calathea_scanned": {
+      "alphaMode": "MASK",
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_ior": {
+          "ior": 1.4500000476837158
+        },
+        "KHR_materials_specular": {
+          "specularFactor": 0.699999988079071
+        }
+      },
+      "extras": {
+        "alphaCutoff": 0.5,
+        "alphaMode": "MASK",
+        "depthWrite": true,
+        "license": "CC0-1.0",
+        "organicPlantV17": true,
+        "sourceURL": "https://polyhaven.com/a/calathea_orbifolia_01"
+      },
+      "name": "botanical_v17_calathea_scanned",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/jpeg",
+            "payloadSha256": "c230a3590575a3701d8bf745ac681659826ddbe5a64bc420324aeb0a37d4f273"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        }
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "bd964a876f6755a90560d258667951c182cff810e3b561ee522408d5c1c7d977"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "a958b3f80ae3df780253379dd9f2f69ee3671cf4d04e683523b7815d063eddd2"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "botanical_v17_potting_soil": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_ior": {
+          "ior": 1.4500000476837158
+        },
+        "KHR_materials_specular": {
+          "specularFactor": 0.4000000059604645
+        }
+      },
+      "extras": {
+        "organicPlantSoilV17": true,
+        "scope": "Only the five original pot soil surfaces; shared wood material unchanged",
+        "source": "Authored deterministic procedural organic-grain texture"
+      },
+      "name": "botanical_v17_potting_soil",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/jpeg",
+            "payloadSha256": "f392bccac5d0638566cfb101f1f072082f92f712fc0aa03aec70a758fa39d21d"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.5
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "77f1d0a66e0e2e02a23f72bb7aada4096e151aa8a07bc25e6f472b321911eb09"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.9599999785423279
+      }
+    },
+    "ceramic_ivory": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.11999999731779099,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.29,
+        "authoredTint": "F2EADD",
+        "referenceMatched": true,
+        "surfaceClass": "ceramic_ivory"
+      },
+      "name": "ceramic_ivory",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8879231214523315,
+          0.8227857351303101,
+          0.7230551242828369,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.28999999165534973
+      }
+    },
+    "embroidery_bear_stitched": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        },
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            0.8199999928474426,
+            0.8100000023841858,
+            0.7900000214576721
+          ],
+          "sheenRoughnessFactor": 0.7200000286102295
+        },
+        "KHR_materials_specular": {
+          "specularFactor": 0.36000001430511475
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "1C1B1B",
+        "referenceMatched": true,
+        "surfaceClass": "embroidery",
+        "toyRealismRevision": "photo-reference-v13"
+      },
+      "name": "embroidery_bear_stitched",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "22f2ec6b07a21519ac5154600bc565f1fc11e5ccb116471891c174c8d3b049e3"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.699999988079071
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.011612244881689548,
+          0.010960093699395657,
+          0.010960093699395657,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "71fb8f74359bb8c4a16b0973975c3598df0bd02248de2fe437a1ddeaec57ccd9"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "bb726eb33d69ab712a7b56a04e237e76d568ab2c2e300662dc3e4f6bb83c3d53"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "embroidery_ink": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "1C1B1B",
+        "referenceMatched": true,
+        "surfaceClass": "embroidery"
+      },
+      "name": "embroidery_ink",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "22f2ec6b07a21519ac5154600bc565f1fc11e5ccb116471891c174c8d3b049e3"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.3499999940395355
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.011612244881689548,
+          0.010960093699395657,
+          0.010960093699395657,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "71fb8f74359bb8c4a16b0973975c3598df0bd02248de2fe437a1ddeaec57ccd9"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "bb726eb33d69ab712a7b56a04e237e76d568ab2c2e300662dc3e4f6bb83c3d53"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "fabric_bear_sewn_head": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        },
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            0.8199999928474426,
+            0.8100000023841858,
+            0.7900000214576721
+          ],
+          "sheenRoughnessFactor": 0.7200000286102295
+        },
+        "KHR_materials_specular": {
+          "specularFactor": 0.36000001430511475
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "FAF7EE",
+        "referenceMatched": true,
+        "surfaceClass": "plush",
+        "toyRealismRevision": "photo-reference-v13"
+      },
+      "name": "fabric_bear_sewn_head",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "d210e15260b990ca01b3e5e53c94eef88ce0f8e22c26111daa315414ffa6008e"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.949999988079071
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "bf3719bab63e7cb17444547445eed7f4c2f51c725dec5bce69ede75a272acb0e"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "35229c48b5111165a771632618fba5b29328279739bdfbab3972cb02f2c8fc44"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "fabric_bear_sewn_plush": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        },
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            0.8199999928474426,
+            0.8100000023841858,
+            0.7900000214576721
+          ],
+          "sheenRoughnessFactor": 0.7200000286102295
+        },
+        "KHR_materials_specular": {
+          "specularFactor": 0.36000001430511475
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "FAF7EE",
+        "referenceMatched": true,
+        "surfaceClass": "plush",
+        "toyRealismRevision": "photo-reference-v13"
+      },
+      "name": "fabric_bear_sewn_plush",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "d210e15260b990ca01b3e5e53c94eef88ce0f8e22c26111daa315414ffa6008e"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.949999988079071
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.9559733271598816,
+          0.9301108717918396,
+          0.8549926280975342,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "bf3719bab63e7cb17444547445eed7f4c2f51c725dec5bce69ede75a272acb0e"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "35229c48b5111165a771632618fba5b29328279739bdfbab3972cb02f2c8fc44"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "fabric_bear_sewn_thread": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        },
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            0.8199999928474426,
+            0.8100000023841858,
+            0.7900000214576721
+          ],
+          "sheenRoughnessFactor": 0.7200000286102295
+        },
+        "KHR_materials_specular": {
+          "specularFactor": 0.36000001430511475
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "FAF7EE",
+        "referenceMatched": true,
+        "surfaceClass": "plush",
+        "toyRealismRevision": "photo-reference-v13"
+      },
+      "name": "fabric_bear_sewn_thread",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "d210e15260b990ca01b3e5e53c94eef88ce0f8e22c26111daa315414ffa6008e"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.949999988079071
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.9559733271598816,
+          0.9301108717918396,
+          0.8549926280975342,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "bf3719bab63e7cb17444547445eed7f4c2f51c725dec5bce69ede75a272acb0e"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "35229c48b5111165a771632618fba5b29328279739bdfbab3972cb02f2c8fc44"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "fabric_bear_short_nap": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            1,
+            1,
+            1
+          ],
+          "sheenRoughnessFactor": 0.7599999904632568
+        },
+        "KHR_materials_specular": {
+          "specularFactor": 0.3799999952316284
+        }
+      },
+      "name": "fabric_bear_short_nap",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8650000095367432,
+          0.8489999771118164,
+          0.8109999895095825,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.9800000190734863
+      }
+    },
+    "fabric_blush": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        },
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            0.18000000715255737,
+            0.18000000715255737,
+            0.18000000715255737
+          ],
+          "sheenRoughnessFactor": 0.7599999904632568
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "D9AAA5",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"color\": \"D6ABA5\", \"normal\": 0.34, \"rough\": 0.94, \"sheen\": 0.18, \"sheenRough\": 0.76}",
+        "surfaceClass": "blush"
+      },
+      "name": "fabric_blush",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "2ebcf90c498ca57140991643be38867cf6c56742bfba13584c05cfa1a69d65af"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.3400000035762787
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.672443151473999,
+          0.40724021196365356,
+          0.3762621283531189,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "ba88b9fadef82be6c55d8894d3bf59e7bc4bb172bf0b4f73a06636c6223670cb"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "bdea23770958f6d6b4e8a984c836c77a28dc867331e4cace68414e9761d85719"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.9399999976158142
+      }
+    },
+    "fabric_piano_bench": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        },
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            0.18000000715255737,
+            0.18000000715255737,
+            0.18000000715255737
+          ],
+          "sheenRoughnessFactor": 0.7200000286102295
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "DCCBB6",
+        "referenceMatched": true,
+        "surfaceClass": "blush"
+      },
+      "name": "fabric_piano_bench",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "2ebcf90c498ca57140991643be38867cf6c56742bfba13584c05cfa1a69d65af"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.3199999928474426
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.715693473815918,
+          0.5972017645835876,
+          0.4677838087081909,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "ba88b9fadef82be6c55d8894d3bf59e7bc4bb172bf0b4f73a06636c6223670cb"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "3b4a0dfe23a12d2bb5ee93b9949ddeddb4d88890f68e2471ef205ef87a42dba5"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "fabric_piano_stitch.001": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            1,
+            1,
+            1
+          ],
+          "sheenRoughnessFactor": 0.5
+        }
+      },
+      "name": "fabric_piano_stitch.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6299999952316284,
+          0.49000000953674316,
+          0.36000001430511475,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    },
+    "fabric_rug_loop_pile": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        },
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            0.27000001072883606,
+            0.27000001072883606,
+            0.27000001072883606
+          ],
+          "sheenRoughnessFactor": 0.8399999737739563
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "EFE1CA",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"color\": \"E5D9C6\", \"normal\": 0.82, \"rough\": 0.98, \"sheen\": 0.27, \"sheenRough\": 0.84}",
+        "surfaceClass": "boucle"
+      },
+      "name": "fabric_rug_loop_pile",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "0f784e1bf09abd52f09f9a3c196f2428c5a6b6a90b55c5aa605c363b95eea95e"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.8199999928474426
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7835378050804138,
+          0.6938717365264893,
+          0.5647115111351013,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "2892601de9c6c1bb2cd13261a302110d04b8da7e5bb40df295dbec1d6f72c2ba"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "bdea23770958f6d6b4e8a984c836c77a28dc867331e4cace68414e9761d85719"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.9800000190734863
+      }
+    },
+    "fabric_seam": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "E3D7C7",
+        "referenceMatched": true,
+        "surfaceClass": "plush"
+      },
+      "name": "fabric_seam",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "d210e15260b990ca01b3e5e53c94eef88ce0f8e22c26111daa315414ffa6008e"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.23000000417232513
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7681511640548706,
+          0.6795424818992615,
+          0.5711248517036438,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "bf3719bab63e7cb17444547445eed7f4c2f51c725dec5bce69ede75a272acb0e"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "35229c48b5111165a771632618fba5b29328279739bdfbab3972cb02f2c8fc44"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "fabric_tailored_fine_linen": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        },
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            0.10999999940395355,
+            0.10999999940395355,
+            0.10999999940395355
+          ],
+          "sheenRoughnessFactor": 0.6700000166893005
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 1,
+        "authoredTint": "F5EDDF",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"color\": \"F5F0E7\", \"normal\": 0.22, \"rough\": 0.88, \"sheen\": 0.11, \"sheenRough\": 0.67}",
+        "surfaceClass": "blush"
+      },
+      "name": "fabric_tailored_fine_linen",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "2ebcf90c498ca57140991643be38867cf6c56742bfba13584c05cfa1a69d65af"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.2199999988079071
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.9130986332893372,
+          0.8713670969009399,
+          0.7991027235984802,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "ba88b9fadef82be6c55d8894d3bf59e7bc4bb172bf0b4f73a06636c6223670cb"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "bdea23770958f6d6b4e8a984c836c77a28dc867331e4cace68414e9761d85719"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.8799999952316284
+      }
+    },
+    "fabric_tailored_ivory_welt": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "name": "fabric_tailored_ivory_welt",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.715693473815918,
+          0.6653872728347778,
+          0.5972017645835876,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.9399999976158142
+      }
+    },
+    "fabric_tailored_rose_welt": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "name": "fabric_tailored_rose_welt",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.5711248517036438,
+          0.38642942905426025,
+          0.35640013217926025,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.9399999976158142
+      }
+    },
+    "fabric_v17_boucle": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            1,
+            1,
+            1
+          ],
+          "sheenRoughnessFactor": 0.699999988079071
+        }
+      },
+      "name": "fabric_v17_boucle",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/jpeg",
+            "payloadSha256": "dfa6223a2fc2d1952099779c68b7f11841630c1a99d82d730415e1548c38ab2f"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.800000011920929
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "caf6e40972960e26be47d6e2795ad481febaec0022e21401d5819bde74ddba14"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "ca755777f0d62293a2ede513f505e05d1d9737aeaea56a61f5cfc104586bfa56"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "fabric_v17_rose_linen": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_sheen": {
+          "sheenColorFactor": [
+            1,
+            1,
+            1
+          ],
+          "sheenRoughnessFactor": 0.699999988079071
+        }
+      },
+      "name": "fabric_v17_rose_linen",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/jpeg",
+            "payloadSha256": "852ab64eb28f4cf7ccaec4edcc94889c080bc2fcb76347a42a40383cb911b707"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.6499999761581421
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "a7b15ed7b933dee3fc498490c2601cb825b88ab999a6a4683dc75e7275e87fe4"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "d475d83859648ac9474864b17e3db3779d685b5210c18d0884c736e57cb5abf1"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        }
+      }
+    },
+    "frame_01_material": {
+      "doubleSided": true,
+      "name": "frame_01_material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7400000095367432,
+          0.6000000238418579,
+          0.47999998927116394,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    },
+    "frame_02_material": {
+      "doubleSided": true,
+      "name": "frame_02_material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7400000095367432,
+          0.6000000238418579,
+          0.47999998927116394,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    },
+    "frame_03_material": {
+      "doubleSided": true,
+      "name": "frame_03_material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7400000095367432,
+          0.6000000238418579,
+          0.47999998927116394,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    },
+    "glass_clear": {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "name": "glass_clear",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6499999761581421,
+          0.8100000023841858,
+          0.8399999737739563,
+          0.1599999964237213
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.15000000596046448
+      }
+    },
+    "joinery_soft_recess": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "name": "joinery_soft_recess",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.2015562504529953,
+          0.1441284716129303,
+          0.08865558356046677,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.7400000095367432
+      }
+    },
+    "lacquer_pearl": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.1599999964237213,
+          "clearcoatRoughnessFactor": 0.23999999463558197
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.25,
+        "authoredTint": "F4EEE4",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"coat\": 0.16, \"coatRough\": 0.24, \"rough\": 0.25}",
+        "surfaceClass": "lacquer_pearl"
+      },
+      "name": "lacquer_pearl",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.9046611785888672,
+          0.8549926280975342,
+          0.7758222222328186,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.25
+      }
+    },
+    "lamp_warm": {
+      "doubleSided": true,
+      "emissiveFactor": [
+        1,
+        0.6100000143051147,
+        0.25
+      ],
+      "extensions": {
+        "KHR_materials_emissive_strength": {
+          "emissiveStrength": 2
+        }
+      },
+      "name": "lamp_warm",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          0.6100000143051147,
+          0.25,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.30000001192092896
+      }
+    },
+    "metal_champagne": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.28,
+        "authoredTint": "C2A271",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"metal\": 0.9, \"rough\": 0.25}",
+        "surfaceClass": "metal_champagne"
+      },
+      "name": "metal_champagne",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.5394794940948486,
+          0.3613067865371704,
+          0.16513219475746155,
+          1
+        ],
+        "metallicFactor": 0.8999999761581421,
+        "roughnessFactor": 0.25
+      }
+    },
+    "metal_graphite": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.35,
+        "authoredTint": "454746",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"metal\": 0.84, \"rough\": 0.34}",
+        "surfaceClass": "metal_graphite"
+      },
+      "name": "metal_graphite",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.05951123684644699,
+          0.06301001459360123,
+          0.061246052384376526,
+          1
+        ],
+        "metallicFactor": 0.8399999737739563,
+        "roughnessFactor": 0.3400000035762787
+      }
+    },
+    "paper_book_stock": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.9,
+        "authoredTint": "E8DEC9",
+        "referenceMatched": true,
+        "surfaceClass": "paper_book_stock"
+      },
+      "name": "paper_book_stock",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8069522380828857,
+          0.7304607629776001,
+          0.5840784311294556,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    },
+    "pc16_brushed_aluminium": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "extras": {
+        "pcCaseV16": true
+      },
+      "name": "pc16_brushed_aluminium",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.4969329833984375,
+          0.5583403706550598,
+          0.6104955673217773,
+          1
+        ],
+        "metallicFactor": 0.6800000071525574,
+        "roughnessFactor": 0.36000001430511475
+      }
+    },
+    "pc16_connector_graphite": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "extras": {
+        "pcCaseV16": true
+      },
+      "name": "pc16_connector_graphite",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.03433980792760849,
+          0.04373503103852272,
+          0.061246052384376526,
+          1
+        ],
+        "metallicFactor": 0.11999999731779099,
+        "roughnessFactor": 0.5600000023841858
+      }
+    },
+    "pc16_display": {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0.28904543353684886,
+        0.2548374213999125,
+        0.5493482671580949
+      ],
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "extras": {
+        "pcCaseV16": true
+      },
+      "name": "pc16_display",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.3613067865371704,
+          0.31854677200317383,
+          0.68668532371521,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.30000001192092896
+      }
+    },
+    "pc16_edge_rose": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "extras": {
+        "pcCaseV16": true
+      },
+      "name": "pc16_edge_rose",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.5972017645835876,
+          0.2581828534603119,
+          0.3324515223503113,
+          1
+        ],
+        "metallicFactor": 0.11999999731779099,
+        "roughnessFactor": 0.4300000071525574
+      }
+    },
+    "pc16_frosted_fan_blade": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "extras": {
+        "pcCaseV16": true
+      },
+      "name": "pc16_frosted_fan_blade",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7758222222328186,
+          0.8307698965072632,
+          0.8631572127342224,
+          1
+        ],
+        "metallicFactor": 0.019999999552965164,
+        "roughnessFactor": 0.46000000834465027
+      }
+    },
+    "pc16_glass_low_iron": {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "extras": {
+        "pcCaseV16": true
+      },
+      "name": "pc16_glass_low_iron",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6172065734863281,
+          0.6938717365264893,
+          0.7529422044754028,
+          0.07500000298023224
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.07999999821186066
+      }
+    },
+    "pc16_pcb_ivory": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "extras": {
+        "pcCaseV16": true
+      },
+      "name": "pc16_pcb_ivory",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6653872728347778,
+          0.715693473815918,
+          0.7379103899002075,
+          1
+        ],
+        "metallicFactor": 0.07999999821186066,
+        "roughnessFactor": 0.6499999761581421
+      }
+    },
+    "pc16_powdercoat_blush": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "extras": {
+        "pcCaseV16": true
+      },
+      "name": "pc16_powdercoat_blush",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8468732237815857,
+          0.4677838087081909,
+          0.5583403706550598,
+          1
+        ],
+        "metallicFactor": 0.07999999821186066,
+        "roughnessFactor": 0.3700000047683716
+      }
+    },
+    "pc16_rgb_rear": {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0.8713670969009399,
+        0.5457244515419006,
+        1
+      ],
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        },
+        "KHR_materials_emissive_strength": {
+          "emissiveStrength": 1.7000000476837158
+        }
+      },
+      "extras": {
+        "pcCaseV16": true,
+        "pcRgbGroup": "rgb_rear"
+      },
+      "name": "pc16_rgb_rear",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8713670969009399,
+          0.5457244515419006,
+          1,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.2199999988079071
+      }
+    },
+    "pc16_rgb_side": {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0.4677838087081909,
+        0.7379103899002075,
+        1
+      ],
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        },
+        "KHR_materials_emissive_strength": {
+          "emissiveStrength": 1.7000000476837158
+        }
+      },
+      "extras": {
+        "pcCaseV16": true,
+        "pcRgbGroup": "rgb_side"
+      },
+      "name": "pc16_rgb_side",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.4677838087081909,
+          0.7379103899002075,
+          1,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.2199999988079071
+      }
+    },
+    "pc16_rgb_top": {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0.7230551242828369,
+        0.5840784311294556,
+        1
+      ],
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        },
+        "KHR_materials_emissive_strength": {
+          "emissiveStrength": 1.7000000476837158
+        }
+      },
+      "extras": {
+        "pcCaseV16": true,
+        "pcRgbGroup": "rgb_top"
+      },
+      "name": "pc16_rgb_top",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7230551242828369,
+          0.5840784311294556,
+          1,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.2199999988079071
+      }
+    },
+    "pc16_rgb_trim": {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0.42869049310684204,
+        0.520995557308197,
+        1
+      ],
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        },
+        "KHR_materials_emissive_strength": {
+          "emissiveStrength": 1.2999999523162842
+        }
+      },
+      "extras": {
+        "pcCaseV16": true,
+        "pcRgbGroup": "rgb_trim"
+      },
+      "name": "pc16_rgb_trim",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.42869049310684204,
+          0.520995557308197,
+          1,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.25
+      }
+    },
+    "pc16_white_components": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.18000000715255737,
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "extras": {
+        "pcCaseV16": true
+      },
+      "name": "pc16_white_components",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8713670969009399,
+          0.8879231214523315,
+          0.8796223998069763,
+          1
+        ],
+        "metallicFactor": 0.07999999821186066,
+        "roughnessFactor": 0.30000001192092896
+      }
+    },
+    "piano_burgundy_felt.001": {
+      "doubleSided": true,
+      "name": "piano_burgundy_felt.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.27000001072883606,
+          0.04399999976158142,
+          0.03400000184774399,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.9700000286102295
+      }
+    },
+    "piano_cast_champagne_frame.001": {
+      "doubleSided": true,
+      "name": "piano_cast_champagne_frame.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6100000143051147,
+          0.38999998569488525,
+          0.1599999964237213,
+          1
+        ],
+        "metallicFactor": 0.699999988079071,
+        "roughnessFactor": 0.3199999928474426
+      }
+    },
+    "piano_dark_inner_rim": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.11999999731779099,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.78,
+        "authoredTint": "6B4E35",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "piano_dark_inner_rim",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.11999999731779099
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.14702726900577545,
+          0.07618538290262222,
+          0.03560131415724754,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.7799999713897705
+      }
+    },
+    "piano_edge_warm_ivory": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.2199999988079071,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.26,
+        "authoredTint": "E4D6BE",
+        "referenceMatched": true,
+        "surfaceClass": "piano_edge_warm_ivory"
+      },
+      "name": "piano_edge_warm_ivory",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7758222222328186,
+          0.672443151473999,
+          0.5149176716804504,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.25999999046325684
+      }
+    },
+    "piano_ivory_lacquer": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.3199999928474426,
+          "clearcoatRoughnessFactor": 0.20000000298023224
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.2,
+        "authoredTint": "F5EDE0",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"coat\": 0.32, \"coatRough\": 0.2, \"rough\": 0.2}",
+        "surfaceClass": "piano_ivory_lacquer"
+      },
+      "name": "piano_ivory_lacquer",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.9130986332893372,
+          0.8468732237815857,
+          0.7454041838645935,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.20000000298023224
+      }
+    },
+    "piano_key_ebony.001": {
+      "doubleSided": true,
+      "name": "piano_key_ebony.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.017999999225139618,
+          0.014000000432133675,
+          0.012000000104308128,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.25999999046325684
+      }
+    },
+    "piano_key_porcelain.001": {
+      "doubleSided": true,
+      "name": "piano_key_porcelain.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.9750000238418579,
+          0.9649999737739563,
+          0.9160000085830688,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.23000000417232513
+      }
+    },
+    "piano_satin_brass.001": {
+      "doubleSided": true,
+      "name": "piano_satin_brass.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6800000071525574,
+          0.47999998927116394,
+          0.2199999988079071,
+          1
+        ],
+        "metallicFactor": 0.8199999928474426,
+        "roughnessFactor": 0.25
+      }
+    },
+    "piano_spruce_soundboard": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.86,
+        "authoredTint": "C7A56F",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "piano_spruce_soundboard",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.11999999731779099
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.5711248517036438,
+          0.3762621283531189,
+          0.15896083414554596,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.8600000143051147
+      }
+    },
+    "piano_steel_strings.001": {
+      "doubleSided": true,
+      "name": "piano_steel_strings.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.46000000834465027,
+          0.4699999988079071,
+          0.44999998807907104,
+          1
+        ],
+        "metallicFactor": 0.800000011920929,
+        "roughnessFactor": 0.2800000011920929
+      }
+    },
+    "plaster_warm_white": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.91,
+        "authoredTint": "ECE3D3",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"rough\": 0.94}",
+        "surfaceClass": "plaster_warm_white"
+      },
+      "name": "plaster_warm_white",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.838798999786377,
+          0.7681511640548706,
+          0.6514056324958801,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.9399999976158142
+      }
+    },
+    "polymer_dusty_rose": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.39,
+        "authoredTint": "D5AAA4",
+        "referenceMatched": true,
+        "surfaceClass": "polymer_dusty_rose"
+      },
+      "name": "polymer_dusty_rose",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6653872728347778,
+          0.4019777774810791,
+          0.37123769521713257,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.38999998569488525
+      }
+    },
+    "polymer_graphite_abs": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "name": "polymer_graphite_abs",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.020288562402129173,
+          0.024157632142305374,
+          0.027320891618728638,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.3799999952316284
+      }
+    },
+    "polymer_warm_abs": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "name": "polymer_warm_abs",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7991027235984802,
+          0.7758222222328186,
+          0.7230551242828369,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.36000001430511475
+      }
+    },
+    "screen_PC_material": {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0.03959999978542328,
+        0.04839999973773956,
+        0.054999999701976776
+      ],
+      "name": "screen_PC_material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.18000000715255737,
+          0.2199999988079071,
+          0.25,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.800000011920929
+      }
+    },
+    "screen_TV_material": {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0.03519999980926514,
+        0.04399999976158142,
+        0.050599999725818634
+      ],
+      "name": "screen_TV_material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.1599999964237213,
+          0.20000000298023224,
+          0.23000000417232513,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.800000011920929
+      }
+    },
+    "stone_honed_warm_quartz": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatRoughnessFactor": 0.25999999046325684
+        }
+      },
+      "name": "stone_honed_warm_quartz",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7758222222328186,
+          0.7304607629776001,
+          0.6514056324958801,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.47999998927116394
+      }
+    },
+    "wood_honey": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.05999999865889549,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.84,
+        "authoredTint": "B9936D",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "wood_honey",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.12999999523162842
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.48514994978904724,
+          0.2917706370353699,
+          0.15292614698410034,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.8399999737739563
+      }
+    },
+    "wood_honey_oiled_furniture": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.05999999865889549,
+          "clearcoatRoughnessFactor": 0.36000001430511475
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.84,
+        "authoredTint": "B9936D",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"coat\": 0.06, \"coatRough\": 0.36, \"color\": \"BC966C\", \"normal\": 0.15, \"rough\": 0.52}",
+        "surfaceClass": "oak"
+      },
+      "name": "wood_honey_oiled_furniture",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.15000000596046448
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.5028864741325378,
+          0.3049873113632202,
+          0.14995978772640228,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "bdea23770958f6d6b4e8a984c836c77a28dc867331e4cace68414e9761d85719"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.5199999809265137
+      }
+    },
+    "wood_oak": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.07999999821186066,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.78,
+        "authoredTint": "D9BD97",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "wood_oak",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.14000000059604645
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6938717365264893,
+          0.5088813304901123,
+          0.30946892499923706,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.7799999713897705
+      }
+    },
+    "wood_oak_board_00": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.07999999821186066,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.78,
+        "authoredTint": "D9BD97",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "wood_oak_board_00",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.14000000059604645
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6938717365264893,
+          0.5088813304901123,
+          0.30946892499923706,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.7799999713897705
+      }
+    },
+    "wood_oak_board_01": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.07999999821186066,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.78,
+        "authoredTint": "DAC09B",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "wood_oak_board_01",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.14000000059604645
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7011018991470337,
+          0.5271151065826416,
+          0.3277781009674072,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.7799999713897705
+      }
+    },
+    "wood_oak_board_02": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.07999999821186066,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.78,
+        "authoredTint": "D6B993",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "wood_oak_board_02",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.14000000059604645
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.672443151473999,
+          0.48514994978904724,
+          0.2917706370353699,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.7799999713897705
+      }
+    },
+    "wood_oak_board_03": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.07999999821186066,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.78,
+        "authoredTint": "DBC09C",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "wood_oak_board_03",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.14000000059604645
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7083757519721985,
+          0.5271151065826416,
+          0.3324515223503113,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.7799999713897705
+      }
+    },
+    "wood_oak_board_04": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.07999999821186066,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.78,
+        "authoredTint": "D8BC98",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "wood_oak_board_04",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.14000000059604645
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.68668532371521,
+          0.5028864741325378,
+          0.31398871541023254,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.7799999713897705
+      }
+    },
+    "wood_oak_board_05": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.07999999821186066,
+          "clearcoatRoughnessFactor": 0.2199999988079071
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.78,
+        "authoredTint": "D7BB96",
+        "referenceMatched": true,
+        "surfaceClass": "oak"
+      },
+      "name": "wood_oak_board_05",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.14000000059604645
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6795424818992615,
+          0.4969329833984375,
+          0.3049873113632202,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "4d31a58bfec241c564427f2b9becc8a266e78306449febd660444aeeb7b170ca"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.7799999713897705
+      }
+    },
+    "wood_oak_satin_furniture": {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.11999999731779099,
+          "clearcoatRoughnessFactor": 0.3199999928474426
+        }
+      },
+      "extras": {
+        "authoredRoughnessFactor": 0.78,
+        "authoredTint": "D9BD97",
+        "referenceMatched": true,
+        "referenceSeparationV13": "{\"coat\": 0.12, \"coatRough\": 0.32, \"color\": \"D2B18A\", \"normal\": 0.17, \"rough\": 0.42}",
+        "surfaceClass": "oak"
+      },
+      "name": "wood_oak_satin_furniture",
+      "normalTexture": {
+        "index": {
+          "image": {
+            "mimeType": "image/png",
+            "payloadSha256": "7fbd1de4fe370eda93141bdc84f407954e9965bd82313fa095844944b42abfae"
+          },
+          "sampler": {
+            "magFilter": 9729,
+            "minFilter": 9987
+          }
+        },
+        "scale": 0.17000000178813934
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6444796919822693,
+          0.43965718150138855,
+          0.2541520893573761,
+          1
+        ],
+        "baseColorTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/jpeg",
+              "payloadSha256": "4ccf58236c760e905e432c15b7d3f948d1bcd8c5d5e586fbb38c31906091b680"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": {
+            "image": {
+              "mimeType": "image/png",
+              "payloadSha256": "bdea23770958f6d6b4e8a984c836c77a28dc867331e4cace68414e9761d85719"
+            },
+            "sampler": {
+              "magFilter": 9729,
+              "minFilter": 9987
+            }
+          }
+        },
+        "roughnessFactor": 0.41999998688697815
+      }
+    }
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "scope": "Byte-level preservation of v14 runtime source, vendor, recovery controls and HTML. Only the explicit matched model/bake asset identities change. Added reports/build helpers are outside the runtime bundle.",
+  "passed": true,
+  "unchangedFiles": 26,
+  "changedFiles": [
+    "src/asset-revision.js"
+  ],
+  "checks": [
+    {
+      "path": "src/asset-revision.js",
+      "unchanged": false,
+      "baselineSha256": "80d79a2ec37324da32d00ce73968b8724c51fe91720143bc5eccd06fa208df21",
+      "currentSha256": "2fd3932eafba0ac9d01ddee889b1575fb72c4ec6f253b514b57b13a228667fdf"
+    },
+    {
+      "path": "src/audio.js",
+      "unchanged": true,
+      "baselineSha256": "fec367440d52df7f77798a6dcbb83f70b765f5ec6337b998181b5e3d30de150b",
+      "currentSha256": "fec367440d52df7f77798a6dcbb83f70b765f5ec6337b998181b5e3d30de150b"
+    },
+    {
+      "path": "src/baked-gi.js",
+      "unchanged": true,
+      "baselineSha256": "ccdde1ebefd1e43a32cc39c882689bea521c59d69b1dbf11d8cad6c6fceefd8e",
+      "currentSha256": "ccdde1ebefd1e43a32cc39c882689bea521c59d69b1dbf11d8cad6c6fceefd8e"
+    },
+    {
+      "path": "src/camera.js",
+      "unchanged": true,
+      "baselineSha256": "e7c2cab3568d0ccf6d905cf5c74ef73a73d3c8eec335cedb99997f0efdf5273e",
+      "currentSha256": "e7c2cab3568d0ccf6d905cf5c74ef73a73d3c8eec335cedb99997f0efdf5273e"
+    },
+    {
+      "path": "src/domain.js",
+      "unchanged": true,
+      "baselineSha256": "17075e06464228a341655ac2ddef2819f516052ce12e7344b4c84d065b5f8c42",
+      "currentSha256": "17075e06464228a341655ac2ddef2819f516052ce12e7344b4c84d065b5f8c42"
+    },
+    {
+      "path": "src/first-person.js",
+      "unchanged": true,
+      "baselineSha256": "01d7fadba76f7e69e22948322057bc7f8f2e6482ff68d55448bda39ee015af0c",
+      "currentSha256": "01d7fadba76f7e69e22948322057bc7f8f2e6482ff68d55448bda39ee015af0c"
+    },
+    {
+      "path": "src/lighting.js",
+      "unchanged": true,
+      "baselineSha256": "d2ea72572dcede3a63f5dcdaa6950aaa492fa29e4fb1c77c415e534721894d93",
+      "currentSha256": "d2ea72572dcede3a63f5dcdaa6950aaa492fa29e4fb1c77c415e534721894d93"
+    },
+    {
+      "path": "src/main.js",
+      "unchanged": true,
+      "baselineSha256": "4422899891f28582a1205e56509c3b1771f1a38b07d427ab6941199120dd942b",
+      "currentSha256": "4422899891f28582a1205e56509c3b1771f1a38b07d427ab6941199120dd942b"
+    },
+    {
+      "path": "src/performance.js",
+      "unchanged": true,
+      "baselineSha256": "4cfedb63cb7819f31d5f61723ec0385ce4ef6c2f3303992ffe22f9e3a164442d",
+      "currentSha256": "4cfedb63cb7819f31d5f61723ec0385ce4ef6c2f3303992ffe22f9e3a164442d"
+    },
+    {
+      "path": "src/plush-current.js",
+      "unchanged": true,
+      "baselineSha256": "9a59e9f7a9e4ba01fdb41ca59bb176ef067fc73f5f6ae7ffa1c2418efb1cc835",
+      "currentSha256": "9a59e9f7a9e4ba01fdb41ca59bb176ef067fc73f5f6ae7ffa1c2418efb1cc835"
+    },
+    {
+      "path": "src/plush.js",
+      "unchanged": true,
+      "baselineSha256": "63e4c6d1ca49a593aca71f00aa8e5c72fc18472fe2ad8ef3c8d9f58dbc1d3ec5",
+      "currentSha256": "63e4c6d1ca49a593aca71f00aa8e5c72fc18472fe2ad8ef3c8d9f58dbc1d3ec5"
+    },
+    {
+      "path": "src/polyfill.js",
+      "unchanged": true,
+      "baselineSha256": "7a3e4236545a3281b8938a5c8a88720757878226652ca5cf683afae051997fe3",
+      "currentSha256": "7a3e4236545a3281b8938a5c8a88720757878226652ca5cf683afae051997fe3"
+    },
+    {
+      "path": "src/sky-transport.js",
+      "unchanged": true,
+      "baselineSha256": "a2f7658976915a6c770feb0eef02963588306d83adbd089d5adda9d058b0ca47",
+      "currentSha256": "a2f7658976915a6c770feb0eef02963588306d83adbd089d5adda9d058b0ca47"
+    },
+    {
+      "path": "src/style.css",
+      "unchanged": true,
+      "baselineSha256": "138b133d985f9f120a543c758acc282560455e21ab63f921fe573bf1d3d85c93",
+      "currentSha256": "138b133d985f9f120a543c758acc282560455e21ab63f921fe573bf1d3d85c93"
+    },
+    {
+      "path": "src/walk-navigation.js",
+      "unchanged": true,
+      "baselineSha256": "2b0fc1c6b610c9e912890985298f32eb3ccaf9a946bda9df45c1d298453a1dcd",
+      "currentSha256": "2b0fc1c6b610c9e912890985298f32eb3ccaf9a946bda9df45c1d298453a1dcd"
+    },
+    {
+      "path": "vendor/licenses/fflate-MIT.txt",
+      "unchanged": true,
+      "baselineSha256": "0a1df3a083d0c010560aa342e87959c8c1070e6fd54545741f083f22d0c8b551",
+      "currentSha256": "0a1df3a083d0c010560aa342e87959c8c1070e6fd54545741f083f22d0c8b551"
+    },
+    {
+      "path": "vendor/licenses/three-MIT.txt",
+      "unchanged": true,
+      "baselineSha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+      "currentSha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+    },
+    {
+      "path": "vendor/runtime-v11.js",
+      "unchanged": true,
+      "baselineSha256": "bb10622e09326e6eeff9ceb564d2217e6687ce5d701ac1f8c7b35ab3425c8948",
+      "currentSha256": "bb10622e09326e6eeff9ceb564d2217e6687ce5d701ac1f8c7b35ab3425c8948"
+    },
+    {
+      "path": "recovery/first-person-hooks.json",
+      "unchanged": true,
+      "baselineSha256": "dc93bd8ed52bcdbf86449e70d0297cd92668e50c68a6ff9dad855136f88b8095",
+      "currentSha256": "dc93bd8ed52bcdbf86449e70d0297cd92668e50c68a6ff9dad855136f88b8095"
+    },
+    {
+      "path": "recovery/provenance.json",
+      "unchanged": true,
+      "baselineSha256": "4a5f059db1a4afafd06790fca09a3912aa812be718b2855a897c5c7a5467ca49",
+      "currentSha256": "4a5f059db1a4afafd06790fca09a3912aa812be718b2855a897c5c7a5467ca49"
+    },
+    {
+      "path": "recovery/v11-production.js.gz",
+      "unchanged": true,
+      "baselineSha256": "90379a271cc9f04d1de4b1b991a961e585d4fec0a55bade6361c685c3cbe7aa6",
+      "currentSha256": "90379a271cc9f04d1de4b1b991a961e585d4fec0a55bade6361c685c3cbe7aa6"
+    },
+    {
+      "path": "recovery/v11-resource-baseline.json",
+      "unchanged": true,
+      "baselineSha256": "dba9aaf67143cafca45fb62fd0ca38e4649d6d9b05aae7c53a0e7b42116017a1",
+      "currentSha256": "dba9aaf67143cafca45fb62fd0ca38e4649d6d9b05aae7c53a0e7b42116017a1"
+    },
+    {
+      "path": "recovery/v12-cloth-budget.json",
+      "unchanged": true,
+      "baselineSha256": "f7b858a51a16cdc5bfd4ae22edab2d92988aebfe8fc3a7417f13ee551b08d0aa",
+      "currentSha256": "f7b858a51a16cdc5bfd4ae22edab2d92988aebfe8fc3a7417f13ee551b08d0aa"
+    },
+    {
+      "path": "recovery/v12-resource-baseline.json",
+      "unchanged": true,
+      "baselineSha256": "9206f0c613bbb894c9d14b8024c688f855547bbfd65538501e8bc911ec251c7f",
+      "currentSha256": "9206f0c613bbb894c9d14b8024c688f855547bbfd65538501e8bc911ec251c7f"
+    },
+    {
+      "path": "recovery/v12-runtime-contract.json",
+      "unchanged": true,
+      "baselineSha256": "716576ccafd891d9019f6c4c904fd3b0367fe088590577551d0e5e845530eaec",
+      "currentSha256": "716576ccafd891d9019f6c4c904fd3b0367fe088590577551d0e5e845530eaec"
+    },
+    {
+      "path": "recovery/v12-slide-textures.json",
+      "unchanged": true,
+      "baselineSha256": "6e11591179c4cb5c36199a0fadfe1fd03fca1092c2339af0b9e18312664b05ad",
+      "currentSha256": "6e11591179c4cb5c36199a0fadfe1fd03fca1092c2339af0b9e18312664b05ad"
+    },
+    {
+      "path": "index.html",
+      "unchanged": true,
+      "baselineSha256": "87a8e6b2f4cd3ed40ab0ada015b1ce87feff3b812bd29fd52e00c493c084b613",
+      "currentSha256": "87a8e6b2f4cd3ed40ab0ada015b1ce87feff3b812bd29fd52e00c493c084b613"
+    }
+  ]
+}

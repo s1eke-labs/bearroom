@@ -1,0 +1,6 @@
+import json,sys,importlib.util,numpy as np
+from pathlib import Path
+P=Path(__file__).resolve().parent
+spec=importlib.util.spec_from_file_location('verify',P.parent/'furniture-v15-qa/verify_oriented_triangles.py');v=importlib.util.module_from_spec(spec);spec.loader.exec_module(v)
+meta=json.loads((P/'grounded-full-fixture.json').read_text());rt=json.loads((P/'grounded-runtime-triangles/runtime-triangles.json').read_text());g=next(g for g in rt['groups'] if g['objectName']=='__all_scene_static__');key=meta['supportGroups']['__all_scene_static__']['key'];src=np.load(P/'grounded-full-fixture.npz');r=np.fromfile(P/'grounded-runtime-triangles'/g['file'],dtype='<f8').reshape(-1,3,3);rn=np.fromfile(P/'grounded-runtime-triangles'/g['normalFile'],dtype='<f8').reshape(-1,3,3)
+result=v.compare(src[key],r,.000003,src[key+'_normals'],rn,None);result.update({'scope':'Every static scene triangle and every corresponding corner normal, including protected legacy geometry; winding preserved. Three animated cloth meshes checked separately at all extrema.','sourceSha256':meta['sourceSha256'],'runtimeModelSha256':rt['modelSha256']});(P/'grounded-all-static-normals.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))

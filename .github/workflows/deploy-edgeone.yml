@@ -35,22 +35,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm test
-
-      - name: Build production assets
-        run: npm run build
-
-      - name: Check resource budget
-        run: |
-          node scripts/resource-budget.mjs
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          const { targets } = JSON.parse(fs.readFileSync('delivery/resource-budget.json', 'utf8'));
-          if (!targets.firstScreenPass || !targets.fullPublishedPass) {
-            throw new Error('Resource budget exceeded');
-          }
-          NODE
+      - name: Verify tests, production build, assets and budget
+        run: npm run verify
 
       - name: Install EdgeOne CLI
         run: npm install --global edgeone@1.6.41

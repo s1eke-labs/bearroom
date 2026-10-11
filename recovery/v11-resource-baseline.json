@@ -1,0 +1,11 @@
+{
+  "compressedModelBytes": 18766271,
+  "glbBytes": 38526128,
+  "modelSha256": "8709a311dd262eb39d112e06a356b2271ac3ec56f7310730ca953cb9196d60f2",
+  "nodes": 358,
+  "meshes": 299,
+  "primitives": 299,
+  "triangles": 622382,
+  "embeddedImages": 15,
+  "estimatedEmbeddedRGBA8Bytes": 62914560
+}

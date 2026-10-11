@@ -1,0 +1,126 @@
+{
+  "sourceCommit": "ba8da34b4a78be4ba5759ab3d744e59f4fd011d7",
+  "compressedModelBytes": 18195131,
+  "glbBytes": 34686976,
+  "modelSha256": "842abdfee656e9c58f63bde31951ace1b9e295d1eec02ca4b2c4e999af70e4d5",
+  "nodes": 350,
+  "meshes": 291,
+  "primitives": 291,
+  "triangles": 590384,
+  "embeddedImages": 16,
+  "estimatedEmbeddedRGBA8Bytes": 67108864,
+  "embeddedImageDetails": [
+    {
+      "name": "oak-normal",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 554899,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "oak-color",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 274006,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "oak-roughness",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 453741,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "boucle-normal",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 1018973,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "boucle-color",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 202436,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "boucle-roughness",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 576635,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "blush-normal",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 968105,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "blush-color",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 212172,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "blush-roughness",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 619017,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "boucle-roughness",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 15886,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "plush-normal",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 1320702,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "plush-color",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 237468,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "plush-roughness",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 803597,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "embroidery-normal",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 1219598,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "embroidery-color",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 239473,
+      "estimatedRGBA8Bytes": 4194304
+    },
+    {
+      "name": "embroidery-roughness",
+      "width": 1024,
+      "height": 1024,
+      "encodedBytes": 646231,
+      "estimatedRGBA8Bytes": 4194304
+    }
+  ]
+}

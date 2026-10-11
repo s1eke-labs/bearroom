@@ -1,0 +1,71 @@
+{
+  "sourceCommit": "ba8da34b4a78be4ba5759ab3d744e59f4fd011d7",
+  "scope": "The 13 existing screen and picture art files remain byte-for-byte unchanged during reference fidelity v13.",
+  "files": [
+    {
+      "path": "frame-01.webp",
+      "bytes": 44338,
+      "sha256": "d742b7955d127a7f2ed35989a684db68359476291c9e2875f5c3888200f0d3ba"
+    },
+    {
+      "path": "frame-02.webp",
+      "bytes": 95412,
+      "sha256": "0359a4fd84c6ede19b9806cd09c1ebc6e3d9a100f8f2b10d72e3459c7be0b5b4"
+    },
+    {
+      "path": "frame-03.webp",
+      "bytes": 110916,
+      "sha256": "62a5aca57239895a90e0f435d287ddc9e243c89773970da5dc73706e6e2313b8"
+    },
+    {
+      "path": "pc-01.webp",
+      "bytes": 49308,
+      "sha256": "c7f805672eec2af12e64ce49d4d09bed17b8116d3326ea7821b41a68cfa8b6c6"
+    },
+    {
+      "path": "pc-02.webp",
+      "bytes": 47222,
+      "sha256": "93e9acf1ca23bb70e79dca858f16c62a8a7ee9c50020d2c20a3955249daed19c"
+    },
+    {
+      "path": "pc-03.webp",
+      "bytes": 51708,
+      "sha256": "150cce435eedad1b81c00b5fa359f129846d91359ac4aecd14ee967d3d127a3d"
+    },
+    {
+      "path": "pc-04.webp",
+      "bytes": 53894,
+      "sha256": "6d7ad468fa494e2338958c46e9e5532bbe4a0c92cdc5ff48f09dca37a781c064"
+    },
+    {
+      "path": "pc-05.webp",
+      "bytes": 113958,
+      "sha256": "97a592497adab4c3282e38410fc55c98395337f0390d8962cc9f06f70e150e87"
+    },
+    {
+      "path": "pc-06.webp",
+      "bytes": 118228,
+      "sha256": "a99122787d319299f0bba6a1b3bf88b2bb0b937cdd2903da9cf63e73a1aa412b"
+    },
+    {
+      "path": "tv-01.webp",
+      "bytes": 166712,
+      "sha256": "ddcb9a9ed5e312943b9a1a5823abc48e7445277f491bae83723a8aa87b118ce2"
+    },
+    {
+      "path": "tv-02.webp",
+      "bytes": 163158,
+      "sha256": "28741ce644f2ac45ba11e78b7353f90eb5b12b866e26bb0102d0d14eb4f6beb9"
+    },
+    {
+      "path": "tv-03.webp",
+      "bytes": 213208,
+      "sha256": "d43c51321c4a2f1c5484f14b8b5dcdbe8a748ed3401bedca76c6f4dbe9463314"
+    },
+    {
+      "path": "tv-04.webp",
+      "bytes": 182098,
+      "sha256": "668a30ee6fcf6064e13f428dfd4e0717df3479388a98fedbd03418a33569ae6f"
+    }
+  ]
+}

@@ -1,0 +1,5358 @@
+{
+  "sourceCommit": "ba8da34b4a78be4ba5759ab3d744e59f4fd011d7",
+  "scope": "Protected runtime world transforms and unmodified piano/screen/frame geometry.",
+  "nodes": [
+    {
+      "name": "F01_sofa",
+      "matrixWorld": [
+        3.119787586254224e-7,
+        0,
+        0.8400000158286484,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.8400000158286484,
+        0,
+        3.119787586254224e-7,
+        0,
+        0.6119998097419739,
+        0,
+        3.4212000370025635,
+        1
+      ]
+    },
+    {
+      "name": "F02_coffee_table",
+      "matrixWorld": [
+        2.599822804067174e-7,
+        0,
+        0.6999999045144296,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.6999999045144296,
+        0,
+        2.599822804067174e-7,
+        0,
+        -2.5450000762939453,
+        0,
+        1.9500000476837158,
+        1
+      ]
+    },
+    {
+      "name": "F03_television",
+      "matrixWorld": [
+        3.714032956736446e-7,
+        0,
+        0.9999999657714298,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.7999999249334296,
+        0,
+        2.971226188290265e-7,
+        0,
+        -2.4800000190734863,
+        0,
+        2.5999999046325684,
+        1
+      ]
+    },
+    {
+      "name": "F04_tv_cabinet",
+      "matrixWorld": [
+        3.714032956736446e-7,
+        0,
+        0.9999999657714298,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.7999999249334296,
+        0,
+        2.971226188290265e-7,
+        0,
+        -2.4800000190734863,
+        0,
+        2.5999999046325684,
+        1
+      ]
+    },
+    {
+      "name": "F05_floor_lamp",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.600000023841858,
+        0,
+        3.0799999237060547,
+        1
+      ]
+    },
+    {
+      "name": "F06_grand_piano",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.049999952316284,
+        0,
+        1.6200000047683716,
+        1
+      ]
+    },
+    {
+      "name": "F07_bench",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.049999952316284,
+        0,
+        3.0199999809265137,
+        1
+      ]
+    },
+    {
+      "name": "F08_computer_desk",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0.12999965250492096,
+        1
+      ]
+    },
+    {
+      "name": "F09_computer",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0.12999965250492096,
+        1
+      ]
+    },
+    {
+      "name": "F10_monitor",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0.12999965250492096,
+        1
+      ]
+    },
+    {
+      "name": "F11_computer_chair",
+      "matrixWorld": [
+        -1,
+        0,
+        -1.5099580252808664e-7,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.5099580252808664e-7,
+        0,
+        -1,
+        0,
+        6.999999046325684,
+        0,
+        2.1700007915496826,
+        1
+      ]
+    },
+    {
+      "name": "F12_desk_lamp",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0.019999980926513672,
+        0,
+        0.6000000238418579,
+        1
+      ]
+    },
+    {
+      "name": "F13_dining_group",
+      "matrixWorld": [
+        0.7071067450934194,
+        0,
+        -0.7071068487086123,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.7071068487086123,
+        0,
+        0.7071067450934194,
+        0,
+        0.1485278606414795,
+        0,
+        -4.049137592315674,
+        1
+      ]
+    },
+    {
+      "name": "F14_kitchen",
+      "matrixWorld": [
+        3.714032956736446e-7,
+        0,
+        0.9999999657714298,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.9999999657714298,
+        0,
+        3.714032956736446e-7,
+        0,
+        0.5999998450279236,
+        0,
+        1.0700002908706665,
+        1
+      ]
+    },
+    {
+      "name": "F15_bed",
+      "matrixWorld": [
+        -1,
+        0,
+        -1.5099580252808664e-7,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.5099580252808664e-7,
+        0,
+        -1,
+        0,
+        -2.3000001907348633,
+        0,
+        -0.0700000673532486,
+        1
+      ]
+    },
+    {
+      "name": "F16_reading_rocker",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -0.25,
+        0.054999999701976776,
+        -1.4500000476837158,
+        1
+      ]
+    },
+    {
+      "name": "F17_bookshelf",
+      "matrixWorld": [
+        3.714032956736446e-7,
+        0,
+        0.9999999657714298,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.9999999657714298,
+        0,
+        3.714032956736446e-7,
+        0,
+        6.329999923706055,
+        0,
+        -6.320000171661377,
+        1
+      ]
+    },
+    {
+      "name": "F18_wardrobe",
+      "matrixWorld": [
+        3.714032956736446e-7,
+        0,
+        -0.9999999657714298,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.9999999657714298,
+        0,
+        3.714032956736446e-7,
+        0,
+        -0.9800005555152893,
+        0,
+        0.7800005078315735,
+        1
+      ]
+    },
+    {
+      "name": "F19_entry_group",
+      "matrixWorld": [
+        2.414121111955629e-7,
+        0,
+        -0.6499998943049295,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.9999999657714298,
+        0,
+        3.714032956736446e-7,
+        0,
+        1.1199994087219238,
+        0,
+        5.665499687194824,
+        1
+      ]
+    },
+    {
+      "name": "F20_vanity",
+      "matrixWorld": [
+        -1,
+        0,
+        -1.5099580252808664e-7,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.5099580252808664e-7,
+        0,
+        -1,
+        0,
+        3.879999876022339,
+        0,
+        0.05999996140599251,
+        1
+      ]
+    },
+    {
+      "name": "F21_circulator",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -0.4500000476837158,
+        0,
+        2.190000057220459,
+        1
+      ]
+    },
+    {
+      "name": "F22_purifier",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -8.299999237060547,
+        0,
+        -5.03000020980835,
+        1
+      ]
+    },
+    {
+      "name": "F23_pendulum_clock",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -0.08000007271766663,
+        0,
+        -6.260000228881836,
+        1
+      ]
+    },
+    {
+      "name": "piano_key_021",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.4458460807800293,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_022",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.457692265510559,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_023",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.4695384502410889,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_024",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.4932307004928589,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_025",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.5050768852233887,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_026",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.516922950744629,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_027",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.5287692546844482,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_028",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.5406153202056885,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_029",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.564307689666748,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_030",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.5761537551879883,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_031",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.587999939918518,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_032",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.5998461246490479,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_033",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.611692190170288,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_034",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.6235383749008179,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_035",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.6353845596313477,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_036",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.6590769290924072,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_037",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.6709229946136475,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_038",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.6827691793441772,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_039",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.694615364074707,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_040",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.7064614295959473,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_041",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.7301537990570068,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_042",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.7419999837875366,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_043",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.7538461685180664,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_044",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.7656922340393066,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_045",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.7775384187698364,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_046",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.7893846035003662,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_047",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.8012306690216064,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_048",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.824923038482666,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_049",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.8367692232131958,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_050",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.848615288734436,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_051",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.8604614734649658,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_052",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.8723076581954956,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_053",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.8959999084472656,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_054",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.9078460931777954,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_055",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.9196922779083252,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_056",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.931538462638855,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_057",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.9433845281600952,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_058",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.955230712890625,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_059",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.9670768976211548,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_060",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.9907691478729248,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_061",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.002615451812744,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_062",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.0144615173339844,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_063",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.0263075828552246,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_064",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.038153886795044,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_065",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.0618460178375244,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_066",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.0736923217773438,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_067",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.085538387298584,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_068",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.097384452819824,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_069",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.1092307567596436,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_070",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.121076822280884,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_071",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.132923126220703,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_072",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.1566152572631836,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_073",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.168461561203003,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_074",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.180307626724243,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_075",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.1921536922454834,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_076",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.2039999961853027,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_077",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.2276923656463623,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_078",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.2395384311676025,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_079",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.2513844966888428,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_080",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.263230800628662,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_081",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.2750768661499023,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_082",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.2869229316711426,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_083",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.298769235610962,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_084",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.3224616050720215,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_085",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.3343076705932617,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_086",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.346153736114502,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_087",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.3580000400543213,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_088",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.3698461055755615,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_089",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.393538475036621,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_090",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.4053845405578613,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_091",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.4172306060791016,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_092",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.429076910018921,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_093",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.440922975540161,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_094",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.4527692794799805,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_095",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.4646153450012207,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_096",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.4883077144622803,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_097",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.5001537799835205,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_098",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.51200008392334,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_099",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.52384614944458,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_100",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.5356922149658203,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_101",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.55938458442688,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "7537aab02d7820c5d833131d235ef5d5740dd848822eb492582a66a2d11d1fee"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "98b8366e370fc4228109713cc1c71c52c273351d2af14b9b05e599c73b335d5d"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "3e13d1ad03b398fbff4b8b6b5b831301dad31277d6d4def5a00f00b6f01cc56d"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "92e024fd92572ecc8d4112bd9d84a485f80fe9d8330662fd9f4dfb8db6021110"
+    },
+    {
+      "name": "piano_key_102",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.57123064994812,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_103",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.5830769538879395,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_104",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.5949230194091797,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_105",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.60676908493042,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "9a99b7a1baac395b90bd17f95cd6c79ebc3ef43c922fac5fed4d6063bcd03e18"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 768,
+          "sha256": "acd69b775411e8ebae18ef1ecfaa226c0d3ca576ff27148b83e1194d9cd5d887"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 768,
+          "sha256": "43c51fd03ec1029c54d03d9434fa34b08e7cbd1c35c5b580e396a7996bb0caec"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 768,
+          "sha256": "1a7493ff2f2bde5f78405d46eb01abfeaea9b0a95fa5b6cec211b05faa0cf1d3"
+        }
+      },
+      "indexSha256": "c6962cd8ea2fd79640ed7cdde20a39d875c374c82881a1f190382067d6d91f75"
+    },
+    {
+      "name": "piano_key_106",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.6186153888702393,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "1f9c3a7135f6c5a6b93b60285d60604ad9940cb41a0c4c93d31ff80581aeac86"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 384,
+          "sha256": "9bfdc0d3f33338ca67ea0e46800b2f339318400199dc4937cdbe015ddf055886"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 384,
+          "sha256": "e2adf972c1f8521b5194037a39b00cc30702b913545eb38c0479604a97ec6b78"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 384,
+          "sha256": "e6d1b616fc8f6230c07d0e573527b701e7f377803916cc22f51faa21917d9160"
+        }
+      },
+      "indexSha256": "562c62f92745a0bbe8c76f1379dd64d882e3e2af313722f6124a61f5fb9ab2b3"
+    },
+    {
+      "name": "piano_key_107",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.6304614543914795,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "8cdf1c8b578838f6ac3cd42f987dec1b06466e2934089427f6eab74668a7c45f"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 592,
+          "sha256": "29da0df9df21361f5a82091e57bdb3f97e5e567dcc63db9e9a98ce5ab9002dc4"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 592,
+          "sha256": "1742186fc6bd3c976224d53d4e20fb0415c6b62ad8157ffb4b99c7d9d401a831"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 592,
+          "sha256": "a89db36bee4ec0fe06547776e581c8f0610abaf81e1dffa7df83ed8181bbf42d"
+        }
+      },
+      "indexSha256": "3eb87f619e9e9ca2ab017201914264820e97431af3f43dc9d771c39c5d0caf2b"
+    },
+    {
+      "name": "piano_key_108",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.654153823852539,
+        0.7580000162124634,
+        2.2309999465942383,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 416,
+          "sha256": "9c8ea88f65fe48a71561adf02e591ec499f91043f4c3a9368aefcaa1a4608b9e"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 416,
+          "sha256": "b5176ef7b999028b283ff4e19b96b591982dd796e32ccb1ba24fea5987b10afd"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 416,
+          "sha256": "34e17e3fa1b9589bbc0c49dc79526ca52835fc37dadf675f097345a52b42e02c"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 416,
+          "sha256": "0b8703f99a972de8f2f4f5b6c6b0f6eb7239cde85137531dac67be6c62479827"
+        }
+      },
+      "indexSha256": "be44f4d73c986d41af6ec6b9af394170dbdcc452bc94d52255f41c3595d2fd8e"
+    },
+    {
+      "name": "Bear_reference_plush",
+      "matrixWorld": [
+        0.3444882035255432,
+        0,
+        0,
+        0,
+        0,
+        0.3444882035255432,
+        0,
+        0,
+        0,
+        0,
+        0.3444882035255432,
+        0,
+        -0.8500000238418579,
+        0.722000002861023,
+        1.7999999523162842,
+        1
+      ]
+    },
+    {
+      "name": "Bear_desk_plush",
+      "matrixWorld": [
+        0.11811023950576782,
+        0,
+        0,
+        0,
+        0,
+        0.11811023950576782,
+        0,
+        0,
+        0,
+        0,
+        0.11811023950576782,
+        0,
+        2.7899999618530273,
+        0.859000027179718,
+        -0.12000013887882233,
+        1
+      ]
+    },
+    {
+      "name": "screen_PC",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        3.240000009536743,
+        1.3669999837875366,
+        -0.1180003434419632,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "a74f979e2e166bebd4907cb2aa52d94d0b6a3107eff8db743b95c387e99d7bf4"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "796f0b940d4268e7d9ccbd67f52dca773c768e372dae64d3c1b1caf59e6c8247"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 4,
+          "sha256": "b8fc5bdd8797cc5adc1f6bbfb148cb733803ff70bc9c23184551cbde5bf93c39"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 4,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        }
+      },
+      "indexSha256": "4a16b824acb5d55f3f9fcaca42323d856db13089fdde0166ae1699c89a2710b0"
+    },
+    {
+      "name": "screen_TV",
+      "matrixWorld": [
+        -4.4134153879160404e-7,
+        0,
+        -0.9999999657714038,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.7999999249333972,
+        0,
+        -3.8454542793728126e-7,
+        0,
+        -2.676000498765068,
+        1.309999942779541,
+        2.2000000745656676,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "3567a82d766c47dfceaa34730220ae26eb57afe58835799ad76a59197be96670"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "796f0b940d4268e7d9ccbd67f52dca773c768e372dae64d3c1b1caf59e6c8247"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 4,
+          "sha256": "b8fc5bdd8797cc5adc1f6bbfb148cb733803ff70bc9c23184551cbde5bf93c39"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 4,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        }
+      },
+      "indexSha256": "4a16b824acb5d55f3f9fcaca42323d856db13089fdde0166ae1699c89a2710b0"
+    },
+    {
+      "name": "frame_01",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -0.7500000596046448,
+        5.019999980926514,
+        -3.938999891281128,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "49f8b28fdc744a4beef0dd6a9f60ed01645eace8e545af6ba3a9a9a73805578a"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "796f0b940d4268e7d9ccbd67f52dca773c768e372dae64d3c1b1caf59e6c8247"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 4,
+          "sha256": "b8fc5bdd8797cc5adc1f6bbfb148cb733803ff70bc9c23184551cbde5bf93c39"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 4,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        }
+      },
+      "indexSha256": "4a16b824acb5d55f3f9fcaca42323d856db13089fdde0166ae1699c89a2710b0"
+    },
+    {
+      "name": "frame_02",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0.6499999761581421,
+        5.099999904632568,
+        -3.938999891281128,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "cb884fa396b83bb0604d1c2d38a9c76f48adfc87339c9abeff3016121758e618"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "796f0b940d4268e7d9ccbd67f52dca773c768e372dae64d3c1b1caf59e6c8247"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 4,
+          "sha256": "b8fc5bdd8797cc5adc1f6bbfb148cb733803ff70bc9c23184551cbde5bf93c39"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 4,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        }
+      },
+      "indexSha256": "4a16b824acb5d55f3f9fcaca42323d856db13089fdde0166ae1699c89a2710b0"
+    },
+    {
+      "name": "frame_03",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.7699999809265137,
+        1.2350000143051147,
+        -0.22300028800964355,
+        1
+      ],
+      "attributes": {
+        "position": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "8a4e3f8eb9ba1f6ae4c8e5041f4a0eb7ce72534546101a27833f927c29e838b6"
+        },
+        "normal": {
+          "itemSize": 3,
+          "count": 4,
+          "sha256": "796f0b940d4268e7d9ccbd67f52dca773c768e372dae64d3c1b1caf59e6c8247"
+        },
+        "uv": {
+          "itemSize": 2,
+          "count": 4,
+          "sha256": "b8fc5bdd8797cc5adc1f6bbfb148cb733803ff70bc9c23184551cbde5bf93c39"
+        },
+        "color": {
+          "itemSize": 4,
+          "count": 4,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        }
+      },
+      "indexSha256": "4a16b824acb5d55f3f9fcaca42323d856db13089fdde0166ae1699c89a2710b0"
+    },
+    {
+      "name": "anim_sofa_edge",
+      "matrixWorld": [
+        3.119787586254224e-7,
+        0,
+        0.8400000158286484,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.8400000158286484,
+        0,
+        3.119787586254224e-7,
+        0,
+        -2.5044005368482933,
+        0,
+        2.7324013376761345,
+        1
+      ]
+    },
+    {
+      "name": "anim_pc_fan_01",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        4.34499979019165,
+        1.0499999523162842,
+        0.08999965339899063,
+        1
+      ]
+    },
+    {
+      "name": "anim_pc_fan_01__ceramic_ivory",
+      "matrixWorld": [
+        0.9553364829670272,
+        -0.29552022794274535,
+        0,
+        0,
+        0.29552022794274535,
+        0.9553364829670272,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        4.34499979019165,
+        1.104599952697754,
+        0.08999965339899063,
+        1
+      ]
+    },
+    {
+      "name": "anim_pc_fan_01_hub",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -3.029462689596585e-7,
+        0.9999999657714298,
+        0,
+        0,
+        -0.9999999657714298,
+        -3.029462689596585e-7,
+        0,
+        4.34499979019165,
+        1.0499999523162842,
+        0.08999965339899063,
+        1
+      ]
+    },
+    {
+      "name": "anim_pc_fan_02",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        4.34499979019165,
+        1.2999999523162842,
+        0.08999965339899063,
+        1
+      ]
+    },
+    {
+      "name": "anim_pc_fan_02__ceramic_ivory",
+      "matrixWorld": [
+        0.9553364829670272,
+        -0.29552022794274535,
+        0,
+        0,
+        0.29552022794274535,
+        0.9553364829670272,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        4.34499979019165,
+        1.354599952697754,
+        0.08999965339899063,
+        1
+      ]
+    },
+    {
+      "name": "anim_pc_fan_02_hub",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -3.029462689596585e-7,
+        0.9999999657714298,
+        0,
+        0,
+        -0.9999999657714298,
+        -3.029462689596585e-7,
+        0,
+        4.34499979019165,
+        1.2999999523162842,
+        0.08999965339899063,
+        1
+      ]
+    },
+    {
+      "name": "anim_chair_swivel",
+      "matrixWorld": [
+        -1,
+        0,
+        -1.5099580252808664e-7,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.5099580252808664e-7,
+        0,
+        -1,
+        0,
+        3.4999992003413993,
+        0.47999998927116394,
+        1.15000028213786,
+        1
+      ]
+    },
+    {
+      "name": "anim_chair_swivel__ceramic_ivory",
+      "matrixWorld": [
+        1.0000000000000229,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1.0000000000000229,
+        0,
+        3.8699992647144157,
+        0.6499999761581421,
+        1.1500003380063168,
+        1
+      ]
+    },
+    {
+      "name": "anim_chair_swivel__fabric_blush",
+      "matrixWorld": [
+        -1,
+        0,
+        -1.5099580252808664e-7,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.5099580252808664e-7,
+        0,
+        -1,
+        0,
+        3.499999177088046,
+        0.8600000143051147,
+        1.304000281303395,
+        1
+      ]
+    },
+    {
+      "name": "anim_chair_swivel__fabric_tailored_boucle",
+      "matrixWorld": [
+        -1,
+        0,
+        -1.5099580252808664e-7,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.5099580252808664e-7,
+        0,
+        -1,
+        0,
+        3.869999030825723,
+        0.7999999523162842,
+        1.1200002585830915,
+        1
+      ]
+    },
+    {
+      "name": "anim_chair_swivel__fabric_tailored_ivory_welt",
+      "matrixWorld": [
+        -1,
+        0,
+        -1.5099580252808664e-7,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.5099580252808664e-7,
+        0,
+        -1,
+        0,
+        3.129999259707542,
+        0.7999999523162842,
+        1.1200002586049411,
+        1
+      ]
+    },
+    {
+      "name": "anim_chair_swivel__fabric_tailored_rose_welt",
+      "matrixWorld": [
+        -1,
+        0,
+        -1.5099580252808664e-7,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.5099580252808664e-7,
+        0,
+        -1,
+        0,
+        3.499999177088046,
+        0.8600000143051147,
+        1.304000281303395,
+        1
+      ]
+    },
+    {
+      "name": "anim_dining_edge",
+      "matrixWorld": [
+        0.7071067450934194,
+        0,
+        -0.7071068487086123,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.7071068487086123,
+        0,
+        0.7071067450934194,
+        0,
+        0.1485278606414795,
+        0,
+        -4.049137592315674,
+        1
+      ]
+    },
+    {
+      "name": "anim_hood_fan",
+      "matrixWorld": [
+        3.714032956736446e-7,
+        0,
+        0.9999999657714298,
+        0,
+        -0.9999999315428608,
+        -3.029462689596585e-7,
+        3.7140328296104083e-7,
+        0,
+        3.0294625859024086e-7,
+        -0.9999999657714298,
+        -1.125152427036515e-13,
+        0,
+        -1.1200019412315745,
+        1.437000036239624,
+        -3.499999085552415,
+        1
+      ]
+    },
+    {
+      "name": "anim_hood_fan__ceramic_ivory",
+      "matrixWorld": [
+        0.29552053305972503,
+        8.952674153024046e-8,
+        0.9553363494172601,
+        0,
+        -0.9553363167174553,
+        -2.894156258143083e-7,
+        0.29552054317494636,
+        0,
+        3.0294625859024086e-7,
+        -0.9999999657714298,
+        -1.125152427036515e-13,
+        0,
+        -1.1850020461563762,
+        1.4370000165480834,
+        -3.499999061411161,
+        1
+      ]
+    },
+    {
+      "name": "anim_hood_fan_hub",
+      "matrixWorld": [
+        3.714032956736446e-7,
+        0,
+        0.9999999657714298,
+        0,
+        6.058924964416472e-7,
+        -0.999999931542769,
+        -2.2503047770483125e-13,
+        0,
+        0.9999998973142011,
+        6.058925171804817e-7,
+        -3.714032702484034e-7,
+        0,
+        -1.1200019412315745,
+        1.437000036239624,
+        -3.499999085552415,
+        1
+      ]
+    },
+    {
+      "name": "anim_bed_edge",
+      "matrixWorld": [
+        -1,
+        0,
+        -1.5099580252808664e-7,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.5099580252808664e-7,
+        0,
+        -1,
+        0,
+        -2.3000001907348633,
+        0,
+        -0.0700000673532486,
+        1
+      ]
+    },
+    {
+      "name": "anim_rocker",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.4000000953674316,
+        3.174999885261059,
+        -1.0500000715255737,
+        1
+      ]
+    },
+    {
+      "name": "anim_rocker__fabric_tailored_boucle",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.9900000095367432,
+        3.924999885261059,
+        -1.0500000715255737,
+        1
+      ]
+    },
+    {
+      "name": "anim_rocker__fabric_tailored_ivory_welt",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.81000018119812,
+        3.924999885261059,
+        -1.0500000715255737,
+        1
+      ]
+    },
+    {
+      "name": "anim_rocker__wood_honey_oiled_furniture",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.4000000953674316,
+        3.174999885261059,
+        -1.0500000715255737,
+        1
+      ]
+    },
+    {
+      "name": "anim_fan_head",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -3.1500000953674316,
+        1.0499999523162842,
+        -1.25,
+        1
+      ]
+    },
+    {
+      "name": "anim_fan_blades",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -3.1500000953674316,
+        1.0499999523162842,
+        -1.25,
+        1
+      ]
+    },
+    {
+      "name": "anim_fan_blades__ceramic_ivory",
+      "matrixWorld": [
+        0.9553364829670272,
+        -0.29552022794274535,
+        0,
+        0,
+        0.29552022794274535,
+        0.9553364829670272,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -3.1500000953674316,
+        1.174799919128418,
+        -1.25,
+        1
+      ]
+    },
+    {
+      "name": "anim_fan_blades_hub",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -3.029462689596585e-7,
+        0.9999999657714298,
+        0,
+        0,
+        -0.9999999657714298,
+        -3.029462689596585e-7,
+        0,
+        -3.1500000953674316,
+        1.0499999523162842,
+        -1.25,
+        1
+      ]
+    },
+    {
+      "name": "anim_fan_head__ceramic_ivory",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -3.1500000953674316,
+        1.0499999523162842,
+        -1.25,
+        1
+      ]
+    },
+    {
+      "name": "anim_fan_head__polymer_warm_abs",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -3.1500000953674316,
+        1.0499999523162842,
+        -1.25,
+        1
+      ]
+    },
+    {
+      "name": "anim_purifier_louver",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -3.6999993324279785,
+        0.7960000038146973,
+        -3.6000003814697266,
+        1
+      ]
+    },
+    {
+      "name": "anim_purifier_louver__polymer_warm_abs",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -3.6999993324279785,
+        0.7960000038146973,
+        -3.4700002670288086,
+        1
+      ]
+    },
+    {
+      "name": "anim_clock_hour",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.070000022649765,
+        1.6100000143051147,
+        -2.260000228881836,
+        1
+      ]
+    },
+    {
+      "name": "anim_clock_minute",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.070000022649765,
+        1.6100000143051147,
+        -2.260000228881836,
+        1
+      ]
+    },
+    {
+      "name": "anim_clock_pendulum",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.070000022649765,
+        1.100000023841858,
+        -2.2750003337860107,
+        1
+      ]
+    },
+    {
+      "name": "anim_clock_pendulum__metal_champagne",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -3.029462689596585e-7,
+        0.9999999657714298,
+        0,
+        0,
+        -0.9999999657714298,
+        -3.029462689596585e-7,
+        0,
+        2.070000022649765,
+        0.48000001907348633,
+        -2.2750003337860107,
+        1
+      ]
+    },
+    {
+      "name": "anim_clock_second",
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.070000022649765,
+        1.6100000143051147,
+        -2.260000228881836,
+        1
+      ]
+    }
+  ]
+}

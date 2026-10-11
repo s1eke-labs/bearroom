@@ -1,57 +1,98 @@
-# 小熊的家 · bearroom
+# Bearroom current runtime
 
-按 `docs/requirements.md`、`docs/art-direction.md`、`docs/quality-standards.md` 实现的 Three.js 交互 Loft。
+This is the **current production-v11 runtime recovered into editable modules**, not the older `bearroom-project/src` implementation. The recovered baseline is Site commit `679d19306992b8a895dab5c47da0a8aad0f86e4d`, originally deployed as `index-BQLhr10c.js`.
 
-## 本地运行
+The original source files and source maps for that revision were unavailable after workspace recovery. We preserved the deployed code and split its app layer at existing declaration boundaries. Minifier aliases remain in function bodies deliberately, avoiding risky rewrites. Public module exports have descriptive names for tests and future work. Vendor code is frozen from the deployment so dependency changes cannot silently change rendering or controls.
 
-Node.js 22.12+，执行 `npm ci`、`npm run dev`。`npm run dev`、`npm run build` 与 `npm test` 会先自动执行 `node scripts/compress-model.mjs`，从 `source-assets/bearroom.glb.br` 无损还原原始GLB、验证SHA-256，再生成gzip传输包；正式构建 `npm run build`，静态产物位于 `dist/`，服务器需从根路径提供该目录。代码依赖由 `package-lock.json` 锁定。
+Current release: **v19 bathroom and direct-click interactions**. The bathroom is rebuilt with continuous hollow fixtures, real cabinetry/glass/hardware, closed privacy-wall caps and a controlled ceiling reveal. Clicking its door shares the same safe persistent state with walking mode; clicking the PC toggles its nine fans/RGB; clicking its keyboard gives a brief visual key press. All non-bathroom model data, original camera/lighting and the v18 first-switch preparation are preserved. `npm run verify` passes 154 tests with zero skips. The distribution is 20,957,846 bytes, below 20 MiB by 13,674 bytes, using lossless gzip. See `docs/final-runtime-provenance.md` for source/model/GI identities, preservation and verification limits.
 
-## 操作
+## Build and verify
 
-- 手机：单指拖动转动，双指捏合缩放，双指拖动平移
-- 桌面：左键拖动转动，右键拖动平移，滚轮缩放
-- 直接轻点模型上的琴键发声，没有演奏面板或自动切镜头
-- 雨夜为默认模式，晴日/雨夜按钮不改变镜头，不重置轮播与家具动效
-- 音符为 Web Audio 合成钢琴音色；首次有效点按在事件中解锁音频
+Requires Node 20+ and npm.
 
-## 实现边界
+```
+npm ci
+npm run verify
+npm run preview
+```
 
-主要模型来自 Blender，运行时不使用基础几何体替代家具或建筑。雨线是实时天气粒子；环境反射捕获仅用于照明。Blender 源文件与生成原图保存于制作交付目录，运行用资产在 `public/assets/`。
+`verify` runs CPU tests, creates `dist`, and verifies all referenced artifacts and asset hashes. The built-in preview server uses port 5173, or `PORT=...`. No browser automation or software-WebGL bypass is used by this project.
 
-坐标：Blender X=东、Y=北、Z=上；glTF / Three.js X=东、Y=上、Z=南。下层10×8米，上层南侧10×4.5米，合计125平方米。
+Runtime assets are read from `public/assets`. The canonical compressed model is stored once as lossless binary parts in `source-assets/packed/`; `pretest` and `prebuild` restore it and verify each part plus the complete SHA-256. Textures and paired GI are tracked directly. `dist/` and restored binary copies are generated and never committed. `npm run restore:sources` additionally restores the editable v19 Blender master, its v17 authoring baseline, and the exact prior runtime required by the export pipeline. See `source-assets/README.md`. GitHub Actions verifies the complete project before deploying `dist` to EdgeOne; publication is triggered only by master.
 
-23件固定家具统计参见 `src/domain.js`，其中12件有昼夜持续自身动效。所有88个琴键模型 `piano_key_021` 至 `piano_key_108` 分别映射MIDI21–108，A4=440Hz。
+## Source map
 
-屏幕素材为13张独立生成内容：PC6张、电视4张、相框3张。PC静置16秒、电视静置23秒，各1秒柔和交叉淡化，时间错开。当前实现预加载全部13张，避免轮播空白。
+- `src/camera.js`: fixed isometric direction, fit, room-constrained pan, 5 presets, cutaway. `Ox` → `IsometricRoom`, `Ix` → `configureControls`.
+- `src/domain.js`: 88 MIDI keys, 23 furniture categories, 12 animated categories, tap and slideshow behavior.
+- `src/audio.js`: Web Audio piano voices. `Hx` → `PianoAudio`.
+- `src/lighting.js`: 10 lamps and blended day/night settings. The reviewed v13 patch changes four fixture colors and the night moon coefficient; all lamp powers/ranges, day lamp coefficients and shadow allocations remain recovered behavior.
+- `src/performance.js`: bounded metrics, weighted cloth deformation, frozen transforms.
+- `src/plush.js`: unchanged recovered default velvet shader and retained optional fiber detail. `Qx` → `PlushAppearance`.
+- `src/plush-current.js`: narrowly scoped sewn-bear material refinement wrapper, preserving authored normal scale and maps. Reviewed v13 `fabric_bear_sewn_*` materials under either authored bear root use sheen 0.42, sheen roughness 0.96 and specular intensity 0.18; the authored short-nap material and normals are untouched. Tagged short nap follows floor cutaway, does not cast shadows and does not intercept raycasts.
+- `src/baked-gi.js`: genuine indirect volume loading, strict bake-source match, regional selection, bathroom/slab visibility and indirect velvet sheen.
+- `src/sky-transport.js`: optional separately baked, geometry-occluded world-only sky transport. Validated sky and analytic indirect radiance are added on the CPU into the existing 15,360-byte half-float volume; shader sampling and the single multiplication by pi are unchanged. Legacy files without sky remain supported.
+- `src/main.js`: original scene startup, asset loading, gestures, audio, day/night UI and animation loop, with narrow reviewed active-camera and PC-detail hooks.
+- `src/pc-case.js`: nine authored fan pivots, four shared pastel emissive zones, session-only case power, exact low-iron glass override and a separate minute-updated portrait local clock. Visibility/distance cadence stays in the existing frame loop; no new lights, shadow maps or postprocessing.
+- `src/room-interactions.js`: frontmost scene-tap dispatch and isolated cosmetic computer-keycap motion, without text input, commands or piano changes.
+- `src/first-switch-preparation.js`: bounded startup-only texture, clipping/shadow shader and real-draw preparation for the four existing floor/day-night topologies, with interruption-safe restoration and guarded readiness.
+- `src/room-interactions.js`: shared fixed-view door/PC/keyboard click handling and visual keyboard feedback.
+- `src/first-person.js`: separate perspective indoor walking camera, exact fixed-view snapshot restoration, independent keyboard/look/joystick input, safe interruption handling and bathroom-door UI.
+- `src/walk-navigation.js`: world-space grounded capsule navigation using a once-built geometry BVH, stair support and a separate dynamic bathroom-door collider.
+- `src/asset-revision.js`: explicit model-content SHA256 and separate GI bake-source SHA256.
+- `vendor/runtime-v11.js`: preserved Three.js r180, OrbitControls, GLTFLoader, RoomEnvironment and fflate code. Licenses are copied into runtime assets.
+- `recovery/`: original production bundle compressed for audit and provenance. `tests/recovery-fidelity.test.mjs` compares recovered algorithm ASTs against that exact baseline.
 
-## 测试与验收
+## Updating model and baked GI
 
-`npm test` 检查琴键连续映射、52/36黑白数、23件/12动效分母、手势判定、轮播时间，以及GLB对象和13张运行贴图。
+Wait until geometry is frozen and real GI is rebaked from the corresponding scene. Then:
 
-`npm run test:browser` 对已经启动的开发服务执行桌面Chromium检查（默认 `/usr/bin/chromium`，可用 `CHROMIUM_PATH` 指定已安装浏览器路径），记录浏览器、视口、实际截图和指标。开发构建有 `window.__bearroom` 诊断接口，生产构建移除接口。诊断调用不能作为真实手机触控或真实音频延迟的验收证据。
+```
+node scripts/update-assets.mjs --model /path/final.glb --gi /path/irradiance.json --source-sha FINAL_BLEND_SHA256 --source-blend /path/final.blend
+npm run verify
+```
 
-真实 iOS Safari / Android Chrome、10分钟持续运行、20Mbps/80ms冷启动、实际声音延迟在取得对应设备和测量结果之前均为“未验证”。桌面模拟视口只证明布局与有限交互，不代表手机性能通过。运行验证范围见 `docs/verification.md`。
+`--source-blend` is optional if source bytes are not local, but recommended. The script verifies the provided hash when supplied. It never changes the bake's recorded source hash to manufacture a match. The model-content SHA is computed independently from the uncompressed GLB. A GI hash is a bake-source identity, not the GLB hash.
 
-## 资源传输
+The pipeline stages both files, checks the schema and model contract, and only then installs them. All 88 keys, the 23 furniture roots, animation pivots, required picture surfaces, bathroom walls and velvet-body nodes must remain present. See `docs/model-contract.md` for names and assumptions.
 
-浏览器请求 `assets/bearroom.glb.gz`（13,779,984字节），使用随应用打包的fflate无损解压成原始GLB，再由GLTFLoader解析。`assets/bearroom.glb`（23,585,256字节）保留用于资产检查，不在网页启动时请求。所有13张图像均为独立WebP，无外部CDN依赖。
+For frozen realism asset identities, exact-image deduplication proof and final verification, see `docs/final-runtime-provenance.md`.
 
-材质修订：15张真实PBR贴图嵌入GLB，20种表面材质保留基色、法线与粗糙度。织物/木材不再使用运行时正弦颜色条纹。`node scripts/resource-budget.mjs` 验证资源上限，`npm test` 包含GLB贴图与色因子回归测试。离线Blender导出重载验证通过；当前云端浏览器禁用WebGL，网页画面和真实手机性能等待用户设备验证。
+## Verification scope and limitations
 
-## 仓库内容
+The current CPU suite evaluates the actual recovered camera class against real model geometry, including every preset, portrait/landscape resizing, extreme panning, 8× normal zoom, 16× piano zoom, fixed direction and cutaway. It also covers velvet/fiber selection, GI loading/packing/shader hooks, exact asset hashes, tap thresholds, all 88 physically reachable piano raycast targets from the fixed view, single-sided screen-face visibility, slideshow transitions, real exported cloth deformation and bounded metrics. Frozen v12 records guard 153 protected world transforms, piano/art geometry, and all 13 slideshow asset hashes. Sky tests cover every packed face/channel, zero-sky equivalence, source identity, semantic separation and Float16 limits. Structural recovery checks cover every recovered app module plus vendor code.
 
-仓库包含应用源码、锁定依赖、测试、资源处理脚本、需求/美术参考，以及运行所需的无损压缩模型源和贴图。`source-assets/bearroom.glb.br` 是Git中的模型源；`public/assets/bearroom.glb` 与 `.glb.gz` 均自动重建，不纳入Git。还原完全使用Node.js内置Brotli，无需Git LFS、额外依赖或网络下载。`docs/` 内图片是设计输入，不是运行画面验收截图。`delivery/` 仅保留空目录占位；检查脚本会在本机重新生成报告，不提交历史输出。
+These are not GPU rendering, acoustic, touch-device performance, occlusion or visual-realism acceptance tests. A separate supported-browser and rendered-scene review remains necessary for a new model. CPU test fixtures omit image loading in memory only, without altering shipped assets.
 
-不包含 node_modules、dist、部署身份信息、历史压缩交付包、Blender备份或浏览器截图。当前可编辑Blender工程与原始制作图另行保存，并不是构建网页的必需输入。资源说明见 `docs/assets.md`。
+The fidelity tests intentionally reject changes relative to the v11 baseline except a finite list of exact reviewed v13 light substitutions, two sky validation/packing hooks, the explicit main-only indoor-walking hooks recorded in `recovery/first-person-hooks.json`, three exact PC initialization/update hooks in `recovery/pc-case-hooks.json`, and the exact v18 startup/readiness and GI texture-access hooks in `recovery/first-switch-hooks.json`. The existing vendor PerspectiveCamera, Mesh and PlaneGeometry are newly exported without changing their implementations. Every other AST branch, all GPU shader text, and vendor code remain compared in full. An authorized change should be a narrowly documented hook or an explicitly reviewed test update; never remove broad recovery checks just to make a changed build pass. Do not re-run `scripts/recover-v11.mjs` after intentional source edits: it is an audit/recovery utility that overwrites recovered modules.
 
-## EdgeOne 自动部署
+`npm run budget` enforces the static distribution limit of less than 20 MiB. Embedded image estimates are reported separately from the existing screen/slide images, with total RGBA8 and approximate full-mipmap estimates. These exclude geometry buffers, shadow maps, render targets and driver overhead, and do not establish actual device memory or FPS.
 
-`.github/workflows/deploy-edgeone.yml` 在每次推送到 `master` 时运行，也可在 Actions 页面选择 `master` 手动触发。流程使用 Node.js 22、`npm ci`、测试、生产构建和资源预算检查，通过后将 `dist/` 发布到 EdgeOne 生产环境；CLI 固定为 `edgeone@1.6.41`。
+## Indoor walking
 
-运行器固定为 `ubuntu-24.04`，避免 `ubuntu-latest` 自动切换操作系统版本。`actions/checkout` v7.0.1 和 `actions/setup-node` v7.1.0 均固定到完整提交 SHA，使用 Node.js 24 运行 Action 本身；项目安装、测试与构建仍使用单独配置的 Node.js 22。
+Choose **进入漫游** after loading. WASD / arrow keys walk, dragging looks around, Escape or **退出漫游** returns to the exact previous fixed view. On touch devices the lower-left stick moves while a different finger drags the scene to look. Movement stays on floors and stairs; no avatar, jump or free flight is added. Pitch is limited to ±80°, with no head bob and a short eye-height smoothing on stairs. Floor presets exit walking before selecting the requested view. Day/night and stationary piano taps continue working.
 
-首次使用需在 GitHub 仓库的 **Settings → Secrets and variables → Actions → Secrets** 中配置仓库 Secret `EDGEONE_API_TOKEN`，值为 EdgeOne 控制台生成的 API Token。不要放入普通 Variables、源码或构建配置；令牌仅注入部署步骤，不参与前端构建。
+The bathroom door can be opened or closed by clicking its leaf or handle. While walking, E and the contextual button also work near the doorway. The authored hinge is reused and the swept leaf cannot cut through the player's capsule. Its current open/closed state persists across camera changes.
 
-项目名使用工作流环境变量 `EDGEONE_PROJECT_NAME`，自动取 `${{ github.event.repository.name }}`，无需写死仓库名。已有同名 EdgeOne 项目须为“直接上传”类型；不存在时 CLI 会自动创建。仓库改名也会改变目标项目名，请先确认对应项目。详见 [EdgeOne CLI 官方文档](https://pages.edgeone.ai/document/edgeone-cli)。
+Walking temporarily restores the existing room walls/floor meshes and removes floor cutaway clipping. Because the cutaway asset has no roof, one roaming-only visual ceiling at the authored wall-top height (5.8 m) closes the sky. It is outside the model root, reuses the existing plaster/GI material, does not cast new shadows, and is hidden on exit and disposed with its controller. No exterior city is added. Direct-light shadows refresh for the restored walls. The walking controller does not alter the model, textures or GI. The v16 GI is baked for the cutaway scene, so it remains an approximation for the enclosed walking view rather than a new enclosed-room bake.
 
-生产部署串行运行，不取消正在执行的发布；部署前再次检查公开仓库 `master` 最新提交，跳过已被新提交取代的任务，避免旧版本在新版本之后发布。缺少令牌、测试失败、构建失败或资源预算超限都会阻止发布。
+Collision geometry is prepared once while the existing loading overlay is visible; entering walking never rebuilds it. Keyboard, touch, tab-hide, blur and pointer-cancel flows have CPU/event-target regression coverage. Real mobile layout, GPU rendering, browser audio and device performance still require supported-browser acceptance.
+
+## Scene clicks
+
+Click or tap the bathroom door to open/close it, the PC case to stop/resume all nine fans and its four RGB zones, or an individual computer keycap for a short down/up animation. The PC clock and monitor slideshow continue unchanged. The computer keyboard has cosmetic feedback only; it never types, runs commands, plays piano notes or changes navigation. Case power stays in session memory without added storage.
+
+Only completed stationary taps activate these targets. Drags, walking/look gestures, multitouch, cancelled pointers, UI overlays and help dialogs do not. See `docs/room-interactions-v19.md` for the exact geometry, input, collision, recovery-hook and test scope.
+
+## Early candidate and collision budgets
+
+`node scripts/inspect-candidate-budget.mjs MODEL.glb.gz REPORT.json [MATCHED-GI.json]` projects candidate distribution size without installing it. Until a GI file is provided, it explicitly uses the existing GI file size only as a placeholder. The final build and paired-asset contract still determine release acceptance.
+
+`node scripts/navigation-budget.mjs MODEL.glb.gz REPORT.json` reports actual exported geometry typed-array view lengths and the navigation collision-array allocation. Those counts exclude textures, JavaScript overhead, peak build memory and driver costs; they are not device memory or FPS measurements.
+
+## Reference PC details
+
+See `docs/pc-case-runtime-v16.md` for animation/display behavior, true clock semantics, scoped glass settings, update cadence and verification limits. The generated case skyline is separate from all 13 unchanged monitor/TV/frame images. Static GI does not simulate changing colored bounce from the emissive RGB animation.
+
+## First-switch preparation
+
+Before the room becomes interactive, v18 progressively prepares the original four floor/day-night shader combinations, texture uploads, geometry and existing shadow targets. It keeps the original night shadow cost and all visuals/assets intact. The loading indicator includes this preparation, so startup may take several additional seconds; a single driver compile/upload cannot be preempted. Full device/GPU performance and visual acceptance remain unverified. See `docs/first-switch-preparation-v18.md` for source evidence, bounded work, cancellation and the precise verification scope.

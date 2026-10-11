@@ -1,0 +1,130 @@
+{
+  "root": "Bear_reference_plush",
+  "scope": "Only the explicitly reported whole-main-bear rigid placement on the rebuilt sofa. All descendant local vertex, index, normal, UV, color and material data remain exact; all world changes must equal this one matrix.",
+  "baselineModelSha256": "f807437d38d9d30ddb9fff68ef8be6a526f3dafe7fd5b9a3ec750e7733f520ce",
+  "sourceSha256": "822b7ad9bda89889530dae32efaf5ecde831c991f6994bed97b7a8c02227afc4",
+  "sourceFitReportSha256": "92ecc38938162f474d503635ca99c85f78686c0d84bcf50139482e83362de1b6",
+  "coordinateSystem": "Three.js runtime Y-up; column-major matrix",
+  "runtimeWorldDelta": [
+    0.9958049058914185,
+    -0.09150157868862152,
+    0.0,
+    0.0,
+    0.09150157868862152,
+    0.9958049058914185,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    -0.1411384493112564,
+    -0.05181368440389633,
+    0.0,
+    1.0
+  ],
+  "runtimeRootTranslationDelta": [
+    -0.07150846719741821,
+    0.022933781147003174,
+    -0.0
+  ],
+  "blenderWorldYRotationDegrees": 5.25,
+  "fullSourceFitReport": {
+    "worldTransform": [
+      [
+        0.9958049058914185,
+        0.0,
+        0.09150157868862152,
+        -0.1411384493112564
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        -0.09150157868862152,
+        0.0,
+        0.9958049058914185,
+        -0.05181368440389633
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "oldRootMatrix": [
+      [
+        0.3444882035255432,
+        0.0,
+        0.0,
+        -0.8500000238418579
+      ],
+      [
+        0.0,
+        0.3444882035255432,
+        0.0,
+        -1.7999999523162842
+      ],
+      [
+        0.0,
+        0.0,
+        0.3444882035255432,
+        0.722000002861023
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "newRootMatrix": [
+      [
+        0.3430430293083191,
+        0.0,
+        0.03152121603488922,
+        -0.9215084910392761
+      ],
+      [
+        0.0,
+        0.3444882035255432,
+        0.0,
+        -1.7999999523162842
+      ],
+      [
+        -0.03152121603488922,
+        0.0,
+        0.3430430293083191,
+        0.7449337840080261
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "rootTranslationDelta": [
+      -0.07150846719741821,
+      0.0,
+      0.022933781147003174
+    ],
+    "footPivotWorld": [
+      -0.855450838804245,
+      -1.808956503868103,
+      0.7163783311843872
+    ],
+    "footPivotTranslation": [
+      -0.07200000000000001,
+      0,
+      0.02345613965988159
+    ],
+    "worldYRotationDegrees": 5.25,
+    "soleHeightMismatch": 0.00039386360894599903,
+    "geometryUnchanged": true
+  }
+}

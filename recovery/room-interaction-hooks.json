@@ -1,0 +1,37 @@
+{
+  "description": "Exact v19 scene-tap hooks applied after v18 preparation. Only frontmost target dispatch, safe end-of-gesture checks, interrupted key reset and existing-frame key updates differ. Camera, piano/audio, light/shadow and four-topology preparation algorithms remain fully compared.",
+  "main": [
+    [
+      "let pcCase = null;\nconst preparationAbort = new AbortController();\n",
+      "let pcCase = null;\nlet roomInteractions = null;\nconst preparationAbort = new AbortController();\n"
+    ],
+    [
+      "  });\n}\n",
+      "  });\n  roomInteractions?.dispose();\n  roomInteractions = new RoomInteractions(Qn, {\n    pcCase, onDoor: () => walk.interactDoor({ fromScene: true }),\n    onPiano: mv, onChange: () => { Ei = true; },\n  });\n}\n"
+    ],
+    [
+      "  jc.setFromCamera(Kc, walk.getCamera());\n  const hit = jc.intersectObject(Qn, true).find(item => {\n    const material = Array.isArray(item.object.material) ? item.object.material[item.face?.materialIndex || 0] : item.object.material;\n    return Do(item.object) && material && !Dx(item.point, material) && material.opacity > 0.3 && !/glass/i.test(material.name);\n  });\n  if (hit?.object.userData.midi) mv(hit.object.userData.midi);\n}\n",
+      "  jc.setFromCamera(Kc, walk.getCamera());\n  const hit = jc.intersectObject(Qn, true).find(roomHitIsVisible);\n  roomInteractions?.interact(hit, performance.now(), _i);\n}\n"
+    ],
+    [
+      "};\nGe(\"#help\").onclick = () => { walk?.clearInput(); Ge(\"#help-dialog\").showModal(); };\nGe(\".close\").onclick = () => Ge(\"#help-dialog\").close();\n",
+      "};\nGe(\"#help\").onclick = () => { walk?.clearInput(); Xr(); roomInteractions?.resetKeys(); Ge(\"#help-dialog\").showModal(); };\nGe(\".close\").onclick = () => Ge(\"#help-dialog\").close();\n"
+    ],
+    [
+      "  if (Ri.delete(i.pointerId), !(!dt || i.pointerId !== dt.id)) {\n    if (dt.duration = performance.now() - dt.time, kx(dt) && i.button === 0 && cs) {\n      const e = bn.getBoundingClientRect();\n      Kc.set((i.clientX - e.left) / e.width * 2 - 1, -(i.clientY - e.top) / e.height * 2 + 1), jc.setFromCamera(Kc, Rt);\n      const t = jc.intersectObject(Qn, true).filter((n) => {\n        const s = Array.isArray(n.object.material) ? n.object.material[n.face?.materialIndex || 0] : n.object.material;\n        return Do(n.object) && s && !Dx(n.point, s) && s.opacity > 0.3 && !/glass/i.test(s.name);\n      });\n      t.length && t[0].object.userData.midi && (tn.enableDamping = false, tn.update(), tn.enableDamping = true, Rt.zoom = dt.zoom, Rt.updateProjectionMatrix(), Rt.position.copy(dt.camera), tn.target.copy(dt.target), pt?.constrain(), mv(t[0].object.userData.midi));\n    }\n",
+      "  if (Ri.delete(i.pointerId), !(!dt || i.pointerId !== dt.id)) {\n    if (dt.duration = performance.now() - dt.time, dt.distance = Math.max(dt.distance, Math.hypot(i.clientX - dt.x, i.clientY - dt.y)), kx(dt) && i.button === 0 && cs && sceneTapEndsOnCanvas(i, bn) && !document.querySelector(\"dialog[open]\")) {\n      const e = bn.getBoundingClientRect();\n      Kc.set((i.clientX - e.left) / e.width * 2 - 1, -(i.clientY - e.top) / e.height * 2 + 1), jc.setFromCamera(Kc, Rt);\n      const t = jc.intersectObject(Qn, true).filter(roomHitIsVisible);\n      t.length && roomInteractions?.target(t[0]) && (tn.enableDamping = false, tn.update(), tn.enableDamping = true, Rt.zoom = dt.zoom, Rt.updateProjectionMatrix(), Rt.position.copy(dt.camera), tn.target.copy(dt.target), pt?.constrain(), roomInteractions.interact(t[0], performance.now(), _i));\n    }\n"
+    ],
+    [
+      "});\nwindow.addEventListener(\"blur\", () => {\n  Ri.clear(), dt = null;\n});\nbn.addEventListener(\"webglcontextlost\", (i) => {\n",
+      "});\nbn.addEventListener(\"lostpointercapture\", Xr);\nwindow.addEventListener(\"blur\", () => {\n  Ri.clear(), dt = null; roomInteractions?.resetKeys();\n});\nwindow.addEventListener(\"pagehide\", () => { Xr(); roomInteractions?.resetKeys(); });\nbn.addEventListener(\"webglcontextlost\", (i) => {\n"
+    ],
+    [
+      "document.addEventListener(\"visibilitychange\", () => {\n  document.visibilityState === \"hidden\" ? (cancelAnimationFrame(Hs), Hs = null, Ri.clear(), dt = null) : (Cr = performance.now(), Ei = true, cl());\n});\n",
+      "document.addEventListener(\"visibilitychange\", () => {\n  document.visibilityState === \"hidden\" ? (cancelAnimationFrame(Hs), Hs = null, Ri.clear(), dt = null, roomInteractions?.resetKeys()) : (Cr = performance.now(), Ei = true, cl());\n});\n"
+    ],
+    [
+      "  pcCase?.update(_i, walk?.getCamera() || Rt, innerHeight, _n);\n  if (Ei || _i - qc >= rv - 1e-3) {\n",
+      "  pcCase?.update(_i, walk?.getCamera() || Rt, innerHeight, _n);\n  if (roomInteractions?.update(i)) Ei = true;\n  if (Ei || _i - qc >= rv - 1e-3) {\n"
+    ]
+  ]
+}

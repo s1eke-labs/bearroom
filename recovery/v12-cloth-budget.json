@@ -1,0 +1,31 @@
+{
+  "source": "v12",
+  "cloth": [
+    {
+      "name": "anim_sofa_edge",
+      "vertices": 12203,
+      "triangles": 23616,
+      "weightedVertices": 3541,
+      "positionAttributeBytes": 146436,
+      "dirtyPositionUploadRangeBytes": 142972
+    },
+    {
+      "name": "anim_dining_edge",
+      "vertices": 2685,
+      "triangles": 3936,
+      "weightedVertices": 723,
+      "positionAttributeBytes": 32220,
+      "dirtyPositionUploadRangeBytes": 31420
+    },
+    {
+      "name": "anim_bed_edge",
+      "vertices": 12122,
+      "triangles": 23616,
+      "weightedVertices": 3551,
+      "positionAttributeBytes": 145464,
+      "dirtyPositionUploadRangeBytes": 142000
+    }
+  ],
+  "totalWeightedVertices": 7815,
+  "totalPositionUploadRangeBytes": 316392
+}

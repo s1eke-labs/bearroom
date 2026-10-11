@@ -1,0 +1,185 @@
+{
+  "revision": "v16 exact bytes before organic integration",
+  "checks": [
+    {
+      "path": "src/asset-revision.js",
+      "sha256": "6bec8440c354d162a4cc3cb9cdc3f995e760faaa1f8ef7803ea640b7267dd5c9"
+    },
+    {
+      "path": "src/audio.js",
+      "sha256": "fec367440d52df7f77798a6dcbb83f70b765f5ec6337b998181b5e3d30de150b"
+    },
+    {
+      "path": "src/baked-gi.js",
+      "sha256": "ccdde1ebefd1e43a32cc39c882689bea521c59d69b1dbf11d8cad6c6fceefd8e"
+    },
+    {
+      "path": "src/camera.js",
+      "sha256": "e7c2cab3568d0ccf6d905cf5c74ef73a73d3c8eec335cedb99997f0efdf5273e"
+    },
+    {
+      "path": "src/domain.js",
+      "sha256": "17075e06464228a341655ac2ddef2819f516052ce12e7344b4c84d065b5f8c42"
+    },
+    {
+      "path": "src/first-person.js",
+      "sha256": "01d7fadba76f7e69e22948322057bc7f8f2e6482ff68d55448bda39ee015af0c"
+    },
+    {
+      "path": "src/lighting.js",
+      "sha256": "d2ea72572dcede3a63f5dcdaa6950aaa492fa29e4fb1c77c415e534721894d93"
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "4be2579c0075618eeac4a7674265d1eaecb1b3d4c9e656b09843ff23eaf7228f"
+    },
+    {
+      "path": "src/pc-case.js",
+      "sha256": "c9cac0375da9d7f8ec0773ce325115dc39bdaa0354d4f66a77580da52607df84"
+    },
+    {
+      "path": "src/performance.js",
+      "sha256": "4cfedb63cb7819f31d5f61723ec0385ce4ef6c2f3303992ffe22f9e3a164442d"
+    },
+    {
+      "path": "src/plush-current.js",
+      "sha256": "9a59e9f7a9e4ba01fdb41ca59bb176ef067fc73f5f6ae7ffa1c2418efb1cc835"
+    },
+    {
+      "path": "src/plush.js",
+      "sha256": "63e4c6d1ca49a593aca71f00aa8e5c72fc18472fe2ad8ef3c8d9f58dbc1d3ec5"
+    },
+    {
+      "path": "src/polyfill.js",
+      "sha256": "7a3e4236545a3281b8938a5c8a88720757878226652ca5cf683afae051997fe3"
+    },
+    {
+      "path": "src/sky-transport.js",
+      "sha256": "a2f7658976915a6c770feb0eef02963588306d83adbd089d5adda9d058b0ca47"
+    },
+    {
+      "path": "src/style.css",
+      "sha256": "138b133d985f9f120a543c758acc282560455e21ab63f921fe573bf1d3d85c93"
+    },
+    {
+      "path": "src/walk-navigation.js",
+      "sha256": "2b0fc1c6b610c9e912890985298f32eb3ccaf9a946bda9df45c1d298453a1dcd"
+    },
+    {
+      "path": "vendor/licenses/fflate-MIT.txt",
+      "sha256": "0a1df3a083d0c010560aa342e87959c8c1070e6fd54545741f083f22d0c8b551"
+    },
+    {
+      "path": "vendor/licenses/three-MIT.txt",
+      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+    },
+    {
+      "path": "vendor/runtime-v11.js",
+      "sha256": "bb10622e09326e6eeff9ceb564d2217e6687ce5d701ac1f8c7b35ab3425c8948"
+    },
+    {
+      "path": "recovery/first-person-hooks.json",
+      "sha256": "dc93bd8ed52bcdbf86449e70d0297cd92668e50c68a6ff9dad855136f88b8095"
+    },
+    {
+      "path": "recovery/pc-case-hooks.json",
+      "sha256": "d4d1f3fe2d1d18b2a275638de53d51e4779a2b35eba0d564f4d6511bca6f00c1"
+    },
+    {
+      "path": "recovery/pc-case-replacements.json",
+      "sha256": "393ff26f6f9171b0489e015017675774774258ec5ce010c6bb386598a0bf2b82"
+    },
+    {
+      "path": "recovery/provenance.json",
+      "sha256": "4a5f059db1a4afafd06790fca09a3912aa812be718b2855a897c5c7a5467ca49"
+    },
+    {
+      "path": "recovery/v11-production.js.gz",
+      "sha256": "90379a271cc9f04d1de4b1b991a961e585d4fec0a55bade6361c685c3cbe7aa6"
+    },
+    {
+      "path": "recovery/v11-resource-baseline.json",
+      "sha256": "dba9aaf67143cafca45fb62fd0ca38e4649d6d9b05aae7c53a0e7b42116017a1"
+    },
+    {
+      "path": "recovery/v12-cloth-budget.json",
+      "sha256": "f7b858a51a16cdc5bfd4ae22edab2d92988aebfe8fc3a7417f13ee551b08d0aa"
+    },
+    {
+      "path": "recovery/v12-resource-baseline.json",
+      "sha256": "9206f0c613bbb894c9d14b8024c688f855547bbfd65538501e8bc911ec251c7f"
+    },
+    {
+      "path": "recovery/v12-runtime-contract.json",
+      "sha256": "716576ccafd891d9019f6c4c904fd3b0367fe088590577551d0e5e845530eaec"
+    },
+    {
+      "path": "recovery/v12-slide-textures.json",
+      "sha256": "6e11591179c4cb5c36199a0fadfe1fd03fca1092c2339af0b9e18312664b05ad"
+    },
+    {
+      "path": "recovery/v14-resource-baseline.json",
+      "sha256": "f4d63e4bdf402830571a33856053a135a225890a6f0798c62c1964e82b18cd1a"
+    },
+    {
+      "path": "public/assets/textures/frame-01.webp",
+      "sha256": "d742b7955d127a7f2ed35989a684db68359476291c9e2875f5c3888200f0d3ba"
+    },
+    {
+      "path": "public/assets/textures/frame-02.webp",
+      "sha256": "0359a4fd84c6ede19b9806cd09c1ebc6e3d9a100f8f2b10d72e3459c7be0b5b4"
+    },
+    {
+      "path": "public/assets/textures/frame-03.webp",
+      "sha256": "62a5aca57239895a90e0f435d287ddc9e243c89773970da5dc73706e6e2313b8"
+    },
+    {
+      "path": "public/assets/textures/pc-01.webp",
+      "sha256": "c7f805672eec2af12e64ce49d4d09bed17b8116d3326ea7821b41a68cfa8b6c6"
+    },
+    {
+      "path": "public/assets/textures/pc-02.webp",
+      "sha256": "93e9acf1ca23bb70e79dca858f16c62a8a7ee9c50020d2c20a3955249daed19c"
+    },
+    {
+      "path": "public/assets/textures/pc-03.webp",
+      "sha256": "150cce435eedad1b81c00b5fa359f129846d91359ac4aecd14ee967d3d127a3d"
+    },
+    {
+      "path": "public/assets/textures/pc-04.webp",
+      "sha256": "6d7ad468fa494e2338958c46e9e5532bbe4a0c92cdc5ff48f09dca37a781c064"
+    },
+    {
+      "path": "public/assets/textures/pc-05.webp",
+      "sha256": "97a592497adab4c3282e38410fc55c98395337f0390d8962cc9f06f70e150e87"
+    },
+    {
+      "path": "public/assets/textures/pc-06.webp",
+      "sha256": "a99122787d319299f0bba6a1b3bf88b2bb0b937cdd2903da9cf63e73a1aa412b"
+    },
+    {
+      "path": "public/assets/textures/pc-case-v16.webp",
+      "sha256": "780fb66d6b73ccefaf42d296eb79b36b30551c4a7e0e094a61f3016cd6060d96"
+    },
+    {
+      "path": "public/assets/textures/tv-01.webp",
+      "sha256": "ddcb9a9ed5e312943b9a1a5823abc48e7445277f491bae83723a8aa87b118ce2"
+    },
+    {
+      "path": "public/assets/textures/tv-02.webp",
+      "sha256": "28741ce644f2ac45ba11e78b7353f90eb5b12b866e26bb0102d0d14eb4f6beb9"
+    },
+    {
+      "path": "public/assets/textures/tv-03.webp",
+      "sha256": "d43c51321c4a2f1c5484f14b8b5dcdbe8a748ed3401bedca76c6f4dbe9463314"
+    },
+    {
+      "path": "public/assets/textures/tv-04.webp",
+      "sha256": "668a30ee6fcf6064e13f428dfd4e0717df3479388a98fedbd03418a33569ae6f"
+    },
+    {
+      "path": "index.html",
+      "sha256": "87a8e6b2f4cd3ed40ab0ada015b1ce87feff3b812bd29fd52e00c493c084b613"
+    }
+  ]
+}

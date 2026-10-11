@@ -1,0 +1,197 @@
+{
+  "recoveredFrom": {
+    "siteCommit": "679d19306992b8a895dab5c47da0a8aad0f86e4d",
+    "bundle": "index-BQLhr10c.js",
+    "bundleSha256": "3006fd2c2b49080100c6597afb70e36dcd870fd6c737e08be22c606325e54780"
+  },
+  "toolVersions": {
+    "esbuild": "0.28.2",
+    "rollup": "4.64.2"
+  },
+  "modules": [
+    {
+      "name": "polyfill",
+      "preRecoverySegmentSha256": "de227016045511e4faaaa94a4f3f054dcbd5ecd0116cb75a921dddc9e2978474",
+      "imports": []
+    },
+    {
+      "name": "vendor",
+      "preRecoverySegmentSha256": "19d027e85a26882b52dca0a6a25e0f250df578c37db0b78ade2ed2024696817b",
+      "imports": []
+    },
+    {
+      "name": "camera",
+      "preRecoverySegmentSha256": "f2471a92684ef3609f950d260daa98e1e2d64206bc9889af43e9ae6a5ca6f8bd",
+      "imports": [
+        {
+          "from": "vendor",
+          "names": [
+            "kn",
+            "ti",
+            "en",
+            "Ee",
+            "L",
+            "Kt",
+            "vn",
+            "Df"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "domain",
+      "preRecoverySegmentSha256": "ef18323471d139fff6b78380a681f12d236b5f31c052b421157be8b10ce9693f",
+      "imports": []
+    },
+    {
+      "name": "audio",
+      "preRecoverySegmentSha256": "44aa2d16a79a9a43cf7ac759f92d45dc217eb58536fcf381ff6d5b59b25e91ad",
+      "imports": []
+    },
+    {
+      "name": "lighting",
+      "preRecoverySegmentSha256": "13ef0de2abf1796d451a94aeb4e7cdd4b90b6dd7f30d02748780cbdea95c9e6a",
+      "imports": []
+    },
+    {
+      "name": "performance",
+      "preRecoverySegmentSha256": "17ec94f666c5d30752367bd031189f8f097649d6b9983dab64eacbff72618e54",
+      "imports": []
+    },
+    {
+      "name": "plush",
+      "preRecoverySegmentSha256": "f52b638a1cb521b1a288d6608b540fe65af2c6e9a9faff86ad369a7b05269482",
+      "imports": [
+        {
+          "from": "vendor",
+          "names": [
+            "Ct",
+            "L",
+            "Kt",
+            "Ai",
+            "pn"
+          ]
+        },
+        {
+          "from": "camera",
+          "names": [
+            "jh"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "baked-gi",
+      "preRecoverySegmentSha256": "777c179025ba02beec7d9a54c3ef82ab71570d9a143f6dc818081d064686c456",
+      "imports": [
+        {
+          "from": "vendor",
+          "names": [
+            "Ht",
+            "hs",
+            "Yt",
+            "L",
+            "ph",
+            "Ld",
+            "Ue"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "main",
+      "preRecoverySegmentSha256": "0c85105a67953f02ea2cf4b5173af32b168a0e1c3504741ec8394d0fdaa23351",
+      "imports": [
+        {
+          "from": "vendor",
+          "names": [
+            "Qc",
+            "eh",
+            "yt",
+            "Zu",
+            "en",
+            "Ee",
+            "L",
+            "Kt",
+            "we",
+            "ii",
+            "Mh",
+            "Ai",
+            "Dh",
+            "gf",
+            "Ih",
+            "tl",
+            "Gr",
+            "nl",
+            "Lf",
+            "wo",
+            "g0",
+            "x0",
+            "X0",
+            "j0",
+            "Cx"
+          ]
+        },
+        {
+          "from": "camera",
+          "names": [
+            "Do",
+            "Dx",
+            "Ix",
+            "Ox"
+          ]
+        },
+        {
+          "from": "domain",
+          "names": [
+            "Bx",
+            "kx",
+            "zx"
+          ]
+        },
+        {
+          "from": "audio",
+          "names": [
+            "Hx"
+          ]
+        },
+        {
+          "from": "lighting",
+          "names": [
+            "Vx",
+            "Wx",
+            "Xx"
+          ]
+        },
+        {
+          "from": "performance",
+          "names": [
+            "qx",
+            "Yx",
+            "jx",
+            "Kx",
+            "Na"
+          ]
+        },
+        {
+          "from": "plush",
+          "names": [
+            "Qx"
+          ]
+        },
+        {
+          "from": "baked-gi",
+          "names": [
+            "Io",
+            "sv"
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Original pre-bundle sources and source maps were not present in the recovered workspace.",
+    "Module variable aliases are recovered minifier aliases, not original author names.",
+    "Vendor code is preserved from the deployed build to avoid a dependency-version regression."
+  ]
+}

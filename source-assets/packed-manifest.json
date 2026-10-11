@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "runtime-model",
+      "group": "runtime",
+      "target": "public/assets/bearroom.glb.gz",
+      "bytes": 18713768,
+      "sha256": "7169a4e69d9a0d86829f31f495185951c4f6f1491f6acdb514d290ef7f2c12e4",
+      "parts": [
+        {
+          "path": "source-assets/packed/runtime-model.part01",
+          "bytes": 8388608,
+          "sha256": "af69031ff5741180591d55b26eef4afd8576e65141adb3844dc35828c98ee1a8"
+        },
+        {
+          "path": "source-assets/packed/runtime-model.part02",
+          "bytes": 8388608,
+          "sha256": "f5d09b0242b7e65ed38fb0ddca8c3475c3191fd20dcf25cb8946a9f27883655a"
+        },
+        {
+          "path": "source-assets/packed/runtime-model.part03",
+          "bytes": 1936552,
+          "sha256": "2eff30352870868e6fd6b6fd9a35bdf65aab58ad69f6e8fe3fdf226410fe02bb"
+        }
+      ]
+    },
+    {
+      "id": "blender-v19",
+      "group": "source",
+      "target": "source-assets/bearroom-bathroom-v19.blend",
+      "bytes": 22593333,
+      "sha256": "96c4f90312490c45489c64a4f836094a2f80d4a7bd077a093494eac72948d173",
+      "parts": [
+        {
+          "path": "source-assets/packed/blender-v19.part01",
+          "bytes": 8388608,
+          "sha256": "b3426a42fd88d005e8a34312c18247acfde542c1a84f012a0f209d65e99dd8c1"
+        },
+        {
+          "path": "source-assets/packed/blender-v19.part02",
+          "bytes": 8388608,
+          "sha256": "4a1c0f8ac79f28b0e30c029fd36c476e829c625c6e8ee8c19caa027024aa03e4"
+        },
+        {
+          "path": "source-assets/packed/blender-v19.part03",
+          "bytes": 5816117,
+          "sha256": "d27e601265e35e0e4aa7bf47cc6785d297d3892f1f8efab476af0a93769db5ef"
+        }
+      ]
+    },
+    {
+      "id": "blender-v17",
+      "group": "source",
+      "target": "source-assets/bearroom-organic-v17.blend",
+      "bytes": 22593260,
+      "sha256": "822b7ad9bda89889530dae32efaf5ecde831c991f6994bed97b7a8c02227afc4",
+      "parts": [
+        {
+          "path": "source-assets/packed/blender-v17.part01",
+          "bytes": 8388608,
+          "sha256": "3e8715eea36ca6f03fc3868303ac87d27329b869db599a98d0899a9878afdb54"
+        },
+        {
+          "path": "source-assets/packed/blender-v17.part02",
+          "bytes": 8388608,
+          "sha256": "045c780a8820dde0235f67bbbf67ac225f95766ddfecdd7ffcea75922d699d72"
+        },
+        {
+          "path": "source-assets/packed/blender-v17.part03",
+          "bytes": 5816044,
+          "sha256": "afdbaac17e8955d182c952a89c5bb77002fbf9ce174182299693573f9a420158"
+        }
+      ]
+    },
+    {
+      "id": "baseline-v17",
+      "group": "source",
+      "target": "source-assets/history/runtime-baselines/bearroom-organic-v17.glb.gz",
+      "bytes": 18688107,
+      "sha256": "a0253d9d4afac2d49a9f94bb74811585847f0dd14daaf2c50f8cf12b926e404f",
+      "parts": [
+        {
+          "path": "source-assets/packed/baseline-v17.part01",
+          "bytes": 8388608,
+          "sha256": "263b16d5183a9103de3a7018a4ba6e5d42911c15693469fe3a3456cdcdb7eed0"
+        },
+        {
+          "path": "source-assets/packed/baseline-v17.part02",
+          "bytes": 8388608,
+          "sha256": "93a02bc70e7536165b619e82db99181fe634a899ee7d66fbe7d7e311be1be18b"
+        },
+        {
+          "path": "source-assets/packed/baseline-v17.part03",
+          "bytes": 1910891,
+          "sha256": "5db4273bd01d096974175c3527ed436a2fc5c8470af98def3f0ad1442788aed0"
+        }
+      ]
+    }
+  ]
+}

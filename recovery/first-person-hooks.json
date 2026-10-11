@@ -1,0 +1,65 @@
+{
+  "description": "Exact reviewed main-only camera/input hooks for the user-authorized indoor first-person mode. Frozen vendor algorithms, camera, lighting, GI, animation, asset loading and materials remain guarded.",
+  "main": [
+    [
+      "let pt, Nr, Fr;",
+      "let pt, Nr, Fr;\nlet walk = null;"
+    ],
+    [
+      "Ge(\"#loading\").classList.add(\"hidden\"), setTimeout",
+      "initializeWalk(), Ge(\"#loading\").classList.add(\"hidden\"), setTimeout"
+    ],
+    [
+      "Ge(\"#help\").onclick = () => Ge(\"#help-dialog\").showModal();",
+      "Ge(\"#help\").onclick = () => { walk?.clearInput(); Ge(\"#help-dialog\").showModal(); };"
+    ],
+    [
+      "bn.addEventListener(\"pointerdown\", (i) => {\n  if (Ri.add",
+      "bn.addEventListener(\"pointerdown\", (i) => {\n  if (walk?.active) return;\n  if (Ri.add"
+    ],
+    [
+      "bn.addEventListener(\"pointermove\", (i) => {\n  dt &&",
+      "bn.addEventListener(\"pointermove\", (i) => {\n  if (walk?.active) return;\n  dt &&"
+    ],
+    [
+      "bn.addEventListener(\"pointerup\", (i) => {\n  if (Ri.delete",
+      "bn.addEventListener(\"pointerup\", (i) => {\n  if (walk?.active) return;\n  if (Ri.delete"
+    ],
+    [
+      "bn.addEventListener(\"pointercancel\", (i) => {\n  Ri.delete",
+      "bn.addEventListener(\"pointercancel\", (i) => {\n  if (walk?.active) return;\n  Ri.delete"
+    ],
+    [
+      "Ot.setSize(innerWidth, innerHeight), pt?.fit(innerWidth, innerHeight, { reset: false });",
+      "Ot.setSize(innerWidth, innerHeight), walk?.resize(innerWidth, innerHeight);\n  if (!walk?.active) pt?.fit(innerWidth, innerHeight, { reset: false });"
+    ],
+    [
+      "function gv(i) {\n  pt &&",
+      "function gv(i) {\n  walk?.exit();\n  pt &&"
+    ],
+    [
+      "Ge(\"#reset-view\").onclick = () => {\n  Xr()",
+      "Ge(\"#reset-view\").onclick = () => {\n  if (walk?.active) return;\n  Xr()"
+    ],
+    [
+      "function Br(i) {\n  Xr()",
+      "function Br(i) {\n  if (walk?.active) return;\n  Xr()"
+    ],
+    [
+      "bn.addEventListener(\"keydown\", (i) => {\n  if (pt)",
+      "bn.addEventListener(\"keydown\", (i) => {\n  if (walk?.active) return;\n  if (pt)"
+    ],
+    [
+      "if (tn.update(), pt?.constrain(), Nr?.update(Rt, innerHeight, pt?.view), Ei || _i - qc >= rv - 1e-3) {",
+      "if (walk?.active) walk.update(e);\n  else { tn.update(); pt?.constrain(); }\n  Nr?.update(walk?.getCamera() || Rt, innerHeight, walk?.active ? \"walk\" : pt?.view);\n  if (Ei || _i - qc >= rv - 1e-3) {"
+    ],
+    [
+      "Ot.render(jt, Rt);",
+      "Ot.render(jt, walk?.getCamera() || Rt);"
+    ],
+    [
+      "function ll(i) {",
+      "function initializeWalk() {\n  walk?.dispose();\n  walk = new FirstPersonController({\n    root: Qn, scene: jt, room: pt, isometricCamera: Rt, orbitControls: tn, canvas: bn,\n    app: Ge(\"#app\"), toggleButton: Ge(\"#walk-toggle\"), joystick: Ge(\"#walk-stick\"),\n    joystickKnob: Ge(\"#walk-stick-knob\"), hint: Ge(\"#hint\"), status: Ge(\"#view-status\"),\n    doorButton: Ge(\"#walk-door\"),\n    onChange: () => { Xr(); Ei = true; },\n    onTap: playWalkPiano,\n  });\n}\nfunction playWalkPiano(event) {\n  if (!cs || !walk?.active) return;\n  const bounds = bn.getBoundingClientRect();\n  Kc.set((event.clientX - bounds.left) / bounds.width * 2 - 1, -(event.clientY - bounds.top) / bounds.height * 2 + 1);\n  jc.setFromCamera(Kc, walk.getCamera());\n  const hit = jc.intersectObject(Qn, true).find(item => {\n    const material = Array.isArray(item.object.material) ? item.object.material[item.face?.materialIndex || 0] : item.object.material;\n    return Do(item.object) && material && !Dx(item.point, material) && material.opacity > 0.3 && !/glass/i.test(material.name);\n  });\n  if (hit?.object.userData.midi) mv(hit.object.userData.midi);\n}\nfunction ll(i) {"
+    ]
+  ]
+}

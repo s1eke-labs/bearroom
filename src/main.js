@@ -1,896 +1,398 @@
-import "./style.css";
-import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { gunzipSync } from "fflate";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { Reflector } from "three/addons/objects/Reflector.js";
-import { PIANO_KEYS, FURNITURE, isTap, slideState } from "./domain.js";
-import { PianoAudio } from "./audio.js";
-
-const $ = (s) => document.querySelector(s),
-  canvas = $("#room");
-const scene = new THREE.Scene();
-scene.background = new THREE.Color("#192b3b");
-let renderer;
+/** Recovered from production v11. Minifier aliases are retained deliberately; this is not the lost original source.
+ * Exact pre-recovery segment SHA256: 0c85105a67953f02ea2cf4b5173af32b168a0e1c3504741ec8394d0fdaa23351
+ */
+import './polyfill.js';
+import './style.css';
+import { Qc, eh, yt, Zu, en, Ee, L, Kt, we, ii, Mh, Ai, Dh, gf, Ih, tl, Gr, nl, Lf, wo, g0, x0, X0, j0, Cx } from '../vendor/runtime-v11.js';
+import { Do, Dx, Ix, Ox } from './camera.js';
+import { Bx, kx, zx } from './domain.js';
+import { Hx } from './audio.js';
+import { Vx, Wx, Xx } from './lighting.js';
+import { qx, Yx, jx, Kx, Na } from './performance.js';
+import { Qx } from './plush-current.js';
+import { Io, sv } from './baked-gi.js';
+import { FirstPersonController } from './first-person.js';
+import { PcCaseController, PC_CASE_CONFIG } from './pc-case.js';
+import { prepareFirstSwitch, preparationFrame } from './first-switch-preparation.js';
+import { RoomInteractions, roomHitIsVisible, sceneTapEndsOnCanvas } from './room-interactions.js';
+const Ge = (i) => document.querySelector(i), bn = Ge("#room"), jt = new Mh();
+jt.background = new we("#192b3b");
+let Ot;
 try {
-  renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-    powerPreference: "high-performance",
-  });
-} catch (error) {
-  $("#loading p").textContent = "这个浏览器暂时无法显示三维空间";
-  $("#load-detail").textContent =
-    "请使用支持 WebGL 的 Safari 或 Chrome，并开启硬件加速";
-  throw error;
+  Ot = new g0({ canvas: bn, antialias: true, powerPreference: "high-performance" });
+} catch (i) {
+  throw Ge("#loading p").textContent = "这个浏览器暂时无法显示三维空间", Ge("#load-detail").textContent = "请使用支持 WebGL 的 Safari 或 Chrome，并开启硬件加速", i;
 }
-renderer.setPixelRatio(Math.min(devicePixelRatio, 1.65));
-renderer.setSize(innerWidth, innerHeight);
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.1;
-const pmrem = new THREE.PMREMGenerator(renderer),
-  environment = new RoomEnvironment();
-scene.environment = pmrem.fromScene(environment, 0.04).texture;
-environment.dispose();
-pmrem.dispose();
-scene.environmentIntensity = 0.18;
-const camera = new THREE.PerspectiveCamera(
-  innerWidth < innerHeight ? 49 : 40,
-  innerWidth / innerHeight,
-  0.025,
-  150,
-);
-const controls = new OrbitControls(camera, canvas);
-controls.target.set(0, 2, 0);
-controls.enableDamping = true;
-controls.dampingFactor = 0.075;
-controls.rotateSpeed = 0.6;
-controls.zoomSpeed = 0.7;
-controls.panSpeed = 0.8;
-controls.minDistance = 0.18;
-controls.maxDistance = 42;
-controls.minPolarAngle = 0.16;
-controls.maxPolarAngle = 1.52;
-controls.touches.ONE = THREE.TOUCH.ROTATE;
-controls.touches.TWO = THREE.TOUCH.DOLLY_PAN;
-controls.screenSpacePanning = true;
-function initialCamera() {
-  const portrait = innerWidth < innerHeight;
-  camera.position.set(
-    portrait ? 17 : 12,
-    portrait ? 14 : 10,
-    portrait ? 23 : 15,
-  );
-  controls.target.set(0, 2, 0);
-  controls.update();
+Ot.setPixelRatio(Math.min(devicePixelRatio, 1.65));
+Ot.setSize(innerWidth, innerHeight);
+Ot.shadowMap.enabled = true;
+Ot.shadowMap.type = Qc;
+Ot.outputColorSpace = yt;
+Ot.toneMapping = eh;
+Ot.toneMappingExposure = 1.1;
+const $h = new wo(Ot), Jh = new Cx();
+jt.environment = $h.fromScene(Jh, 0.04).texture;
+Jh.dispose();
+$h.dispose();
+jt.environmentIntensity = 0.18;
+Ot.localClippingEnabled = true;
+const Rt = new Gr(-12, 12, 10, -10, 0.1, 100), tn = new x0(Rt, bn);
+Ix(tn);
+Rt.position.set(20, 20, 20);
+tn.target.set(0, 2.8, 0);
+tn.update();
+let pt, Nr, Fr;
+let walk = null;
+let pcCase = null;
+let roomInteractions = null;
+const preparationAbort = new AbortController();
+setRoomReady(false);
+const Qh = new gf("#bdcfed", "#a49282", 0.46);
+jt.add(Qh);
+const It = new nl("#fff0df", 0);
+It.position.set(7, 6.4, 2);
+It.target.position.set(-1.2, 0, 0.4);
+It.castShadow = true;
+It.shadow.autoUpdate = false;
+It.shadow.mapSize.set(2048, 2048);
+Object.assign(It.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9, near: 1, far: 32 });
+It.shadow.bias = -3e-4;
+It.shadow.normalBias = 0.016;
+jt.add(It, It.target);
+const ol = new nl("#aecfff", 0.6);
+ol.position.set(-4, 7, -10);
+jt.add(ol);
+const Uo = [], eu = [], tu = [], No = [], Rr = [], wi = /* @__PURE__ */ new Map(), nu = [];
+let Ei = true, qc = -1 / 0;
+const rv = 1 / 30;
+let Qn = null, cs = false, Or = "night", _n = 0, _i = 0, Yc = null;
+const Mi = new Hx(), av = new Map(Bx.map((i) => [i.midi, i])), Fo = /* @__PURE__ */ new Map(), oi = { frameTimes: new qx(), noteEvents: [], loadedAt: null, errors: [], switches: 0 }, jc = new Lf(), Kc = new Ee(), Zc = /* @__PURE__ */ new WeakSet();
+function ov(i) {
+  if (!i.isMeshStandardMaterial || Zc.has(i)) return;
+  Zc.add(i);
+  const e = i.name.toLowerCase(), t = Math.min(8, Ot.capabilities.getMaxAnisotropy());
+  for (const n of /* @__PURE__ */ new Set([i.map, i.normalMap, i.roughnessMap, i.metalnessMap, i.aoMap])) n && (n.anisotropy = t, n.needsUpdate = true);
+  /glass/.test(e) && (i.transparent = true, i.opacity = 0.18, i.depthWrite = false, i.roughness = 0.14, i.envMapIntensity = 0.65), (/lamp|glow|emiss|light/.test(e) || i.emissive?.getHex() > 0) && eu.push({ mat: i, base: Math.max(i.emissiveIntensity || 0, 0.4), exterior: /street|city/.test(e) });
 }
-initialCamera();
-const fill = new THREE.HemisphereLight("#bdcfed", "#a49282", 0.46);
-scene.add(fill);
-const sun = new THREE.DirectionalLight("#fff2df", 0);
-sun.position.set(-5, 9, -9);
-sun.target.position.set(1, 0, 1.5);
-sun.castShadow = true;
-sun.shadow.mapSize.set(2048, 2048);
-Object.assign(sun.shadow.camera, {
-  left: -9,
-  right: 9,
-  top: 9,
-  bottom: -9,
-  near: 1,
-  far: 32,
-});
-sun.shadow.bias = -0.0003;
-sun.shadow.normalBias = 0.016;
-scene.add(sun, sun.target);
-const moon = new THREE.DirectionalLight("#aecfff", 0.6);
-moon.position.set(-4, 7, -10);
-scene.add(moon);
-const weatherUniforms = { uRainTime: { value: 0 }, uRainAmount: { value: 1 } };
-const lights = [],
-  emissions = [],
-  cutaways = [],
-  animations = [],
-  screens = [],
-  keyObjects = [];
-const nodes = new Map();
-let root = null,
-  ready = false,
-  mode = "night",
-  dayValue = 0,
-  elapsed = 0,
-  reflection = null,
-  streetSurface = null;
-let initialReadyTime = null;
-const audio = new PianoAudio();
-const keys = new Map(PIANO_KEYS.map((k) => [k.midi, k]));
-const pressed = new Map();
-const metrics = {
-  frameTimes: [],
-  noteEvents: [],
-  loadedAt: null,
-  errors: [],
-  switches: 0,
-};
-const ray = new THREE.Raycaster(),
-  pointer = new THREE.Vector2();
-// A shared glTF material is visited by many meshes. Prepare it once so authored
-// PBR factors and emission baselines remain stable throughout the traversal.
-const preparedMaterials = new WeakSet();
-function materialDetail(mat) {
-  if (!mat.isMeshStandardMaterial || preparedMaterials.has(mat)) return;
-  preparedMaterials.add(mat);
-  const name = mat.name.toLowerCase();
-  // GLTFLoader already configures UVs, color spaces and normal-map conventions.
-  // Preserve Blender's base color, roughness, metalness and normal strength;
-  // world-space procedural grain would swim when furniture animates.
-  const anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-  for (const map of new Set([
-    mat.map, mat.normalMap, mat.roughnessMap, mat.metalnessMap, mat.aoMap,
-  ])) {
-    if (!map) continue;
-    map.anisotropy = anisotropy;
-    map.needsUpdate = true;
-  }
-  if (/glass/.test(name)) {
-    mat.transparent = true;
-    mat.opacity = 0.18;
-    mat.depthWrite = false;
-    mat.roughness = 0.14;
-    mat.envMapIntensity = 0.65;
-    if (/window/.test(name)) {
-      mat.onBeforeCompile = (shader) => {
-        Object.assign(shader.uniforms, weatherUniforms);
-        shader.vertexShader =
-          "varying vec2 vRainUv;\n" +
-          shader.vertexShader.replace(
-            "#include <uv_vertex>",
-            "#include <uv_vertex>\nvRainUv=uv;",
-          );
-        shader.fragmentShader =
-          "varying vec2 vRainUv;uniform float uRainTime;uniform float uRainAmount;\n" +
-          shader.fragmentShader;
-        shader.fragmentShader = shader.fragmentShader.replace(
-          "#include <roughnessmap_fragment>",
-          "#include <roughnessmap_fragment>\nvec2 cell=vRainUv*vec2(54.,13.);float id=floor(cell.x);float speed=.2+fract(sin(id*15.73)*482.6)*.45;vec2 drop=fract(cell-vec2(0.,uRainTime*speed));float drip=(1.-smoothstep(0.,.075,abs(drop.x-.5)))*(1.-smoothstep(.05,.6,drop.y));roughnessFactor+=drip*.2*uRainAmount;diffuseColor.a+=drip*.25*uRainAmount;",
-        );
-      };
-    }
-  }
-  if (/lamp|glow|emiss|light/.test(name) || mat.emissive?.getHex() > 0) {
-    emissions.push({
-      mat,
-      base: Math.max(mat.emissiveIntensity || 0, 0.4),
-      exterior: /street|city/.test(name),
-    });
+function lv(i, e, t = 30, n = "#ffe5c8", s = 7, r = false, a = null) {
+  const o = r ? new Ih(n, t, s, Math.PI * 0.42, 0.7, 2) : new tl(n, t, s, 2);
+  return r && (o.target.position.fromArray(Wx(e.toArray(), a)), jt.add(o.target)), o.position.copy(e), o.castShadow = r, r && (o.shadow.autoUpdate = false, o.shadow.mapSize.set(512, 512), o.shadow.bias = -1e-3, o.shadow.normalBias = 0.025), jt.add(o), Uo.push({ name: i, light: o, power: t }), o;
+}
+function cv() {
+  for (const [i, e] of Object.entries(Vx)) {
+    const t = wi.get(`light_${i}`), n = t ? t.getWorldPosition(new L()) : new L(...e.fallback), s = e.focus ? wi.get(e.focus) : null, r = s ? new Kt().setFromObject(s, true).getCenter(new L()).toArray() : null;
+    lv(i, n, e.power, e.color || "#ffe7cc", e.distance, !!e.shadow, r);
   }
 }
-function addLight(
-  name,
-  pos,
-  power = 30,
-  color = "#ffe5c8",
-  distance = 7,
-  shadow = false,
-) {
-  const l = shadow
-    ? new THREE.SpotLight(color, power, distance, Math.PI * 0.42, 0.7, 2)
-    : new THREE.PointLight(color, power, distance, 2);
-  if (shadow) {
-    l.target.position.set(pos.x, 0, pos.z);
-    scene.add(l.target);
-  }
-  l.position.copy(pos);
-  l.castShadow = shadow;
-  if (shadow) {
-    l.shadow.mapSize.set(512, 512);
-    l.shadow.bias = -0.001;
-    l.shadow.normalBias = 0.025;
-  }
-  scene.add(l);
-  lights.push({ name, light: l, power });
-  return l;
+const hv = new Dh();
+async function $c(i) {
+  const e = await hv.loadAsync(i);
+  return e.colorSpace = yt, e.flipY = false, e.anisotropy = Math.min(4, Ot.capabilities.getMaxAnisotropy()), e;
 }
-function createLighting() {
-  const defaults = {
-    living: [-1, 2.4, -2, 35],
-    piano: [3.5, 2.6, -2.7, 24],
-    desk: [4, 1.7, 0.5, 13],
-    kitchen: [-3.8, 2.5, 2.6, 24],
-    dining: [-2.8, 2.6, 1.2, 22],
-    bed: [-3.1, 4.1, 2.5, 16],
-    reading: [2.7, 4.3, 0.1, 20],
-    entry: [3.5, 2, 3.2, 12],
-    bath: [0.4, 2.4, 3, 15],
-    stairs: [-4.3, 2.5, -1, 18],
-  };
-  for (const [name, xyz] of Object.entries(defaults)) {
-    const anchor = nodes.get(`light_${name}`);
-    const pos = anchor
-      ? anchor.getWorldPosition(new THREE.Vector3())
-      : new THREE.Vector3(...xyz.slice(0, 3));
-    addLight(
-      name,
-      pos,
-      xyz[3],
-      "#ffe5c8",
-      name === "living" ? 8 : 5,
-      name === "living" || name === "piano",
-    );
-  }
+function uv(i) {
+  const e = { nextMap: { value: i[1] || i[0] }, blend: { value: 0 }, brightness: { value: 0.82 } }, t = new ii({ map: i[0], toneMapped: false });
+  return t.onBeforeCompile = (n) => {
+    Object.assign(n.uniforms, e), n.fragmentShader = `uniform sampler2D nextMap; uniform float blend; uniform float brightness;
+` + n.fragmentShader, n.fragmentShader = n.fragmentShader.replace("#include <map_fragment>", `#ifdef USE_MAP
+vec4 texelA=texture2D(map,vMapUv);vec4 texelB=texture2D(nextMap,vMapUv);diffuseColor *= mix(texelA,texelB,blend);diffuseColor.rgb *= brightness;
+#endif`);
+  }, { material: t, uniforms: e };
 }
-const textureLoader = new THREE.TextureLoader();
-async function texture(path) {
-  const t = await textureLoader.loadAsync(path);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.flipY = false;
-  t.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
-  return t;
+async function dv() {
+  const i = [["screen_PC", "pc", 6, 16, 0], ["screen_TV", "tv", 4, 23, 7]];
+  await Promise.all(i.map(async ([e, t, n, s, r]) => {
+    const a = await Promise.all(Array.from({ length: n }, (u, h) => $c(`/assets/textures/${t}-${String(h + 1).padStart(2, "0")}.webp`))), o = wi.get(e);
+    if (!o) throw Error(`缺少屏幕模型 ${e}`);
+    const { material: l, uniforms: c } = uv(a);
+    o.material = l, No.push({ object: o, imgs: a, material: l, uniforms: c, hold: s, offset: r });
+  })), await Promise.all([1, 2, 3].map(async (e) => {
+    const t = wi.get(`frame_${String(e).padStart(2, "0")}`);
+    if (!t) throw Error(`缺少相框画面 ${e}`);
+    t.material = new Ai({ map: await $c(`/assets/textures/frame-${String(e).padStart(2, "0")}.webp`), roughness: 0.83 });
+  }));
 }
-function screenMaterial(textures) {
-  const uniforms = {
-    nextMap: { value: textures[1] || textures[0] },
-    blend: { value: 0 },
-    brightness: { value: 0.82 },
-  };
-  const material = new THREE.MeshBasicMaterial({
-    map: textures[0],
-    toneMapped: false,
-  });
-  material.onBeforeCompile = (shader) => {
-    Object.assign(shader.uniforms, uniforms);
-    shader.fragmentShader =
-      "uniform sampler2D nextMap; uniform float blend; uniform float brightness;\n" +
-      shader.fragmentShader;
-    shader.fragmentShader = shader.fragmentShader.replace(
-      "#include <map_fragment>",
-      "#ifdef USE_MAP\nvec4 texelA=texture2D(map,vMapUv);vec4 texelB=texture2D(nextMap,vMapUv);diffuseColor *= mix(texelA,texelB,blend);diffuseColor.rgb *= brightness;\n#endif",
-    );
-  };
-  return { material, uniforms };
-}
-async function setupImages() {
-  const groups = [
-    ["screen_PC", "pc", 6, 16, 0],
-    ["screen_TV", "tv", 4, 23, 7],
-  ];
-  await Promise.all(
-    groups.map(async ([node, prefix, count, hold, offset]) => {
-      const imgs = await Promise.all(
-        Array.from({ length: count }, (_, i) =>
-          texture(
-            `/assets/textures/${prefix}-${String(i + 1).padStart(2, "0")}.webp`,
-          ),
-        ),
-      );
-      const object = nodes.get(node);
-      if (!object) throw Error(`缺少屏幕模型 ${node}`);
-      const { material, uniforms } = screenMaterial(imgs);
-      object.material = material;
-      screens.push({ object, imgs, material, uniforms, hold, offset });
-    }),
-  );
-  await Promise.all(
-    [1, 2, 3].map(async (i) => {
-      const obj = nodes.get(`frame_${String(i).padStart(2, "0")}`);
-      if (!obj) throw Error(`缺少相框画面 ${i}`);
-      obj.material = new THREE.MeshStandardMaterial({
-        map: await texture(
-          `/assets/textures/frame-${String(i).padStart(2, "0")}.webp`,
-        ),
-        roughness: 0.83,
-      });
-    }),
-  );
-}
-function registerAnimations() {
-  const specs = [
-    ["anim_sofa_edge", "cloth", "y", 0.0035, 11, 1],
-    [
-      "anim_chair_swivel",
-      "rotation",
-      "y",
-      THREE.MathUtils.degToRad(5.5),
-      13,
-      2,
-    ],
-    ["anim_dining_edge", "cloth", "y", 0.0035, 10, 3],
-    ["anim_bed_edge", "cloth", "y", 0.004, 12, 4],
-    ["anim_rocker", "rotation", "z", THREE.MathUtils.degToRad(1.5), 9, 1.5],
-    ["anim_fan_head", "rotation", "y", THREE.MathUtils.degToRad(15), 16, 3.5],
-    [
-      "anim_purifier_louver",
-      "rotation",
-      "x",
-      THREE.MathUtils.degToRad(7),
-      14,
-      4.5,
-    ],
-    ["anim_clock_pendulum", "rotation", "z", 0.14, 2, 0],
-    ["anim_hood_fan", "spin", "z", 1.8, 1, 0],
-    ["anim_fan_blades", "spin", "z", 4, 1, 0],
-    ...[1, 2, 3].map((i) => [
-      `anim_pc_fan_0${i}`,
-      "spin",
-      "z",
-      3.2 + i * 0.2,
-      1,
-      0,
-    ]),
-  ];
-  for (const [name, type, axis, amp, period, phase] of specs) {
-    const obj = nodes.get(name);
-    if (obj) {
-      const actualAxis = obj.userData.animationAxis || axis;
-      if (type === "cloth" && obj.isMesh) {
-        obj.geometry = obj.geometry.clone();
-        obj.geometry.computeBoundingBox();
-        obj.userData.restVertices =
-          obj.geometry.attributes.position.array.slice();
+function fv() {
+  const i = [["anim_sofa_edge", "cloth", "y", 35e-4, 11, 1], ["anim_chair_swivel", "rotation", "y", en.degToRad(5.5), 13, 2], ["anim_dining_edge", "cloth", "y", 35e-4, 10, 3], ["anim_bed_edge", "cloth", "y", 4e-3, 12, 4], ["anim_rocker", "rotation", "z", en.degToRad(1.5), 9, 1.5], ["anim_fan_head", "rotation", "y", en.degToRad(15), 16, 3.5], ["anim_purifier_louver", "rotation", "x", en.degToRad(7), 14, 4.5], ["anim_clock_pendulum", "rotation", "z", 0.14, 2, 0], ["anim_hood_fan", "spin", "z", 1.8, 1, 0], ["anim_fan_blades", "spin", "z", 4, 1, 0], ...[1, 2, 3].map((e) => [`anim_pc_fan_0${e}`, "spin", "z", 3.2 + e * 0.2, 1, 0])];
+  for (const [e, t, n, s, r, a] of i) {
+    const o = wi.get(e);
+    if (o) {
+      const l = o.userData.animationAxis || n;
+      if (t === "cloth" && o.isMesh) {
+        o.geometry = o.geometry.clone(), o.geometry.computeBoundingBox();
+        const c = o.geometry.attributes.position;
+        c.setUsage(Zu);
+        const u = o.geometry.boundingBox;
+        o.userData.cloth = Yx(c.array, u.min.z, u.max.z), u.expandByScalar(s), o.geometry.computeBoundingSphere(), o.geometry.boundingSphere.radius += s;
       }
-      animations.push({
-        name,
-        obj,
-        type,
-        axis: actualAxis,
-        amp,
-        period,
-        phase,
-        base: obj[type === "position" ? "position" : "rotation"][actualAxis],
-      });
+      tu.push({ name: e, obj: o, type: t, axis: l, amp: s, period: r, phase: a, base: o[t === "position" ? "position" : "rotation"][l] });
     }
   }
 }
-let rain, rainPositions;
-function createWeather() {
-  const count = 560,
-    geo = new THREE.BufferGeometry();
-  rainPositions = new Float32Array(count * 6);
-  for (let i = 0; i < count; i++) {
-    const x = Math.random() * 15 - 7.5,
-      y = Math.random() * 9,
-      z = -4.25 - Math.random() * 7;
-    rainPositions.set([x, y, z, x - 0.015, y - 0.12, z], i * 6);
-  }
-  geo.setAttribute("position", new THREE.BufferAttribute(rainPositions, 3));
-  rain = new THREE.LineSegments(
-    geo,
-    new THREE.LineBasicMaterial({
-      color: "#c9deed",
-      transparent: true,
-      opacity: 0.28,
-      depthWrite: false,
-    }),
-  );
-  rain.frustumCulled = false;
-  scene.add(rain);
+function ji(i, e) {
+  Ge("#load-progress").style.width = `${i * 100}%`, e && (Ge("#load-detail").textContent = e);
 }
-function createReflection() {
-  const street = [...nodes.values()].find(
-    (o) => o.isMesh && /wet_ground|street_ground|street_road/.test(o.name),
-  );
-  if (!street) return;
-  streetSurface = street;
-  street.material.roughness = 0.17;
-  street.material.metalness = 0.42;
-  const refl = new Reflector(street.geometry, {
-    textureWidth: 512,
-    textureHeight: 512,
-    color: 0x536276,
-    clipBias: 0.004,
-  });
-  street.updateWorldMatrix(true, false);
-  refl.matrix.copy(street.matrixWorld);
-  refl.matrix.elements[13] += 0.008; // Separate reflection layer from the opaque road.
-  refl.matrixAutoUpdate = false;
-  refl.material.transparent = true;
-  refl.material.uniforms.uReflectionOpacity = { value: 0.32 };
-  refl.material.fragmentShader =
-    "uniform float uReflectionOpacity;\n" +
-    refl.material.fragmentShader.replace(
-      "blendOverlay( base.rgb, color ), 1.0",
-      "blendOverlay( base.rgb, color ), uReflectionOpacity",
-    );
-  refl.material.depthWrite = false;
-  refl.renderOrder = 2;
-  scene.add(refl);
-  reflection = refl;
-}
-function loadProgress(ratio, text) {
-  $("#load-progress").style.width = `${ratio * 100}%`;
-  if (text) $("#load-detail").textContent = text;
-}
-async function load() {
+async function pv() {
   try {
-    loadProgress(0.07);
-    const response = await fetch("/assets/bearroom.glb.gz");
-    if (!response.ok) throw new Error(`模型载入失败 ${response.status}`);
-    const total = Number(response.headers.get("content-length")) || 0;
-    const reader = response.body?.getReader();
-    let compressed;
-    if (reader) {
-      const chunks = [];
-      let received = 0;
-      for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-        received += value.length;
-        if (total) loadProgress(0.08 + (0.6 * received) / total);
+    ji(0.07);
+    const i = await fetch(`/assets/bearroom.glb.gz?rev=${Io.slice(0, 16)}`);
+    if (!i.ok) throw new Error(`模型载入失败 ${i.status}`);
+    const e = Number(i.headers.get("content-length")) || 0, t = i.body?.getReader();
+    let n;
+    if (t) {
+      const a = [];
+      let o = 0;
+      for (; ; ) {
+        const { done: c, value: u } = await t.read();
+        if (c) break;
+        a.push(u), o += u.length, e && ji(0.08 + 0.6 * o / e);
       }
-      compressed = new Uint8Array(received);
-      let offset = 0;
-      for (const chunk of chunks) {
-        compressed.set(chunk, offset);
-        offset += chunk.length;
-      }
-    } else compressed = new Uint8Array(await response.arrayBuffer());
-    const bytes =
-      compressed[0] === 0x1f && compressed[1] === 0x8b
-        ? gunzipSync(compressed)
-        : compressed;
-    loadProgress(0.72, "整理家具与光线");
-    const gltf = await new GLTFLoader().parseAsync(
-      bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
-      "/assets/",
-    );
-    root = gltf.scene;
-    scene.add(root);
-    root.traverse((o) => {
-      nodes.set(o.name, o);
-      if (o.isMesh) {
-        o.castShadow = true;
-        o.receiveShadow = true;
-        if (o.name === "window_glass") {
-          o.material = o.material.clone();
-          o.material.name = "window_glass";
-        }
-        const mats = Array.isArray(o.material) ? o.material : [o.material];
-        for (const mat of mats) materialDetail(mat);
-        if (mats.some((m) => /glass/i.test(m.name))) o.castShadow = false;
-        if (/^piano_key_\d{3}$/.test(o.name)) {
-          const midi = Number(o.name.slice(-3));
-          o.userData.midi = midi;
-          o.userData.restRotation = o.rotation.x;
-          keyObjects.push(o);
-        }
-        if (/cutaway|wall_south|wall_east|mezzanine_slab/.test(o.name)) {
-          o.material = o.material.clone();
-          cutaways.push(o);
+      n = new Uint8Array(o);
+      let l = 0;
+      for (const c of a) n.set(c, l), l += c.length;
+    } else n = new Uint8Array(await i.arrayBuffer());
+    const s = n[0] === 31 && n[1] === 139 ? X0(n) : n;
+    if (ji(0.72, "整理家具与光线"), Qn = (await new j0().parseAsync(s.byteOffset === 0 && s.byteLength === s.buffer.byteLength ? s.buffer : s.buffer.slice(s.byteOffset, s.byteOffset + s.byteLength), "/assets/")).scene, Qn.getObjectByName("Exterior_city")?.removeFromParent(), jt.add(Qn), pt = new Ox(Qn, Rt, tn), pt.applyCutaway(), pt.fit(innerWidth, innerHeight), Qn.traverse((a) => {
+      if (wi.set(a.name, a), a.isMesh) {
+        a.castShadow = a.userData.noShadowCaster !== true, a.receiveShadow = true, a.name === "window_glass" && (a.material = a.material.clone(), a.material.name = "window_glass");
+        const o = Array.isArray(a.material) ? a.material : [a.material];
+        for (const l of o) ov(l);
+        if (o.some((l) => /glass/i.test(l.name)) && (a.castShadow = false), /^piano_key_\d{3}$/.test(a.name)) {
+          const l = Number(a.name.slice(-3));
+          a.userData.midi = l, a.userData.restRotation = a.rotation.x, Rr.push(a);
         }
       }
-    });
-    if (keyObjects.length !== 88)
-      throw Error(`琴键资产不完整（${keyObjects.length}/88）`);
-    registerAnimations();
-    createLighting();
-    createWeather();
-    createReflection();
-    loadProgress(0.78, "载入小熊画作");
-    await setupImages();
-    loadProgress(1, "一切就绪");
-    ready = true;
-    initialReadyTime = performance.now();
-    metrics.loadedAt = initialReadyTime;
-    $("#loading").classList.add("hidden");
-    setTimeout(() => $("#loading").remove(), 1000);
-  } catch (e) {
-    metrics.errors.push(String(e));
-    $("#load-detail").textContent = "载入未完成，请刷新重试";
-    $("#loading p").textContent = "小熊的家暂时没有准备好";
-    console.error(e);
+    }), Nr = new Qx(Qn, pt.frame.up), Nr.update(Rt, innerHeight, pt.view), Rr.length !== 88) throw Error(`琴键资产不完整（${Rr.length}/88）`);
+    for (const [a, o] of [["anim_clock_second", 60], ["anim_clock_minute", 3600], ["anim_clock_hour", 43200]]) {
+      const l = wi.get(a);
+      l && nu.push({ object: l, period: o });
+    }
+    fv(), cv(), ji(0.78, "载入小熊画作"), await dv(), pcCase = wi.has(PC_CASE_CONFIG.screenName) ? new PcCaseController(Qn, { wallpaper: await $c(PC_CASE_CONFIG.wallpaperUrl), genericEmissives: eu }) : null, ji(0.92, "载入烘焙间接光"), Fr = await sv(Qn), Fr.setDay(_n), pt.applyCutaway(), Kx(jt), initializeWalk(), setRoomReady(false), ji(0.94, "准备楼层与昼夜光照"), oi.preparation = await prepareFirstSwitch({
+      renderer: Ot, scene: jt, camera: Rt, daylight: It, signal: preparationAbort.signal,
+      extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures],
+      onProgress: ({ phase, completed, total }) => ji(0.94 + 0.055 * completed / Math.max(1, total), phase === "textures" ? "准备材质与纹理" : "准备楼层与昼夜光照"),
+    }), await finishRoomPreparation(), ji(1, "一切就绪"), Yc = performance.now(), oi.loadedAt = Yc, Ge("#loading").classList.add("hidden"), setTimeout(() => Ge("#loading").remove(), 1e3);
+  } catch (i) {
+    cs = false, setRoomReady(false), oi.errors.push(String(i)), Ge("#load-detail").textContent = "载入未完成，请刷新重试", Ge("#loading p").textContent = "小熊的家暂时没有准备好", console.error(i);
   }
 }
-function setMode(next) {
-  mode = next;
-  metrics.switches++;
-  $("#night").classList.toggle("selected", next === "night");
-  $("#day").classList.toggle("selected", next === "day");
-  $("#night").setAttribute("aria-pressed", String(next === "night"));
-  $("#day").setAttribute("aria-pressed", String(next === "day"));
+function setRoomReady(ready) {
+  tn.enabled = ready;
+  for (const button of document.querySelectorAll("#night, #day, [data-view], #walk-toggle, #zoom-in, #zoom-out, #reset-view")) button.disabled = !ready;
+  bn.setAttribute("aria-busy", String(!ready));
 }
-$("#night").onclick = () => setMode("night");
-$("#day").onclick = () => setMode("day");
-$("#sound").onclick = () => {
-  audio.setMuted(!audio.muted);
-  $("#sound").setAttribute("aria-pressed", String(audio.muted));
-  $("#sound").setAttribute("aria-label", audio.muted ? "开启声音" : "静音");
-  $("#sound").firstChild.textContent = audio.muted ? "♩" : "♫";
+async function finishRoomPreparation() {
+  for (;;) {
+    await preparationFrame(preparationAbort.signal);
+    // Refit for the latest size; resize events cannot disturb the temporary GPU viewport.
+    Ot.setSize(innerWidth, innerHeight);
+    walk?.resize(innerWidth, innerHeight);
+    pt.fit(innerWidth, innerHeight, { reset: false });
+    Ei = true; kr = true;
+    // Warm-up batches leave partial shadow maps. The original frame loop must draw
+    // the complete restored scene before controls are enabled or loading disappears.
+    cancelAnimationFrame(Hs); Hs = null; Cr = performance.now(); cs = true;
+    const rendered = vv(Cr);
+    if (!rendered) { cs = false; continue; }
+    if (Ot.getContext().isContextLost() || preparationAbort.signal.aborted) throw new Error("WebGL interrupted before room readiness");
+    setRoomReady(true);
+    return;
+  }
+}
+function initializeWalk() {
+  walk?.dispose();
+  walk = new FirstPersonController({
+    root: Qn, scene: jt, room: pt, isometricCamera: Rt, orbitControls: tn, canvas: bn,
+    app: Ge("#app"), toggleButton: Ge("#walk-toggle"), joystick: Ge("#walk-stick"),
+    joystickKnob: Ge("#walk-stick-knob"), hint: Ge("#hint"), status: Ge("#view-status"),
+    doorButton: Ge("#walk-door"),
+    onChange: () => { Xr(); Ei = true; },
+    onTap: playWalkPiano,
+  });
+  roomInteractions?.dispose();
+  roomInteractions = new RoomInteractions(Qn, {
+    pcCase, onDoor: () => walk.interactDoor({ fromScene: true }),
+    onPiano: mv, onChange: () => { Ei = true; },
+  });
+}
+function playWalkPiano(event) {
+  if (!cs || !walk?.active) return;
+  const bounds = bn.getBoundingClientRect();
+  Kc.set((event.clientX - bounds.left) / bounds.width * 2 - 1, -(event.clientY - bounds.top) / bounds.height * 2 + 1);
+  jc.setFromCamera(Kc, walk.getCamera());
+  const hit = jc.intersectObject(Qn, true).find(roomHitIsVisible);
+  roomInteractions?.interact(hit, performance.now(), _i);
+}
+function ll(i) {
+  if (!cs) return;
+  Or = i, kr = true, oi.switches++, Ge("#night").classList.toggle("selected", i === "night"), Ge("#day").classList.toggle("selected", i === "day"), Ge("#night").setAttribute("aria-pressed", String(i === "night")), Ge("#day").setAttribute("aria-pressed", String(i === "day"));
+}
+Ge("#night").onclick = () => ll("night");
+Ge("#day").onclick = () => ll("day");
+Ge("#sound").onclick = () => {
+  Mi.setMuted(!Mi.muted), Ge("#sound").setAttribute("aria-pressed", String(Mi.muted)), Ge("#sound").setAttribute("aria-label", Mi.muted ? "开启声音" : "静音"), Ge("#sound").firstChild.textContent = Mi.muted ? "♩" : "♫";
 };
-$("#help").onclick = () => $("#help-dialog").showModal();
-$(".close").onclick = () => $("#help-dialog").close();
-$("#help-dialog").onclick = (e) => {
-  if (e.target === $("#help-dialog")) $("#help-dialog").close();
+Ge("#help").onclick = () => { walk?.clearInput(); Xr(); roomInteractions?.resetKeys(); Ge("#help-dialog").showModal(); };
+Ge(".close").onclick = () => Ge("#help-dialog").close();
+Ge("#help-dialog").onclick = (i) => {
+  i.target === Ge("#help-dialog") && Ge("#help-dialog").close();
 };
-const active = new Set();
-let gesture = null;
-canvas.addEventListener(
-  "pointerdown",
-  (e) => {
-    active.add(e.pointerId);
-    if (active.size > 1) {
-      if (gesture) gesture.multi = true;
-      return;
+const Ri = /* @__PURE__ */ new Set();
+let dt = null;
+bn.addEventListener("pointerdown", (i) => {
+  if (!cs || walk?.active) return;
+  if (Ri.add(i.pointerId), Ri.size > 1) {
+    dt && (dt.multi = true);
+    return;
+  }
+  dt = { id: i.pointerId, x: i.clientX, y: i.clientY, time: performance.now(), distance: 0, multi: false, cancelled: false, camera: Rt.position.clone(), target: tn.target.clone(), zoom: Rt.zoom };
+}, { capture: true });
+bn.addEventListener("pointermove", (i) => {
+  if (!cs || walk?.active) return;
+  dt && i.pointerId === dt.id && (dt.distance = Math.max(dt.distance, Math.hypot(i.clientX - dt.x, i.clientY - dt.y)));
+}, { capture: true });
+bn.addEventListener("pointerup", (i) => {
+  if (!cs || walk?.active) return;
+  if (Ri.delete(i.pointerId), !(!dt || i.pointerId !== dt.id)) {
+    if (dt.duration = performance.now() - dt.time, dt.distance = Math.max(dt.distance, Math.hypot(i.clientX - dt.x, i.clientY - dt.y)), kx(dt) && i.button === 0 && cs && sceneTapEndsOnCanvas(i, bn) && !document.querySelector("dialog[open]")) {
+      const e = bn.getBoundingClientRect();
+      Kc.set((i.clientX - e.left) / e.width * 2 - 1, -(i.clientY - e.top) / e.height * 2 + 1), jc.setFromCamera(Kc, Rt);
+      const t = jc.intersectObject(Qn, true).filter(roomHitIsVisible);
+      t.length && roomInteractions?.target(t[0]) && (tn.enableDamping = false, tn.update(), tn.enableDamping = true, Rt.zoom = dt.zoom, Rt.updateProjectionMatrix(), Rt.position.copy(dt.camera), tn.target.copy(dt.target), pt?.constrain(), roomInteractions.interact(t[0], performance.now(), _i));
     }
-    gesture = {
-      id: e.pointerId,
-      x: e.clientX,
-      y: e.clientY,
-      time: performance.now(),
-      distance: 0,
-      multi: false,
-      cancelled: false,
-      camera: camera.position.clone(),
-      target: controls.target.clone(),
-    };
-  },
-  { capture: true },
-);
-canvas.addEventListener(
-  "pointermove",
-  (e) => {
-    if (gesture && e.pointerId === gesture.id)
-      gesture.distance = Math.max(
-        gesture.distance,
-        Math.hypot(e.clientX - gesture.x, e.clientY - gesture.y),
-      );
-  },
-  { capture: true },
-);
-canvas.addEventListener(
-  "pointerup",
-  (e) => {
-    active.delete(e.pointerId);
-    if (!gesture || e.pointerId !== gesture.id) return;
-    gesture.duration = performance.now() - gesture.time;
-    if (isTap(gesture) && e.button === 0 && ready) {
-      const rect = canvas.getBoundingClientRect();
-      pointer.set(
-        ((e.clientX - rect.left) / rect.width) * 2 - 1,
-        (-(e.clientY - rect.top) / rect.height) * 2 + 1,
-      );
-      ray.setFromCamera(pointer, camera);
-      const hits = ray.intersectObject(root, true).filter((hit) => {
-        const mat = Array.isArray(hit.object.material)
-          ? hit.object.material[hit.face?.materialIndex || 0]
-          : hit.object.material;
-        return mat && mat.opacity > 0.3 && !/glass/i.test(mat.name);
-      });
-      if (hits.length && hits[0].object.userData.midi) {
-        camera.position.copy(gesture.camera);
-        controls.target.copy(gesture.target);
-        playKey(hits[0].object.userData.midi);
-      }
-    }
-    gesture = null;
-  },
-  { capture: true },
-);
-canvas.addEventListener("pointercancel", (e) => {
-  active.delete(e.pointerId);
-  if (gesture) gesture.cancelled = true;
+    dt = null;
+  }
+}, { capture: true });
+bn.addEventListener("pointercancel", (i) => {
+  if (!cs || walk?.active) return;
+  Ri.delete(i.pointerId), dt && (dt.cancelled = true);
 });
+bn.addEventListener("lostpointercapture", Xr);
 window.addEventListener("blur", () => {
-  active.clear();
-  gesture = null;
+  Ri.clear(), dt = null; roomInteractions?.resetKeys();
 });
-canvas.addEventListener("webglcontextlost", (e) => {
-  e.preventDefault();
-  metrics.errors.push("WebGL context lost");
-  $("#note").textContent = "画面暂时中断，正在恢复";
-  $("#note").classList.add("show");
+window.addEventListener("pagehide", () => { Xr(); roomInteractions?.resetKeys(); });
+bn.addEventListener("webglcontextlost", (i) => {
+  i.preventDefault(), preparationAbort.abort(new Error("WebGL context lost during loading")), oi.errors.push("WebGL context lost"), Ge("#note").textContent = "画面暂时中断，正在恢复", Ge("#note").classList.add("show");
 });
-canvas.addEventListener("webglcontextrestored", () => {
-  $("#note").textContent = "画面已恢复";
-  setTimeout(() => $("#note").classList.remove("show"), 2000);
+bn.addEventListener("webglcontextrestored", () => {
+  if (!cs) { Ge("#load-detail").textContent = "图形环境已恢复，请刷新重新准备空间"; return; }
+  Ei = true, Ge("#note").textContent = "画面已恢复", setTimeout(() => Ge("#note").classList.remove("show"), 2e3);
 });
-function playKey(midi) {
-  const obj = keyObjects.find((k) => k.userData.midi === midi);
-  if (!obj) return;
-  pressed.set(midi, { obj, time: performance.now() });
-  audio.play(midi);
-  metrics.noteEvents.push({ midi, time: performance.now() });
-  $("#note").textContent = keys.get(midi).name;
-  $("#note").classList.add("show");
-  clearTimeout(window.noteTimer);
-  window.noteTimer = setTimeout(() => $("#note").classList.remove("show"), 800);
+function mv(i) {
+  const e = Rr.find((t) => t.userData.midi === i);
+  e && (Fo.set(i, { obj: e, time: performance.now() }), Mi.play(i), oi.noteEvents.push({ midi: i, time: performance.now() }), Ge("#note").textContent = av.get(i).name, Ge("#note").classList.add("show"), clearTimeout(window.noteTimer), window.noteTimer = setTimeout(() => Ge("#note").classList.remove("show"), 800));
 }
 window.addEventListener("resize", () => {
-  camera.aspect = innerWidth / innerHeight;
-  camera.fov = innerWidth < innerHeight ? 49 : 40;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
+  if (!cs) return;
+  Ot.setSize(innerWidth, innerHeight), walk?.resize(innerWidth, innerHeight);
+  if (!walk?.active) pt?.fit(innerWidth, innerHeight, { reset: false });
 });
-const previousCamera = camera.position.clone(),
-  collisionRay = new THREE.Raycaster();
-let last = performance.now();
-const darkColor = new THREE.Color("#192b3b"),
-  dayColor = new THREE.Color("#afc8d3");
-function tick(now) {
-  requestAnimationFrame(tick);
-  const dt = Math.min(0.05, (now - last) / 1000);
-  if (ready && document.visibilityState === "visible") {
-    metrics.frameTimes.push(now - last);
-    if (metrics.frameTimes.length > 40000) metrics.frameTimes.shift();
-  }
-  last = now;
-  elapsed += dt;
-  weatherUniforms.uRainTime.value = elapsed;
-  weatherUniforms.uRainAmount.value = 1 - dayValue;
-  dayValue = THREE.MathUtils.damp(dayValue, mode === "day" ? 1 : 0, 2.7, dt);
-  scene.background.copy(darkColor).lerp(dayColor, dayValue);
-  // Keep broad fill restrained: warm lamps model textile relief at night,
-  // and neutral sunlight leaves blush/cream colors legible in the daytime.
-  fill.intensity = THREE.MathUtils.lerp(0.46, 1.15, dayValue);
-  sun.intensity = 3.6 * dayValue;
-  moon.intensity = 0.55 * (1 - dayValue);
-  scene.environmentIntensity = 0.18 + 0.18 * dayValue;
-  renderer.toneMappingExposure = 1.1 - 0.1 * dayValue;
-  for (const { light, power } of lights)
-    light.intensity = power * (1 - 0.91 * dayValue);
-  for (const { mat, base, exterior } of emissions)
-    mat.emissiveIntensity = base * (1 - (exterior ? 1 : 0.73) * dayValue);
-  if (streetSurface) {
-    streetSurface.material.roughness = 0.17 + 0.61 * dayValue;
-    streetSurface.material.metalness = 0.42 * (1 - dayValue);
-  }
-  if (ready) {
-    for (const a of animations) {
-      const value =
-        a.type === "spin"
-          ? elapsed * a.amp
-          : Math.sin((elapsed * Math.PI * 2) / a.period + a.phase) * a.amp;
-      if (a.type === "cloth") {
-        const attr = a.obj.geometry.attributes.position,
-          bounds = a.obj.geometry.boundingBox,
-          rest = a.obj.userData.restVertices;
-        for (let j = 0; j < attr.count; j++) {
-          const weight = THREE.MathUtils.smoothstep(
-            rest[j * 3 + 2],
-            bounds.max.z - (bounds.max.z - bounds.min.z) * 0.25,
-            bounds.max.z,
-          );
-          attr.array[j * 3 + 1] = rest[j * 3 + 1] + value * weight;
-        }
-        attr.needsUpdate = true;
-      } else
-        a.obj[a.type === "position" ? "position" : "rotation"][a.axis] =
-          a.base + value;
-    }
-    for (const [n, period] of [
-      ["anim_clock_second", 60],
-      ["anim_clock_minute", 3600],
-      ["anim_clock_hour", 43200],
-    ]) {
-      const o = nodes.get(n);
-      if (o) o.rotation.z = (-elapsed * Math.PI * 2) / period;
-    }
-    for (const s of screens) {
-      const state = slideState(elapsed, s.imgs.length, s.hold, s.offset);
-      s.material.map = s.imgs[state.index];
-      s.uniforms.nextMap.value = s.imgs[state.next];
-      s.uniforms.blend.value = state.mix;
-      s.uniforms.brightness.value = 0.78 + 0.22 * dayValue;
-    }
-    for (const [midi, p] of pressed) {
-      const t = (now - p.time) / 1000;
-      p.obj.rotation.x =
-        p.obj.userData.restRotation -
-        Math.sin(Math.min(1, t / 0.32) * Math.PI) * 0.045;
-      if (t > 0.32) {
-        p.obj.rotation.x = p.obj.userData.restRotation;
-        pressed.delete(midi);
-      }
-    }
-    rain.visible = dayValue < 0.99;
-    rain.material.opacity = 0.28 * (1 - dayValue);
-    if (rain.visible) {
-      for (let i = 0; i < rainPositions.length; i += 6) {
-        rainPositions[i + 1] -= dt * 4;
-        rainPositions[i + 4] -= dt * 4;
-        if (rainPositions[i + 1] < -0.05) {
-          rainPositions[i + 1] += 9;
-          rainPositions[i + 4] += 9;
-        }
-      }
-      rain.geometry.attributes.position.needsUpdate = true;
-    }
-    if (reflection) {
-      reflection.visible = dayValue < 0.97;
-      reflection.material.uniforms.uReflectionOpacity.value =
-        0.32 * (1 - dayValue);
-    }
-    updateCutaway(dt);
-  }
-  controls.target.x = THREE.MathUtils.clamp(controls.target.x, -5, 5);
-  controls.target.y = THREE.MathUtils.clamp(controls.target.y, 0.15, 5.6);
-  controls.target.z = THREE.MathUtils.clamp(controls.target.z, -4.2, 4.2);
-  controls.update();
-  if (ready) {
-    const delta = camera.position.clone().sub(previousCamera),
-      distance = delta.length();
-    if (distance > 0.0001 && distance < 3) {
-      collisionRay.set(previousCamera, delta.normalize());
-      collisionRay.far = distance + 0.07;
-      const hit = collisionRay.intersectObject(root, true).find((h) => {
-        const m = Array.isArray(h.object.material)
-          ? h.object.material[0]
-          : h.object.material;
-        return (
-          m && m.opacity > 0.8 && !/glass|cutaway|wall_/i.test(h.object.name)
-        );
-      });
-      if (hit)
-        camera.position
-          .copy(previousCamera)
-          .addScaledVector(delta, Math.max(0, hit.distance - 0.075));
-    }
-  }
-  previousCamera.copy(camera.position);
-  renderer.render(scene, camera);
+function Xr() {
+  Ri.clear(), dt = null;
 }
-function updateCutaway(dt) {
-  for (const o of cutaways) {
-    const slab = /slab|mezzanine|upper_finish|upper_rug/.test(o.name);
-    const pos = o.getWorldPosition(new THREE.Vector3());
-    const shouldFade = slab
-      ? controls.target.y < 2.8 && camera.position.y > 3.2
-      : (/south/.test(o.name) && camera.position.z > pos.z) ||
-        (/east/.test(o.name) && camera.position.x > pos.x) ||
-        (/west/.test(o.name) && camera.position.x < pos.x) ||
-        (/bathroom/.test(o.name) && controls.target.z > 1.5);
-    const desired = shouldFade ? (slab ? 0.16 : 0.07) : 1;
-    o.material.transparent = true;
-    o.material.opacity = THREE.MathUtils.damp(
-      o.material.opacity,
-      desired,
-      6,
-      dt,
-    );
-    o.material.depthWrite = o.material.opacity > 0.5;
-    o.castShadow = true;
-  }
+function gv(i) {
+  if (!cs) return;
+  walk?.exit();
+  pt && (Xr(), pt.setView(i), Ei = true, pt.fit(innerWidth, innerHeight), Nr?.update(Rt, innerHeight, pt.view), document.querySelectorAll("[data-view]").forEach((e) => {
+    const t = e.dataset.view === i;
+    e.classList.toggle("selected", t), e.setAttribute("aria-pressed", String(t));
+  }), Ge("#view-status").textContent = { overview: "全景 · 双层剖面", lower: "一层 · 生活空间", upper: "二层 · 休息空间", bear: "小熊 · 近看短绒与缝线", piano: "钢琴 · 直接点按琴键" }[i]);
 }
-if (import.meta.env.DEV)
-  window.__bearroom = {
-    get ready() {
-      return ready;
-    },
-    get mode() {
-      return mode;
-    },
-    get metrics() {
-      return metrics;
-    },
-    get camera() {
-      return {
-        position: camera.position.toArray(),
-        target: controls.target.toArray(),
-        fov: camera.fov,
-        aspect: camera.aspect,
-      };
-    },
-    get assets() {
-      return [...nodes.keys()];
-    },
-    get animations() {
-      return animations.map((a) => a.name);
-    },
-    get keyCount() {
-      return keyObjects.length;
-    },
-    get furniture() {
-      return FURNITURE;
-    },
-    get screens() {
-      return screens.map((s) => ({
-        name: s.object.name,
-        index: slideState(elapsed, s.imgs.length, s.hold, s.offset).index,
-        count: s.imgs.length,
-      }));
-    },
-    setMode,
-    playKey,
-    setCamera(position, target) {
-      camera.position.fromArray(position);
-      controls.target.fromArray(target);
-      controls.update();
-    },
-    projectKey(midi) {
-      const o = keyObjects.find((k) => k.userData.midi === midi);
-      if (!o) return null;
-      const b = new THREE.Box3().setFromObject(o);
-      const v = b.getCenter(new THREE.Vector3());
-      v.y = b.max.y;
-      v.project(camera);
-      return {
-        x: ((v.x + 1) * innerWidth) / 2,
-        y: ((1 - v.y) * innerHeight) / 2,
-      };
-    },
-    get audioEvents() {
-      return audio.events;
-    },
-    report() {
-      const sorted = [...metrics.frameTimes].sort((a, b) => a - b);
-      return {
-        ready,
-        mode,
-        keyCount: keyObjects.length,
-        furniture: FURNITURE.length,
-        animated: FURNITURE.filter((f) => f.animated).length,
-        frames: sorted.length,
-        averageFPS: sorted.length
-          ? 1000 / (sorted.reduce((s, n) => s + n, 0) / sorted.length)
-          : 0,
-        p95: sorted[Math.floor(sorted.length * 0.95)],
-        renderer: renderer.info,
-        userAgent: navigator.userAgent,
-        viewport: [innerWidth, innerHeight],
-        pixelRatio: renderer.getPixelRatio(),
-        physicalMobile: "未验证",
-        errors: metrics.errors,
-      };
-    },
-  };
-window.addEventListener("error", (e) => metrics.errors.push(e.message));
-window.addEventListener("unhandledrejection", (e) =>
-  metrics.errors.push(String(e.reason)),
-);
-requestAnimationFrame(tick);
-load();
-// Optional page-native tools use the same lighting state as the two visible buttons.
+document.querySelectorAll("[data-view]").forEach((i) => i.onclick = () => gv(i.dataset.view));
+Ge("#reset-view").onclick = () => {
+  if (!cs || walk?.active) return;
+  Xr(), pt?.reset(innerWidth, innerHeight);
+};
+function Br(i) {
+  if (!cs || walk?.active) return;
+  Xr(), Rt.zoom = en.clamp(Rt.zoom * i, tn.minZoom, tn.maxZoom), Rt.updateProjectionMatrix(), pt?.constrain();
+}
+Ge("#zoom-in").onclick = () => Br(1.25);
+Ge("#zoom-out").onclick = () => Br(0.8);
+bn.addEventListener("keydown", (i) => {
+  if (!cs || walk?.active) return;
+  if (pt) {
+    if (Xr(), i.key === "0" || i.key === "Home") pt.reset(innerWidth, innerHeight);
+    else if (i.key === "ArrowLeft") pt.panByPixels(40, 0);
+    else if (i.key === "ArrowRight") pt.panByPixels(-40, 0);
+    else if (i.key === "ArrowUp") pt.panByPixels(0, 40);
+    else if (i.key === "ArrowDown") pt.panByPixels(0, -40);
+    else if (i.key === "+" || i.key === "=") Br(1.25);
+    else if (i.key === "-") Br(0.8);
+    else return;
+    i.preventDefault();
+  }
+});
+let Cr = performance.now(), Hs = null, kr = true;
+function cl() {
+  Hs === null && document.visibilityState !== "hidden" && (Hs = requestAnimationFrame(vv));
+}
+document.addEventListener("visibilitychange", () => {
+  document.visibilityState === "hidden" ? (cancelAnimationFrame(Hs), Hs = null, Ri.clear(), dt = null, roomInteractions?.resetKeys()) : (Cr = performance.now(), Ei = true, cl());
+});
+const _v = new we("#192b3b"), xv = new we("#afc8d3");
+function vv(i) {
+  if (Hs = null, document.visibilityState === "hidden") return;
+  cl();
+  if (!cs) { Cr = i; return; }
+  const e = Math.min(0.05, (i - Cr) / 1e3);
+  if (cs && document.visibilityState === "visible" && oi.frameTimes.push(i - Cr), Cr = i, _i += e, kr) {
+    const t = Or === "day" ? 1 : 0;
+    _n = en.damp(_n, t, 2.7, e), Math.abs(_n - t) < 1e-4 && (_n = t, kr = false), jt.background.copy(_v).lerp(xv, _n);
+    const n = Xx(_n, { bakedGI: !!Fr });
+    Fr?.setDay(_n), Qh.intensity = n.fill, It.intensity = n.sun, ol.intensity = n.moon, jt.environmentIntensity = n.environment, Ot.toneMappingExposure = n.exposure;
+    for (const { light: s, power: r } of Uo) s.intensity = r * n.lamps;
+    for (const { mat: s, base: r, exterior: a } of eu) s.emissiveIntensity = r * (1 - (a ? 1 : 0.73) * _n);
+    for (const s of No) s.uniforms.brightness.value = 0.78 + 0.22 * _n;
+  }
+  if (cs) {
+    for (const t of tu) {
+      const n = t.type === "spin" ? _i * t.amp : Math.sin(_i * Math.PI * 2 / t.period + t.phase) * t.amp;
+      if (t.type === "cloth") {
+        const s = t.obj.geometry.attributes.position, r = t.obj.userData.cloth;
+        if (jx(s.array, r, n), r.indices.length) {
+          const a = r.indices[0], o = r.indices[r.indices.length - 1];
+          s.clearUpdateRanges(), s.addUpdateRange(a, o - a + 1), s.needsUpdate = true;
+        }
+      } else t.obj[t.type === "position" ? "position" : "rotation"][t.axis] = t.base + n, Na(t.obj);
+    }
+    for (const { object: t, period: n } of nu) t.rotation.z = -_i * Math.PI * 2 / n, Na(t);
+    for (const t of No) {
+      const n = zx(_i, t.imgs.length, t.hold, t.offset);
+      t.material.map = t.imgs[n.index], t.uniforms.nextMap.value = t.imgs[n.next], t.uniforms.blend.value = n.mix;
+    }
+    for (const [t, n] of Fo) {
+      const s = (i - n.time) / 1e3;
+      n.obj.rotation.x = n.obj.userData.restRotation - Math.sin(Math.min(1, s / 0.32) * Math.PI) * 0.045, s > 0.32 && (n.obj.rotation.x = n.obj.userData.restRotation, Fo.delete(t)), Na(n.obj), Ei = true;
+    }
+  }
+  if (walk?.active) walk.update(e);
+  else { tn.update(); pt?.constrain(); }
+  Nr?.update(walk?.getCamera() || Rt, innerHeight, walk?.active ? "walk" : pt?.view);
+  pcCase?.update(_i, walk?.getCamera() || Rt, innerHeight, _n);
+  if (roomInteractions?.update(i)) Ei = true;
+  if (Ei || _i - qc >= rv - 1e-3) {
+    It.shadow.needsUpdate = It.intensity > 0, It.castShadow = It.intensity > 0;
+    for (const { light: t } of Uo) t.castShadow && (t.shadow.needsUpdate = true);
+    qc = _i, Ei = false;
+  }
+  Ot.render(jt, walk?.getCamera() || Rt);
+  return true;
+}
+window.addEventListener("error", (i) => oi.errors.push(i.message));
+window.addEventListener("unhandledrejection", (i) => oi.errors.push(String(i.reason)));
+cl();
+pv();
 if (document.modelContext?.registerTool) {
-  const lifecycle = new AbortController();
-  window.addEventListener("pagehide", () => lifecycle.abort(), { once: true });
-  for (const tool of [
-    {
-      name: "get_room_state",
-      description:
-        "Read whether the bearroom has loaded and its current day or rainy-night lighting.",
-      inputSchema: {
-        type: "object",
-        properties: {},
-        additionalProperties: false,
-      },
-      annotations: { readOnlyHint: true },
-      execute: () => ({ loaded: ready, lighting: mode, muted: audio.muted }),
-    },
-    {
-      name: "set_room_lighting",
-      description:
-        "Switch the visible bearroom to sunny day or rainy night, keeping the camera and animations.",
-      inputSchema: {
-        type: "object",
-        properties: { lighting: { type: "string", enum: ["day", "night"] } },
-        required: ["lighting"],
-        additionalProperties: false,
-      },
-      annotations: { readOnlyHint: false },
-      execute: async (input) => {
-        if (
-          !input ||
-          !["day", "night"].includes(input.lighting) ||
-          Object.keys(input).some((k) => k !== "lighting")
-        )
-          throw new Error("lighting must be day or night");
-        if (!ready) throw new Error("Room is still loading");
-        setMode(input.lighting);
-        await new Promise((r) => setTimeout(r, 1800));
-        return { lighting: mode };
-      },
-    },
-  ]) {
-    try {
-      Promise.resolve(
-        document.modelContext.registerTool(tool, { signal: lifecycle.signal }),
-      ).catch((e) => console.warn("Optional page tools unavailable", e));
-    } catch (e) {
-      console.warn("Optional page tools unavailable", e);
-    }
+  const i = new AbortController();
+  window.addEventListener("pagehide", () => i.abort(), { once: true });
+  for (const e of [{ name: "get_room_state", description: "Read whether the bearroom has loaded and its current day or warm-night lighting.", inputSchema: { type: "object", properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true }, execute: () => ({ loaded: cs, lighting: Or, muted: Mi.muted }) }, { name: "set_room_lighting", description: "Switch the visible bearroom to sunny day or warm night, keeping the camera and animations.", inputSchema: { type: "object", properties: { lighting: { type: "string", enum: ["day", "night"] } }, required: ["lighting"], additionalProperties: false }, annotations: { readOnlyHint: false }, execute: async (t) => {
+    if (!t || !["day", "night"].includes(t.lighting) || Object.keys(t).some((n) => n !== "lighting")) throw new Error("lighting must be day or night");
+    if (!cs) throw new Error("Room is still loading");
+    return ll(t.lighting), await new Promise((n) => setTimeout(n, 1800)), { lighting: Or };
+  } }]) try {
+    Promise.resolve(document.modelContext.registerTool(e, { signal: i.signal })).catch((t) => console.warn("Optional page tools unavailable", t));
+  } catch (t) {
+    console.warn("Optional page tools unavailable", t);
   }
 }

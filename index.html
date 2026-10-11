@@ -9,29 +9,49 @@
     <meta name="theme-color" content="#18232c" />
     <meta
       name="description"
-      content="一间可以自由观察、听雨与弹琴的奶白小熊 Loft。"
+      content="可在家中第一人称漫游、欣赏细节，也可切回固定剖面视角与弹琴的小熊 Loft。"
     />
     <link rel="icon" href="/favicon.svg" />
     <title>小熊的家 · bearroom</title>
+    <script type="module" crossorigin src="__RUNTIME_JS__"></script>
+    <link rel="stylesheet" crossorigin href="__RUNTIME_CSS__">
   </head>
   <body>
     <main id="app">
       <canvas
         id="room"
-        aria-label="小熊的三维 Loft，拖动观察，捏合缩放，直接点按琴键弹奏"
+        aria-label="小熊的三维 Loft，拖动平移查看细节，捏合缩放，直接点按琴键弹奏"
         tabindex="0"
       ></canvas>
       <header>
         <div class="wordmark">
           <span class="bearmark">ʕ•ᴥ•ʔ</span>
-          <div>小熊的家<small>BEARROOM · 125㎡ LOFT</small></div>
+          <div>小熊的家<small>BEARROOM · ISOMETRIC DOLLHOUSE</small></div>
         </div>
         <div class="mode-control" role="group" aria-label="昼夜模式">
           <button id="night" class="selected" aria-pressed="true">
-            <span>☾</span>雨夜</button
+            <span>☾</span>暖夜</button
           ><button id="day" aria-pressed="false"><span>☀</span>晴日</button>
         </div>
       </header>
+      <nav class="view-toolbar" aria-label="房间视图">
+        <div class="floor-control" role="group" aria-label="楼层选择">
+          <button data-view="overview" class="selected" aria-pressed="true">全景</button>
+          <button data-view="lower" aria-pressed="false">一层</button>
+          <button data-view="upper" aria-pressed="false">二层</button>
+          <button data-view="bear" aria-pressed="false">小熊</button>
+          <button data-view="piano" aria-pressed="false">钢琴</button>
+        </div>
+        <button id="walk-toggle" aria-pressed="false" aria-describedby="walk-instructions" disabled>进入漫游</button>
+        <div class="orientation-control" role="group" aria-label="视角方向">
+          <span id="view-status" aria-live="polite">全景 · 双层剖面</span>
+        </div>
+      </nav>
+      <div class="zoom-control" role="group" aria-label="缩放与复位">
+        <button id="zoom-in" aria-label="放大">＋</button>
+        <button id="reset-view" aria-label="视图复位">⌂</button>
+        <button id="zoom-out" aria-label="缩小">−</button>
+      </div>
       <div id="loading" role="status">
         <div class="loading-bear">ʕ•ᴥ•ʔ</div>
         <p>正在点亮小熊的家</p>
@@ -40,27 +60,38 @@
       </div>
       <aside class="bottom-bar">
         <p id="hint">
-          单指转动 · 双指平移与缩放<br /><span>靠近钢琴，轻点琴键就能弹奏</span>
+          拖动平移查看细节 · 捏合 / 滚轮缩放<br /><span>点「小熊」近看短绒 · 点「钢琴」近看琴键</span>
         </p>
         <button id="sound" aria-label="静音" aria-pressed="false">
           ♫<span>声音</span></button
         ><button id="help" aria-label="查看操作说明">?<span>操作</span></button>
       </aside>
+      <div id="walk-controls" aria-label="漫游控制">
+        <div id="walk-stick" role="group" aria-label="按住并拖动摇杆行走，或使用 WASD 和方向键">
+          <span class="walk-stick-guide" aria-hidden="true">↟</span>
+          <span id="walk-stick-knob" aria-hidden="true"></span>
+          <span class="walk-stick-label" aria-hidden="true">移动</span>
+        </div>
+        <span class="walk-look-hint" aria-hidden="true">拖动环顾</span>
+        <button id="walk-door" hidden></button>
+      </div>
+      <p id="walk-instructions" class="sr-only">进入漫游后，电脑使用 WASD 或方向键行走，按住画面拖动环顾。手机左侧摇杆行走，右侧画面拖动环顾。走近浴室门可开关门。Escape 或退出漫游返回刚才的固定视角。</p>
       <div id="note" aria-live="polite"></div>
       <dialog id="help-dialog">
         <button class="close" aria-label="关闭说明">×</button>
         <h2>慢慢看看，随手弹弹</h2>
         <p>
-          一根手指拖动，转动视角。两根手指一起拖动可平移，张开或捏合可缩放。
+          一根手指上下左右拖动查看细节，双指捏合缩放。视角固定，不能旋转；平移限制在当前房间范围内，全景会自动居中，放大后可查看边缘。
         </p>
-        <p>电脑上拖动转动，右键拖动平移，滚轮缩放。</p>
+        <p>全景展示完整双层；一层暂时剖开上层，二层聚焦卧室与阅读区。点「小熊」近看沙发上的短绒玩偶，仍可平移和缩放。随时点全景恢复完整房间。</p>
         <p>
-          放大钢琴后，直接轻点黑键或白键。无需进入演奏模式，音符会自然消散。
+          电脑上拖动平移查看细节，滚轮缩放。也可使用右侧 ＋ / −；小房子按钮让当前楼层重新居中。方向键平移查看，＋ / − 缩放，0 复位。点「钢琴」可聚焦键盘，再放大近看；直接轻点琴键弹奏，不会自动移动镜头。
         </p>
-        <p>切换晴日与雨夜会保留你的视角。每件家具都在自己的节奏里。</p>
+        <p>点「进入漫游」以第一人称在家中行走，没有角色模型。电脑使用 WASD / 方向键移动，按住画面拖动环顾，Esc 退出；手机按住左下摇杆移动，同时在右侧拖动环顾。沿楼梯可上下楼，走近浴室门可按 E 或开门按钮。点「退出漫游」返回刚才的视角；选楼层则退出并切换到对应视图。</p>
+        <p>点击浴室门开关门，点击机箱启停风扇与灯光，点击电脑键盘查看按键反馈。</p>
+        <p>切换晴日与暖夜会保留你的视角。每件家具都在自己的节奏里。</p>
         <small>建议开启设备媒体音量。真实手机性能尚待验收。</small>
       </dialog>
     </main>
-    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

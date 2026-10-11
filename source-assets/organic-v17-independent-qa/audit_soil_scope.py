@@ -1,0 +1,8 @@
+"""Verify exact per-face material change scope, no source geometry writes."""
+import bpy,json,hashlib,sys
+from pathlib import Path
+baseline,candidate,out=map(Path,sys.argv[sys.argv.index('--')+1:])
+def read(p):
+ bpy.ops.wm.open_mainfile(filepath=str(p));o=bpy.data.objects['Decor__wood_honey'];return {'materials':[m.name for m in o.data.materials],'assignments':[o.data.materials[f.material_index].name for f in o.data.polygons],'centers':[[float(v) for v in (o.matrix_world@f.center)] for f in o.data.polygons],'vertices':[[float(x) for x in v.co] for v in o.data.vertices],'faces':[list(f.vertices) for f in o.data.polygons],'matrix':list(map(list,o.matrix_world))}
+a=read(baseline);b=read(candidate);changes=[i for i,(x,y) in enumerate(zip(a['assignments'],b['assignments'])) if x!=y];assert len(a['assignments'])==len(b['assignments']);geometrySame=all(a[k]==b[k] for k in ['vertices','faces','matrix']);from collections import Counter
+changedTypes=Counter((a['assignments'][i],b['assignments'][i]) for i in changes);report=json.loads(bpy.context.scene['plantV17Report']);expected=set(i for item in report['soilMaterialChanges'] for i in item['faceIndices']);r={'baselineSha256':hashlib.sha256(baseline.read_bytes()).hexdigest(),'candidateSha256':hashlib.sha256(candidate.read_bytes()).hexdigest(),'geometryAndMatrixExact':geometrySame,'changedFaces':len(changes),'expectedChangedFaces':len(expected),'onlyExactFiveSoilDisksChanged':set(changes)==expected,'changedMaterials':[{'from':k[0],'to':k[1],'faces':v}for k,v in changedTypes.items()],'passed':geometrySame and set(changes)==expected and all(y=='botanical_v17_potting_soil' for x,y in changedTypes)};out.write_text(json.dumps(r,indent=2));print(json.dumps(r,indent=2))

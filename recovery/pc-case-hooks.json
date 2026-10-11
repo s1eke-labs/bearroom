@@ -1,0 +1,17 @@
+{
+  "description": "Exact reference-PC-only main hooks applied after the first-person hooks. Existing fan anchors remain empty, every v14 input/camera path and all unrelated animation behavior stay guarded.",
+  "main": [
+    [
+      "let walk = null;",
+      "let walk = null;\nlet pcCase = null;"
+    ],
+    [
+      "await dv(), ji(0.92,",
+      "await dv(), pcCase = wi.has(PC_CASE_CONFIG.screenName) ? new PcCaseController(Qn, { wallpaper: await $c(PC_CASE_CONFIG.wallpaperUrl), genericEmissives: eu }) : null, ji(0.92,"
+    ],
+    [
+      "Nr?.update(walk?.getCamera() || Rt, innerHeight, walk?.active ? \"walk\" : pt?.view);\n  if (Ei",
+      "Nr?.update(walk?.getCamera() || Rt, innerHeight, walk?.active ? \"walk\" : pt?.view);\n  pcCase?.update(_i, walk?.getCamera() || Rt, innerHeight, _n);\n  if (Ei"
+    ]
+  ]
+}

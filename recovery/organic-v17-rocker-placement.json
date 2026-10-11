@@ -1,0 +1,148 @@
+{
+  "root": "F16_reading_rocker",
+  "scope": "Only the authorized22mm rigid downward root translation. All local geometry, controller parameters, rotations, scales, XY coordinates and material/UV data remain unchanged.",
+  "baselineModelSha256": "f807437d38d9d30ddb9fff68ef8be6a526f3dafe7fd5b9a3ec750e7733f520ce",
+  "sourceSha256": "822b7ad9bda89889530dae32efaf5ecde831c991f6994bed97b7a8c02227afc4",
+  "sourceGroundingReportSha256": "75f75566a8968c6771535f6a84e7091620a181e8e611bf4f2126eff9332bdbef",
+  "runtimeWorldDelta": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    -0.022,
+    0,
+    1
+  ],
+  "fullSourceGroundingReport": {
+    "sourceSha256": "5c6bd204e4b7395b8a5ae49250f7c515f1bee3efb1b01b94c51a249d44db5c07",
+    "root": "F16_reading_rocker",
+    "oldRootBasis": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        -0.25
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        1.4500000476837158
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.054999999701976776
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "newRootBasis": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        -0.25
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        1.4500000476837158
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.032999999821186066
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "oldRootMatrix": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        -0.25
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        1.4500000476837158
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.054999999701976776
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "newRootMatrix": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        -0.25
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        1.4500000476837158
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.032999999821186066
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "worldTranslationDeltaBlenderXYZ": [
+      0.0,
+      0.0,
+      -0.02199999988079071
+    ],
+    "runtimeTranslationDeltaXYZ": [
+      0,
+      -0.022,
+      0
+    ],
+    "unchangedObjectData": 1911,
+    "rootCustomPropertiesUnchanged": true,
+    "scope": "Exactly22mm rigid downward translation; every local mesh/curve/material/relative stored transform unchanged. Existing\u00b11.5degree animation retained.",
+    "outputSha256": "822b7ad9bda89889530dae32efaf5ecde831c991f6994bed97b7a8c02227afc4",
+    "outputBytes": 22593260
+  }
+}

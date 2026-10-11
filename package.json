@@ -1,27 +1,22 @@
 {
-  "name": "bearroom",
+  "name": "bearroom-current-runtime",
   "private": true,
-  "version": "1.0.0",
+  "version": "19.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0",
+    "restore:assets": "node scripts/restore-assets.mjs",
+    "restore:sources": "node scripts/restore-assets.mjs --sources",
+    "pretest": "npm run restore:assets",
+    "prebuild": "npm run restore:assets",
+    "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "test:browser": "node tests/browser.mjs",
-    "predev": "node scripts/compress-model.mjs",
-    "prebuild": "node scripts/compress-model.mjs",
-    "pretest": "node scripts/compress-model.mjs"
-  },
-  "dependencies": {
-    "fflate": "^0.8.3",
-    "three": "^0.180.0",
-    "vite": "^7.1.0"
+    "verify": "npm test && npm run build && node scripts/verify-dist.mjs && npm run budget",
+    "dev": "npm run build && node scripts/serve.mjs",
+    "preview": "node scripts/serve.mjs",
+    "budget": "node scripts/resource-budget.mjs"
   },
   "devDependencies": {
-    "@gltf-transform/core": "^4.5.1",
-    "@gltf-transform/extensions": "^4.5.1",
-    "@playwright/test": "^1.55.0",
-    "draco3dgltf": "^1.5.7"
+    "esbuild": "0.28.2",
+    "rollup": "4.64.2"
   }
 }

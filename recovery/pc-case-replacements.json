@@ -1,0 +1,10 @@
+{
+  "description": "Exact four old fan-mesh child transforms retired by the user-requested reference PC reconstruction. Their original two parent pivots remain protected compatibility anchors. Nine independently validated pc16_rotor controls and authored geometry replace these four obsolete child meshes. No non-PC contract is relaxed.",
+  "requiredReplacementScreen": "screen_PC_case_v16",
+  "retiredLegacyFanChildren": [
+    "anim_pc_fan_01__ceramic_ivory",
+    "anim_pc_fan_01_hub",
+    "anim_pc_fan_02__ceramic_ivory",
+    "anim_pc_fan_02_hub"
+  ]
+}

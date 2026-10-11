@@ -1,0 +1,154 @@
+{
+  "scope": "Immutable v18 production baseline before v19 changes; runtime files only, source assets handled separately",
+  "productionCommit": "f36da3ed604406e259f264a8458f56eb18de1b51",
+  "checks": [
+    {
+      "path": "src/asset-revision.js",
+      "sha256": "ae533394363df1b6427d1d3fbf8b7ccf6db2a95aa3eed07b89f1e3f5313774f7"
+    },
+    {
+      "path": "src/audio.js",
+      "sha256": "fec367440d52df7f77798a6dcbb83f70b765f5ec6337b998181b5e3d30de150b"
+    },
+    {
+      "path": "src/baked-gi.js",
+      "sha256": "9c038c65058a6a10ae678ee28309383f2b06a46b37bd74e8556fb36dfa85122c"
+    },
+    {
+      "path": "src/camera.js",
+      "sha256": "e7c2cab3568d0ccf6d905cf5c74ef73a73d3c8eec335cedb99997f0efdf5273e"
+    },
+    {
+      "path": "src/domain.js",
+      "sha256": "17075e06464228a341655ac2ddef2819f516052ce12e7344b4c84d065b5f8c42"
+    },
+    {
+      "path": "src/first-person.js",
+      "sha256": "01d7fadba76f7e69e22948322057bc7f8f2e6482ff68d55448bda39ee015af0c"
+    },
+    {
+      "path": "src/first-switch-preparation.js",
+      "sha256": "bd02f3e43e9a24f203caf37f7636d4a35edc0aa909ffb286a144b60699e11122"
+    },
+    {
+      "path": "src/lighting.js",
+      "sha256": "d2ea72572dcede3a63f5dcdaa6950aaa492fa29e4fb1c77c415e534721894d93"
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "6b377f6544c4ae83fb4d5e85283c5841422518c70b9b2da1f686b8c5b339bc6d"
+    },
+    {
+      "path": "src/pc-case.js",
+      "sha256": "c9cac0375da9d7f8ec0773ce325115dc39bdaa0354d4f66a77580da52607df84"
+    },
+    {
+      "path": "src/performance.js",
+      "sha256": "4cfedb63cb7819f31d5f61723ec0385ce4ef6c2f3303992ffe22f9e3a164442d"
+    },
+    {
+      "path": "src/plush-current.js",
+      "sha256": "9a59e9f7a9e4ba01fdb41ca59bb176ef067fc73f5f6ae7ffa1c2418efb1cc835"
+    },
+    {
+      "path": "src/plush.js",
+      "sha256": "63e4c6d1ca49a593aca71f00aa8e5c72fc18472fe2ad8ef3c8d9f58dbc1d3ec5"
+    },
+    {
+      "path": "src/polyfill.js",
+      "sha256": "7a3e4236545a3281b8938a5c8a88720757878226652ca5cf683afae051997fe3"
+    },
+    {
+      "path": "src/sky-transport.js",
+      "sha256": "a2f7658976915a6c770feb0eef02963588306d83adbd089d5adda9d058b0ca47"
+    },
+    {
+      "path": "src/style.css",
+      "sha256": "138b133d985f9f120a543c758acc282560455e21ab63f921fe573bf1d3d85c93"
+    },
+    {
+      "path": "src/walk-navigation.js",
+      "sha256": "2b0fc1c6b610c9e912890985298f32eb3ccaf9a946bda9df45c1d298453a1dcd"
+    },
+    {
+      "path": "vendor/licenses/fflate-MIT.txt",
+      "sha256": "0a1df3a083d0c010560aa342e87959c8c1070e6fd54545741f083f22d0c8b551"
+    },
+    {
+      "path": "vendor/licenses/three-MIT.txt",
+      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+    },
+    {
+      "path": "vendor/runtime-v11.js",
+      "sha256": "bb10622e09326e6eeff9ceb564d2217e6687ce5d701ac1f8c7b35ab3425c8948"
+    },
+    {
+      "path": "recovery/first-person-hooks.json",
+      "sha256": "dc93bd8ed52bcdbf86449e70d0297cd92668e50c68a6ff9dad855136f88b8095"
+    },
+    {
+      "path": "recovery/first-switch-hooks.json",
+      "sha256": "64d5bd742c5b4c46737da300c3f88401bb0d3475aa5516d6478937ba86a5369d"
+    },
+    {
+      "path": "recovery/organic-v17-bear-placement.json",
+      "sha256": "d79529f25b62bf58a3aee4b6155a0fae64d7fe0ab86789bbf5166a8a783f0149"
+    },
+    {
+      "path": "recovery/organic-v17-rocker-placement.json",
+      "sha256": "35e795cc768fcf2c344f87c87b904736ac5e560e9c8e7379581ccb4e45b65914"
+    },
+    {
+      "path": "recovery/pc-case-hooks.json",
+      "sha256": "d4d1f3fe2d1d18b2a275638de53d51e4779a2b35eba0d564f4d6511bca6f00c1"
+    },
+    {
+      "path": "recovery/pc-case-replacements.json",
+      "sha256": "393ff26f6f9171b0489e015017675774774258ec5ce010c6bb386598a0bf2b82"
+    },
+    {
+      "path": "recovery/provenance.json",
+      "sha256": "4a5f059db1a4afafd06790fca09a3912aa812be718b2855a897c5c7a5467ca49"
+    },
+    {
+      "path": "recovery/v11-production.js.gz",
+      "sha256": "90379a271cc9f04d1de4b1b991a961e585d4fec0a55bade6361c685c3cbe7aa6"
+    },
+    {
+      "path": "recovery/v11-resource-baseline.json",
+      "sha256": "dba9aaf67143cafca45fb62fd0ca38e4649d6d9b05aae7c53a0e7b42116017a1"
+    },
+    {
+      "path": "recovery/v12-cloth-budget.json",
+      "sha256": "f7b858a51a16cdc5bfd4ae22edab2d92988aebfe8fc3a7417f13ee551b08d0aa"
+    },
+    {
+      "path": "recovery/v12-resource-baseline.json",
+      "sha256": "9206f0c613bbb894c9d14b8024c688f855547bbfd65538501e8bc911ec251c7f"
+    },
+    {
+      "path": "recovery/v12-runtime-contract.json",
+      "sha256": "716576ccafd891d9019f6c4c904fd3b0367fe088590577551d0e5e845530eaec"
+    },
+    {
+      "path": "recovery/v12-slide-textures.json",
+      "sha256": "6e11591179c4cb5c36199a0fadfe1fd03fca1092c2339af0b9e18312664b05ad"
+    },
+    {
+      "path": "recovery/v14-resource-baseline.json",
+      "sha256": "f4d63e4bdf402830571a33856053a135a225890a6f0798c62c1964e82b18cd1a"
+    },
+    {
+      "path": "recovery/v16-model-node-snapshot.json",
+      "sha256": "764caa897bb3b5e1d3a4ea112dfdfa04b9781eaf43f06de5f76d84e444e14948"
+    },
+    {
+      "path": "recovery/v16-organic-runtime-preservation.json",
+      "sha256": "faa2db389cd51687104022d0899b3138d5a60e978ff00e25f3414aa11aeecbc8"
+    },
+    {
+      "path": "recovery/v16-soil-triangle-snapshot.json",
+      "sha256": "91b1c9db0b0dc641836ba4a7fa83c80504f6ec577a5023a48db363b7470f3f5b"
+    }
+  ]
+}

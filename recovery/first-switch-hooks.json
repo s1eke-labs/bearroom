@@ -1,0 +1,83 @@
+{
+  "description": "Exact v18 readiness and bounded first-switch preparation hooks. Original camera, lighting, animation, shadow cadence, shaders and assets remain guarded. Prep stage covers four original shadow/clipping topologies without changing the runtime sun toggle.",
+  "main": [
+    [
+      "let pcCase = null;",
+      "let pcCase = null;\nconst preparationAbort = new AbortController();\nsetRoomReady(false);"
+    ],
+    [
+      "Kx(jt), Ei = true, kr = true, ji(1, \"一切就绪\"), cs = true, Yc = performance.now(), oi.loadedAt = Yc, initializeWalk(), Ge(\"#loading\").classList.add(\"hidden\")",
+      "Kx(jt), initializeWalk(), setRoomReady(false), ji(0.94, \"准备楼层与昼夜光照\"), oi.preparation = await prepareFirstSwitch({\n      renderer: Ot, scene: jt, camera: Rt, daylight: It, signal: preparationAbort.signal,\n      extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures],\n      onProgress: ({ phase, completed, total }) => ji(0.94 + 0.055 * completed / Math.max(1, total), phase === \"textures\" ? \"准备材质与纹理\" : \"准备楼层与昼夜光照\"),\n    }), await finishRoomPreparation(), ji(1, \"一切就绪\"), Yc = performance.now(), oi.loadedAt = Yc, Ge(\"#loading\").classList.add(\"hidden\")"
+    ],
+    [
+      "oi.errors.push(String(i)), Ge(\"#load-detail\").textContent",
+      "cs = false, setRoomReady(false), oi.errors.push(String(i)), Ge(\"#load-detail\").textContent"
+    ],
+    [
+      "function initializeWalk() {",
+      "function setRoomReady(ready) {\n  tn.enabled = ready;\n  for (const button of document.querySelectorAll(\"#night, #day, [data-view], #walk-toggle, #zoom-in, #zoom-out, #reset-view\")) button.disabled = !ready;\n  bn.setAttribute(\"aria-busy\", String(!ready));\n}\nasync function finishRoomPreparation() {\n  for (;;) {\n    await preparationFrame(preparationAbort.signal);\n    // Refit for the latest size; resize events cannot disturb the temporary GPU viewport.\n    Ot.setSize(innerWidth, innerHeight);\n    walk?.resize(innerWidth, innerHeight);\n    pt.fit(innerWidth, innerHeight, { reset: false });\n    Ei = true; kr = true;\n    // Warm-up batches leave partial shadow maps. The original frame loop must draw\n    // the complete restored scene before controls are enabled or loading disappears.\n    cancelAnimationFrame(Hs); Hs = null; Cr = performance.now(); cs = true;\n    const rendered = vv(Cr);\n    if (!rendered) { cs = false; continue; }\n    if (Ot.getContext().isContextLost() || preparationAbort.signal.aborted) throw new Error(\"WebGL interrupted before room readiness\");\n    setRoomReady(true);\n    return;\n  }\n}\nfunction initializeWalk() {"
+    ],
+    [
+      "function ll(i) {\n  Or =",
+      "function ll(i) {\n  if (!cs) return;\n  Or ="
+    ],
+    [
+      "bn.addEventListener(\"pointerdown\", (i) => {\n  if (walk?.active) return;",
+      "bn.addEventListener(\"pointerdown\", (i) => {\n  if (!cs || walk?.active) return;"
+    ],
+    [
+      "bn.addEventListener(\"pointermove\", (i) => {\n  if (walk?.active) return;",
+      "bn.addEventListener(\"pointermove\", (i) => {\n  if (!cs || walk?.active) return;"
+    ],
+    [
+      "bn.addEventListener(\"pointerup\", (i) => {\n  if (walk?.active) return;",
+      "bn.addEventListener(\"pointerup\", (i) => {\n  if (!cs || walk?.active) return;"
+    ],
+    [
+      "bn.addEventListener(\"pointercancel\", (i) => {\n  if (walk?.active) return;",
+      "bn.addEventListener(\"pointercancel\", (i) => {\n  if (!cs || walk?.active) return;"
+    ],
+    [
+      "i.preventDefault(), oi.errors.push(\"WebGL context lost\")",
+      "i.preventDefault(), preparationAbort.abort(new Error(\"WebGL context lost during loading\")), oi.errors.push(\"WebGL context lost\")"
+    ],
+    [
+      "bn.addEventListener(\"webglcontextrestored\", () => {\n  Ei = true",
+      "bn.addEventListener(\"webglcontextrestored\", () => {\n  if (!cs) { Ge(\"#load-detail\").textContent = \"图形环境已恢复，请刷新重新准备空间\"; return; }\n  Ei = true"
+    ],
+    [
+      "window.addEventListener(\"resize\", () => {\n  Ot.setSize",
+      "window.addEventListener(\"resize\", () => {\n  if (!cs) return;\n  Ot.setSize"
+    ],
+    [
+      "function gv(i) {\n  walk?.exit();",
+      "function gv(i) {\n  if (!cs) return;\n  walk?.exit();"
+    ],
+    [
+      "Ge(\"#reset-view\").onclick = () => {\n  if (walk?.active) return;",
+      "Ge(\"#reset-view\").onclick = () => {\n  if (!cs || walk?.active) return;"
+    ],
+    [
+      "function Br(i) {\n  if (walk?.active) return;",
+      "function Br(i) {\n  if (!cs || walk?.active) return;"
+    ],
+    [
+      "bn.addEventListener(\"keydown\", (i) => {\n  if (walk?.active) return;",
+      "bn.addEventListener(\"keydown\", (i) => {\n  if (!cs || walk?.active) return;"
+    ],
+    [
+      "  cl();\n  const e = Math.min",
+      "  cl();\n  if (!cs) { Cr = i; return; }\n  const e = Math.min"
+    ],
+    [
+      "  Ot.render(jt, walk?.getCamera() || Rt);\n}",
+      "  Ot.render(jt, walk?.getCamera() || Rt);\n  return true;\n}"
+    ]
+  ],
+  "baked-gi": [
+    [
+      "}), { setDay(c) {",
+      "}), { textures: Object.freeze([r]), setDay(c) {"
+    ]
+  ]
+}
