@@ -8,10 +8,11 @@ const out=path.join(ROOT,'.build-dist');fs.rmSync(out,{recursive:true,force:true
 fs.cpSync(sourceAssets,path.join(out,'assets'),{recursive:true});
 for(const f of fs.readdirSync(path.join(out,'assets')))if(/\.(js|css|map)$/.test(f))fs.unlinkSync(path.join(out,'assets',f));
 fs.cpSync(path.join(ROOT,'vendor/licenses'),path.join(out,'assets/licenses'),{recursive:true});
-const result=await build({absWorkingDir:ROOT,entryPoints:['src/main.js'],outdir:out,bundle:true,minify:true,charset:'utf8',format:'esm',target:'es2022',entryNames:'assets/index-[hash]',assetNames:'assets/[name]-[hash]',metafile:true,legalComments:'eof'});
-const outputs=Object.keys(result.metafile.outputs);const js=outputs.find(x=>x.endsWith('.js'));const css=outputs.find(x=>x.endsWith('.css'));if(!js||!css)throw Error('Missing bundled JS/CSS');
+const result=await build({absWorkingDir:ROOT,entryPoints:{index:'src/main.js','model-decode-worker':'src/model-decode-worker.js'},outdir:out,bundle:true,minify:true,charset:'utf8',format:'esm',target:'es2022',entryNames:'assets/[name]-[hash]',assetNames:'assets/[name]-[hash]',metafile:true,legalComments:'eof'});
+const outputs=Object.keys(result.metafile.outputs);const js=outputs.find(x=>/index-[^/]+\.js$/.test(x));const css=outputs.find(x=>x.endsWith('.css'));if(!js||!css)throw Error('Missing bundled JS/CSS');
+const worker=outputs.find(x=>/model-decode-worker-[^/]+\.js$/.test(x));if(!worker)throw Error('Missing model decoding worker');
 const webPath=p=>'/'+path.relative(out,path.resolve(ROOT,p)).split(path.sep).join('/');
-const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8').replace('__RUNTIME_JS__',webPath(js)).replace('__RUNTIME_CSS__',webPath(css));
+const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8').replace('__RUNTIME_JS__',webPath(js)).replace('__RUNTIME_CSS__',webPath(css)).replace('__MODEL_WORKER__',webPath(worker));
 fs.writeFileSync(path.join(out,'index.html'),html);
 const favicon=path.join(ROOT,'public/favicon.svg');fs.copyFileSync(favicon,path.join(out,'favicon.svg'));
 fs.writeFileSync(path.join(out,'assets/build-contract.json'),JSON.stringify({schemaVersion:1,recoveredFromCommit:'679d19306992b8a895dab5c47da0a8aad0f86e4d',...contract},null,2)+'\n');

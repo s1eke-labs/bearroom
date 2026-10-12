@@ -15,12 +15,16 @@ import { FirstPersonController } from './first-person.js';
 import { PcCaseController, PC_CASE_CONFIG } from './pc-case.js';
 import { prepareFirstSwitch, preparationFrame } from './first-switch-preparation.js';
 import { RoomInteractions, roomHitIsVisible, sceneTapEndsOnCanvas } from './room-interactions.js';
+import { fetchUint8Array, decodeGzip, createPhaseTimings } from './asset-loading.js';
+import { LoadResources } from './load-resources.js';
+import { ASSET_REVISION } from './asset-revision.js';
 const Ge = (i) => document.querySelector(i), bn = Ge("#room"), jt = new Mh();
 jt.background = new we("#192b3b");
 let Ot;
 try {
   Ot = new g0({ canvas: bn, antialias: true, powerPreference: "high-performance" });
 } catch (i) {
+  Ge("#load-cancel").hidden = true;
   throw Ge("#loading p").textContent = "这个浏览器暂时无法显示三维空间", Ge("#load-detail").textContent = "请使用支持 WebGL 的 Safari 或 Chrome，并开启硬件加速", i;
 }
 Ot.setPixelRatio(Math.min(devicePixelRatio, 1.65));
@@ -47,6 +51,8 @@ let pcCase = null;
 let roomInteractions = null;
 let preparationAbort = new AbortController();
 let graphicsAvailable = true, contextWasReady = false;
+let loadTask = null, runtimeResources = null, textureTasks = new Map(), phaseTimings = null;
+const phaseNames = { download: "空间下载", decompress: "模型解压", parse: "家具解析", textures: "画作载入", gi: "间接光载入", "gi-apply": "间接光准备", pc: "机箱准备", preparation: "光照准备", frame: "首帧准备" };
 setRoomReady(false);
 const Qh = new gf("#bdcfed", "#a49282", 0.46);
 jt.add(Qh);
@@ -86,9 +92,27 @@ function cv() {
   }
 }
 const hv = new Dh();
-async function $c(i) {
-  const e = await hv.loadAsync(i);
-  return e.colorSpace = yt, e.flipY = false, e.anisotropy = Math.min(4, Ot.capabilities.getMaxAnisotropy()), e;
+async function measurePhase(phase, operation) {
+  const finish = phaseTimings.start(phase);
+  try { return await operation(); }
+  catch (error) { if (!(error instanceof Error)) error = new Error(String(error)); error.roomStage ||= phase; throw error; }
+  finally { finish(); }
+}
+async function loadTexture(url, scope) {
+  const bytes = await fetchUint8Array(`${url}?rev=${ASSET_REVISION.modelSha256.slice(0,16)}`, { signal: scope.signal, maxBytes: 4 * 1024 * 1024 });
+  scope.check();
+  const objectUrl = URL.createObjectURL(new Blob([bytes], { type: "image/webp" }));
+  try {
+    const texture = await scope.wait(hv.loadAsync(objectUrl), { lateDispose: value => scope.disposeResource(value) });
+    scope.own(texture);
+    texture.colorSpace = yt; texture.flipY = false;
+    texture.anisotropy = Math.min(4, Ot.capabilities.getMaxAnisotropy());
+    return texture;
+  } finally { URL.revokeObjectURL(objectUrl); }
+}
+async function $c(url) {
+  if (!textureTasks.has(url)) textureTasks.set(url, loadTexture(url, runtimeResources));
+  return textureTasks.get(url);
 }
 function uv(i) {
   const e = { nextMap: { value: i[1] || i[0] }, blend: { value: 0 }, brightness: { value: 0.82 } }, t = new ii({ map: i[0], toneMapped: false });
@@ -132,27 +156,66 @@ function fv() {
 function ji(i, e) {
   Ge("#load-progress").style.width = `${i * 100}%`, e && (Ge("#load-detail").textContent = e);
 }
-async function pv() {
+function cleanupRoom() {
+  cs = false; setRoomReady(false); Xr();
+  roomInteractions?.dispose(); roomInteractions = null;
+  walk?.dispose(); walk = null;
+  pcCase?.dispose(); pcCase = null;
+  Fr?.dispose(); Fr = null;
+  for (const { light } of Uo) { light.removeFromParent(); light.target?.removeFromParent(); light.shadow?.map?.dispose(); }
+  runtimeResources?.dispose(); runtimeResources = null;
+  Qn = null; pt = null; Nr = null;
+  for (const list of [Uo, eu, tu, No, Rr, nu]) list.length = 0;
+  wi.clear(); Fo.clear(); textureTasks.clear();
+  _i = 0; _n = 0; qc = -Infinity; tn.enabled = false;
+}
+function showLoadFailure(error) {
+  cs = false; setRoomReady(false);
+  const cancelled = error?.code === "ABORTED" || error?.name === "AbortError";
+  const stage = phaseNames[error?.roomStage] || "空间准备";
+  const reason = error?.status ? `（服务器 ${error.status}）` : /TIMEOUT/.test(error?.code || "") ? "（等待超时）" : "";
+  Ge("#loading").classList.remove("hidden");
+  Ge("#loading").setAttribute("aria-hidden", "false");
+  Ge("#loading p").textContent = cancelled ? "载入已取消" : "小熊的家暂时没有准备好";
+  Ge("#load-detail").textContent = cancelled ? "可以随时重新载入" : `${stage}未完成${reason}，请检查网络后重试`;
+  Ge("#load-retry").hidden = false; Ge("#load-retry").disabled = !graphicsAvailable;
+  Ge("#load-cancel").hidden = true;
+  oi.errors.push(String(error)); oi.errors.splice(0, Math.max(0, oi.errors.length - 32));
+}
+function pv() {
+  if (loadTask || !graphicsAvailable) return loadTask;
+  loadTask = loadRoom().finally(() => { loadTask = null; Ge("#load-retry").disabled = !graphicsAvailable; });
+  return loadTask;
+}
+async function loadRoom() {
+  cleanupRoom();
+  const controller = preparationAbort = new AbortController();
+  const scope = runtimeResources = new LoadResources(controller.signal);
+  let firstFailure = null;
+  phaseTimings = createPhaseTimings(); oi.startup = phaseTimings.measurements;
+  Ge("#loading").classList.remove("hidden"); Ge("#loading").setAttribute("aria-hidden", "false");
+  Ge("#loading p").textContent = "正在点亮小熊的家";
+  Ge("#load-retry").hidden = true; Ge("#load-retry").disabled = true; Ge("#load-cancel").hidden = false;
+  ji(0.03, "载入空间与画作");
   try {
-    ji(0.07);
-    const i = await fetch(`/assets/bearroom.glb.gz?rev=${Io.slice(0, 16)}`);
-    if (!i.ok) throw new Error(`模型载入失败 ${i.status}`);
-    const e = Number(i.headers.get("content-length")) || 0, t = i.body?.getReader();
-    let n;
-    if (t) {
-      const a = [];
-      let o = 0;
-      for (; ; ) {
-        const { done: c, value: u } = await t.read();
-        if (c) break;
-        a.push(u), o += u.length, e && ji(0.08 + 0.6 * o / e);
-      }
-      n = new Uint8Array(o);
-      let l = 0;
-      for (const c of a) n.set(c, l), l += c.length;
-    } else n = new Uint8Array(await i.arrayBuffer());
-    const s = n[0] === 31 && n[1] === 139 ? X0(n) : n;
-    if (ji(0.72, "整理家具与光线"), Qn = (await new j0().parseAsync(s.byteOffset === 0 && s.byteLength === s.buffer.byteLength ? s.buffer : s.buffer.slice(s.byteOffset, s.byteOffset + s.byteLength), "/assets/")).scene, Qn.getObjectByName("Exterior_city")?.removeFromParent(), jt.add(Qn), pt = new Ox(Qn, Rt, tn), pt.applyCutaway(), pt.fit(innerWidth, innerHeight), Qn.traverse((a) => {
+    const modelTask = measurePhase("download", () => fetchUint8Array(`/assets/bearroom.glb.gz?rev=${ASSET_REVISION.modelSha256.slice(0,16)}`, {
+      signal: controller.signal, totalTimeoutMs: 180000, maxBytes: 32 * 1024 * 1024, onProgress: ({ received, total }) => total && ji(0.05 + 0.60 * Math.min(1, received / total)),
+    }));
+    const giTask = measurePhase("gi", async () => JSON.parse(new TextDecoder().decode(await fetchUint8Array(`/assets/baked-gi/irradiance.json?v=${Io.slice(0,16)}`, { signal: controller.signal, maxBytes: 1024 * 1024 }))));
+    const urls = [ ...Array.from({length:6},(_,i)=>`/assets/textures/pc-${String(i+1).padStart(2,"0")}.webp`), ...Array.from({length:4},(_,i)=>`/assets/textures/tv-${String(i+1).padStart(2,"0")}.webp`), ...Array.from({length:3},(_,i)=>`/assets/textures/frame-${String(i+1).padStart(2,"0")}.webp`), PC_CASE_CONFIG.wallpaperUrl ];
+    for (const url of urls) textureTasks.set(url, loadTexture(url, scope));
+    const textureTask = measurePhase("textures", () => Promise.all([...textureTasks.values()]));
+    // These independent requests start with the model; attach handlers immediately
+    // so an early texture/GI failure cannot become an unhandled rejection.
+    const abortOnFailure = error => { firstFailure ||= error; controller.abort(error); };
+    giTask.catch(abortOnFailure); textureTask.catch(abortOnFailure);
+    const packed = await modelTask; scope.check();
+    ji(0.69, "解压空间模型");
+    const decoded = await measurePhase("decompress", () => decodeGzip(packed, { signal: controller.signal, workerUrl: bn.dataset.modelWorker }));
+    scope.check(); ji(0.73, "整理家具与光线");
+    const parsed = await measurePhase("parse", () => scope.wait(new j0().parseAsync(decoded.byteOffset === 0 && decoded.byteLength === decoded.buffer.byteLength ? decoded.buffer : decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength), "/assets/"), { lateDispose: value => scope.disposeRoot(value.scene) }));
+    Qn = scope.ownRoot(parsed.scene); scope.check();
+    if (Qn.getObjectByName("Exterior_city")?.removeFromParent(), jt.add(Qn), pt = new Ox(Qn, Rt, tn), pt.applyCutaway(), pt.fit(innerWidth, innerHeight), Qn.traverse((a) => {
       if (wi.set(a.name, a), a.isMesh) {
         a.castShadow = a.userData.noShadowCaster !== true, a.receiveShadow = true, a.name === "window_glass" && (a.material = a.material.clone(), a.material.name = "window_glass");
         const o = Array.isArray(a.material) ? a.material : [a.material];
@@ -167,13 +230,25 @@ async function pv() {
       const l = wi.get(a);
       l && nu.push({ object: l, period: o });
     }
-    fv(), cv(), ji(0.78, "载入小熊画作"), await dv(), pcCase = wi.has(PC_CASE_CONFIG.screenName) ? new PcCaseController(Qn, { wallpaper: await $c(PC_CASE_CONFIG.wallpaperUrl), genericEmissives: eu }) : null, ji(0.92, "载入烘焙间接光"), Fr = await sv(Qn), Fr.setDay(_n), pt.applyCutaway(), Kx(jt), initializeWalk(), setRoomReady(false), ji(0.94, "准备楼层与昼夜光照"), oi.preparation = await prepareFirstSwitch({
-      renderer: Ot, scene: jt, camera: Rt, daylight: It, signal: preparationAbort.signal,
+    fv(); cv(); scope.collect(Qn);
+    await textureTask; scope.check();
+    await dv(); scope.check();
+    pcCase = await measurePhase("pc", async () => wi.has(PC_CASE_CONFIG.screenName) ? new PcCaseController(Qn, { wallpaper: await $c(PC_CASE_CONFIG.wallpaperUrl), genericEmissives: eu }) : null);
+    scope.check();
+    Fr = await measurePhase("gi-apply", async () => sv(Qn, { data: await giTask })); scope.check();
+    Fr.setDay(_n); pt.applyCutaway(); Kx(jt); initializeWalk(); setRoomReady(false); scope.collect(Qn);
+    ji(0.94, "准备楼层与昼夜光照");
+    oi.preparation = await measurePhase("preparation", () => prepareFirstSwitch({ renderer: Ot, scene: jt, camera: Rt, daylight: It, signal: controller.signal,
       extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures],
-      onProgress: ({ phase, completed, total }) => ji(0.94 + 0.055 * completed / Math.max(1, total), phase === "textures" ? "准备材质与纹理" : "准备楼层与昼夜光照"),
-    }), await finishRoomPreparation(), ji(1, "一切就绪"), Yc = performance.now(), oi.loadedAt = Yc, Ge("#loading").classList.add("hidden"), Ge("#loading").setAttribute("aria-hidden", "true");
-  } catch (i) {
-    cs = false, setRoomReady(false), oi.errors.push(String(i)), Ge("#load-detail").textContent = "载入未完成，请刷新重试", Ge("#loading p").textContent = "小熊的家暂时没有准备好", console.error(i);
+      onProgress: ({ phase, completed, total }) => ji(0.94 + 0.055 * completed / Math.max(1,total), phase === "textures" ? "准备材质与纹理" : "准备楼层与昼夜光照"),
+    }));
+    scope.check(); await measurePhase("frame", () => finishRoomPreparation());
+    scope.retain(); ji(1, "一切就绪"); Yc = performance.now(); oi.loadedAt = Yc; contextWasReady = false;
+    Ge("#loading").classList.add("hidden"); Ge("#loading").setAttribute("aria-hidden", "true");
+    Ge("#load-cancel").hidden = true;
+  } catch (caught) {
+    const error = firstFailure || caught;
+    controller.abort(error); cleanupRoom(); showLoadFailure(error);
   }
 }
 function setRoomReady(ready) {
@@ -290,6 +365,7 @@ async function restoreGraphics() {
   graphicsAvailable = true;
   if (!contextWasReady || !Qn || !Fr || !walk) {
     Ge("#load-detail").textContent = "图形环境已恢复，请重新载入空间";
+    Ge("#load-retry").hidden = false; Ge("#load-retry").disabled = false;
     return;
   }
   const controller = preparationAbort = new AbortController();
@@ -301,15 +377,16 @@ async function restoreGraphics() {
       signal: controller.signal, extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures] });
     if (controller.signal.aborted || controller !== preparationAbort) return;
     await finishRoomPreparation();
+    if (controller !== preparationAbort || controller.signal.aborted) return;
     contextWasReady = false;
     Ge("#loading").classList.add("hidden");
     Ge("#loading").setAttribute("aria-hidden", "true");
     Ge("#note").textContent = "画面已恢复";
     setTimeout(() => Ge("#note").classList.remove("show"), 2e3);
   } catch (error) {
+    if (controller !== preparationAbort) return;
     cs = false; setRoomReady(false);
-    Ge("#load-detail").textContent = "图形恢复未完成，请重新载入空间";
-    oi.errors.push(String(error));
+    showLoadFailure(error);
   }
 }
 bn.addEventListener("webglcontextlost", suspendGraphics);
@@ -417,6 +494,12 @@ function vv(i) {
 }
 window.addEventListener("error", (i) => oi.errors.push(i.message));
 window.addEventListener("unhandledrejection", (i) => oi.errors.push(String(i.reason)));
+Ge("#load-retry").onclick = () => pv();
+Ge("#load-cancel").onclick = () => preparationAbort.abort(new DOMException("Loading cancelled", "AbortError"));
+window.addEventListener("pagehide", () => { if (!cs) preparationAbort.abort(new DOMException("Page hidden", "AbortError")); });
+if (new URLSearchParams(location.search).get("diagnostics") === "1") {
+  Object.defineProperty(window, "bearroomDiagnostics", { value: Object.freeze({ startup: () => ({ phases: (oi.startup || []).map(value => ({...value})), preparation: structuredClone(oi.preparation || null), ready: cs, graphicsAvailable }) }) });
+}
 cl();
 pv();
 if (document.modelContext?.registerTool) {

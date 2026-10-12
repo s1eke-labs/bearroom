@@ -20,6 +20,7 @@
     <main id="app">
       <canvas
         id="room"
+        data-model-worker="__MODEL_WORKER__"
         aria-label="小熊的三维 Loft，拖动平移查看细节，捏合缩放，直接点按琴键弹奏"
         tabindex="0"
       ></canvas>
@@ -56,7 +57,8 @@
         <div class="loading-bear">ʕ•ᴥ•ʔ</div>
         <p>正在点亮小熊的家</p>
         <div class="loading-track"><i id="load-progress"></i></div>
-        <small id="load-detail">载入空间与家具</small>
+        <small id="load-detail" aria-live="polite">载入空间与家具</small>
+        <div class="loading-actions"><button id="load-retry" hidden>重新载入</button><button id="load-cancel">取消载入</button></div>
       </div>
       <aside class="bottom-bar">
         <p id="hint">

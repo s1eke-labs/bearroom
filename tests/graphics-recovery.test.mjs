@@ -15,6 +15,7 @@ function fixture(){
   Fo:new Map(),Na(){},cancelAnimationFrame(){},requestAnimationFrame(){log.push(['scheduled']);return 2},Hs:1,oi:{errors:[]},setTimeout(){},
   Qn:{},Fr:{textures:[]},No:[],Ot:{},jt:{},Rt:{},It:{},performance:{now:()=>5},Cr:0,
   prepareFirstSwitch:async options=>{log.push(['prepare',options.signal]);return{}},
+  showLoadFailure(error){c.cs=false;c.setRoomReady(false);c.oi.errors.push(String(error))},
   async finishRoomPreparation(){log.push(['final-frame']);c.cs=true;c.setRoomReady(true)},
  };
  vm.createContext(c);vm.runInContext(source,c);return{c,log};
