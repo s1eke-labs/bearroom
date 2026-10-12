@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createLoadingProgress, formatLoadingBytes, LOADING_STAGES } from '../src/loading-progress.js';
+import { createLoadingProgress, formatLoadingBytes, loadingPresentation, LOADING_STAGES } from '../src/loading-progress.js';
 
 function fakeClock() {
   let now = 0, nextId = 0;
@@ -67,7 +67,7 @@ test('missing Content-Length remains indeterminate and still reports received by
   assert.equal(state().stageProgress, null, 'inconsistent Content-Length cannot invent completion');
 });
 
-test('retry resets visible bytes without retaining discarded work or accepting an old attempt', () => {
+test('retry resets diagnostic bytes without retaining discarded work or accepting an old attempt', () => {
   const { run, state } = harness();
   run.update('textures', { completed: 7, total: 14, unit: '张' });
   run.update('download', { received: 900, total: 1000, attempt: 1 });
@@ -85,7 +85,7 @@ test('retry resets visible bytes without retaining discarded work or accepting a
   assert.equal(state().workProgress, earned);
 });
 
-test('parallel texture and GI work is visible without replacing the critical-path stage', () => {
+test('parallel texture and GI work stays in diagnostics without replacing the critical-path stage', () => {
   const { run, state } = harness();
   run.stage('parse');
   run.update('textures', { completed: 6, total: 14, unit: '张' });
@@ -144,7 +144,7 @@ test('count inventories reject stale or inconsistent totals instead of hiding re
   assert.equal(state(), current, 'a counter cannot silently turn into retryable bytes');
 });
 
-test('shader wait is indeterminate while keeping completed batches visible', () => {
+test('shader wait is indeterminate while retaining completed batch diagnostics', () => {
   const { run, state } = harness();
   run.stage('warm');
   run.update('warm', { completed: 12, total: 40, unit: '批' });
@@ -173,7 +173,7 @@ test('unknown parsing, scene creation and navigation never acquire invented frac
   }
 });
 
-test('unmeasurable stages have visible explanations without hiding explicit or completed details', () => {
+test('unmeasurable stages retain diagnostic explanations and explicit or completed details', () => {
   const { run, state } = harness();
   run.stage('gi');
   assert.equal(state().detail, '正在连接服务器');
@@ -185,6 +185,62 @@ test('unmeasurable stages have visible explanations without hiding explicit or c
   assert.equal(state().detail, '正在处理，当前步骤无法统计细分进度');
   run.fail({ detail: '场景准备未完成' });
   assert.equal(state().detail, '场景准备未完成');
+});
+
+test('every loading stage presents only its concise label, preserving underlying diagnostics', () => {
+  const { run, state } = harness();
+  const expectedLabels = {
+    download: '下载房间', decompress: '展开房间', parse: '整理家具', scene: '布置房间',
+    textures: '载入画作', screens: '布置画作', pc: '准备机箱', gi: '载入光照',
+    'gi-apply': '布置光照', walk: '准备漫游', upload: '准备材质', warm: '准备光照', frame: '呈现房间',
+  };
+  run.update('textures', { completed: 7, total: 14, unit: '张' });
+  run.update('gi', { received: 4096, total: 8192, attempt: 1 });
+  for (const { id } of LOADING_STAGES) {
+    run.stage(id, { label: '内部步骤 123 / 456', detail: '内部诊断 1.2 MB / 3.4 MB · 12 / 40 批' });
+    const before = state(), saved = structuredClone(before);
+    assert.deepEqual(loadingPresentation(before), { label: expectedLabels[id], detail: '', announcement: expectedLabels[id] }, id);
+    assert.doesNotMatch(Object.values(loadingPresentation(before)).join(' '), /\d|bytes?|KB|MB|批|总大小|细分进度|尝试/);
+    assert.deepEqual(before, saved, 'presentation must not erase diagnostic data');
+    assert.equal(state(), before);
+    assert.ok(before.detail.includes('内部诊断'));
+    assert.ok(before.secondary, 'parallel work remains available internally');
+  }
+});
+
+test('failed and cancelled presentations keep the reason but never append parallel diagnostics', () => {
+  for (const method of ['fail', 'cancel']) {
+    const { run, state, announcements } = harness();
+    run.update('textures', { completed: 7, total: 14, unit: '张' });
+    run.update('download', { received: 4096, total: 8192, attempt: 1 });
+    run[method]({ label: '房间准备中断', detail: '空间下载未完成（服务器 503），请重试' });
+    assert.deepEqual(loadingPresentation(state()), {
+      label: '房间准备中断', detail: '空间下载未完成（服务器 503），请重试',
+      announcement: '房间准备中断。空间下载未完成（服务器 503），请重试',
+    });
+    assert.equal(announcements.at(-1).text, loadingPresentation(state()).announcement);
+    assert.doesNotMatch(announcements.at(-1).text, /7 \/ 14|KB|MB/);
+  }
+});
+
+test('ready presentation remains brief and does not expose completion diagnostics', () => {
+  const { run, state, announcements } = harness();
+  run.ready({ label: '一切就绪', detail: '内部确认 14 / 14 步骤' });
+  assert.equal(state().detail, '内部确认 14 / 14 步骤');
+  assert.deepEqual(loadingPresentation(state()), { label: '一切就绪', detail: '', announcement: '一切就绪' });
+  assert.equal(announcements.at(-1).text, '一切就绪');
+});
+
+test('byte, retry and parallel count updates never queue a repeated stage announcement', () => {
+  const { run, announcements, clock } = harness();
+  assert.equal(announcements[0].text, '下载房间');
+  run.update('download', { received: 512, total: 1024, attempt: 1 });
+  run.update('textures', { completed: 7, total: 14, unit: '张' });
+  run.attempt('download', { attempt: 2, maxAttempts: 3 });
+  run.update('download', { received: 512, total: 1024, attempt: 2 });
+  assert.equal(clock.pending(), 0);
+  clock.tick(5000);
+  assert.deepEqual(announcements, [{ text: '下载房间', at: 0 }]);
 });
 
 test('visual updates remain immediate while rapid stages and byte changes announce at most once per second', () => {
@@ -201,11 +257,11 @@ test('visual updates remain immediate while rapid stages and byte changes announ
   assert.equal(announcements.length, 1);
   clock.tick(1);
   assert.equal(announcements.length, 2);
-  assert.equal(announcements[1].text, '解析家具模型。正在处理，当前步骤无法统计细分进度');
+  assert.equal(announcements[1].text, '整理家具');
   run.stage('walk');
   run.update('textures', { completed: 3, total: 14, unit: '张' });
   clock.tick(1000);
-  assert.equal(announcements[2].text, '准备漫游路径。正在处理，当前步骤无法统计细分进度。画作与屏幕 3 / 14 张');
+  assert.equal(announcements[2].text, '准备漫游');
   assert.equal(clock.pending(), 0);
 });
 

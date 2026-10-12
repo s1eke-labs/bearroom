@@ -28,8 +28,9 @@
 #load-meter{position:relative;width:min(280px,calc(100vw - 48px));height:3px;margin:14px 20px 18px}
 #load-progress{width:0;transition:width .18s linear}
 #load-meter.is-indeterminate:after{content:"";position:absolute;right:-10px;top:-2px;width:7px;height:7px;border-radius:50%;background:#dec29d;animation:load-pulse 1.4s ease-in-out infinite}
-#load-detail,#load-secondary{display:block;max-width:calc(100vw - 40px);text-align:center;line-height:1.7;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#load-detail{display:block;max-width:calc(100vw - 40px);text-align:center;line-height:1.7;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
 #load-detail{font-size:12px;min-height:1.7em;opacity:.85}
-#load-secondary{font-size:11px;min-height:3.4em;margin-top:5px;white-space:pre-line;opacity:.72}
 @keyframes load-pulse{50%{opacity:.25}}
 @media(prefers-reduced-motion:reduce){.loading-bear,#load-meter.is-indeterminate:after{animation:none}#load-progress{transition:none}}
+
+#load-detail[hidden]{display:none}.loading-actions:not(:has(button:not([hidden]))){display:none}

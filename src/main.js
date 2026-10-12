@@ -17,7 +17,7 @@ import { prepareFirstSwitch, preparationFrame } from './first-switch-preparation
 import { RoomInteractions, roomHitIsVisible, sceneTapEndsOnCanvas } from './room-interactions.js';
 import { fetchUint8Array, decodeGzip, createPhaseTimings } from './asset-loading.js';
 import { LoadResources } from './load-resources.js';
-import { createLoadingProgress } from './loading-progress.js';
+import { createLoadingProgress, loadingPresentation } from './loading-progress.js';
 import { cancelOrbitGesture } from './orbit-input.js';
 import { ASSET_REVISION } from './asset-revision.js';
 const Ge = (i) => document.querySelector(i), bn = Ge("#room"), jt = new Mh();
@@ -27,6 +27,7 @@ try {
   Ot = new g0({ canvas: bn, antialias: true, powerPreference: "high-performance" });
 } catch (i) {
   Ge("#load-cancel").hidden = true;
+  Ge("#load-detail").hidden = false;
   throw Ge("#loading p").textContent = "这个浏览器暂时无法显示三维空间", Ge("#load-detail").textContent = "请使用支持 WebGL 的 Safari 或 Chrome，并开启硬件加速", i;
 }
 Ot.setPixelRatio(Math.min(devicePixelRatio, 1.65));
@@ -160,13 +161,14 @@ function fv() {
   }
 }
 function renderLoadingProgress(state) {
-  Ge("#load-stage").textContent = state.label;
-  Ge("#load-detail").textContent = state.detail;
-  Ge("#load-secondary").textContent = state.secondary;
+  const presentation = loadingPresentation(state);
+  Ge("#load-stage").textContent = presentation.label;
+  Ge("#load-detail").textContent = presentation.detail;
+  Ge("#load-detail").hidden = !presentation.detail;
   Ge("#load-progress").style.width = `${state.workProgress * 100}%`;
   const meter = Ge("#load-meter");
   meter.classList.toggle("is-indeterminate", state.indeterminate);
-  meter.setAttribute("aria-valuetext", [state.label, state.detail, state.secondary].filter(Boolean).join("，"));
+  meter.setAttribute("aria-valuetext", presentation.announcement);
   if (state.indeterminate) meter.removeAttribute("aria-valuenow");
   else meter.setAttribute("aria-valuenow", String(Math.round(state.workProgress * 100)));
   Ge("#loading").setAttribute("aria-busy", String(state.status === "loading"));
@@ -213,6 +215,7 @@ function showLoadFailure(error) {
   const detail = cancelled ? "可以随时重新载入" : `${stage}未完成${reason}，请检查网络后重试`;
   if (cancelled) loadProgress?.cancel({ label, detail }); else loadProgress?.fail({ label, detail });
   Ge("#loading p").textContent = label; Ge("#load-detail").textContent = detail;
+  Ge("#load-detail").hidden = false;
   Ge("#load-retry").hidden = false; Ge("#load-retry").disabled = !graphicsAvailable;
   Ge("#load-cancel").hidden = true;
   oi.errors.push(String(error)); oi.errors.splice(0, Math.max(0, oi.errors.length - 32));
@@ -246,7 +249,7 @@ async function loadRoom() {
   };
   let firstFailure = null;
   Ge("#loading").classList.remove("hidden"); Ge("#loading").setAttribute("aria-hidden", "false");
-  Ge("#load-retry").hidden = true; Ge("#load-retry").disabled = true; Ge("#load-cancel").hidden = false;
+  Ge("#load-retry").hidden = true; Ge("#load-retry").disabled = true; Ge("#load-cancel").hidden = true;
   try {
     progress.stage("download");
     const modelTask = measure("download", () => fetchUint8Array(`/assets/bearroom.glb.gz?rev=${ASSET_REVISION.modelSha256.slice(0,16)}`, {
@@ -493,6 +496,7 @@ async function restoreGraphics() {
   graphicsAvailable = true;
   if (!contextWasReady || !Qn || !Fr || !walk) {
     Ge("#load-detail").textContent = "图形环境已恢复，请重新载入空间";
+    Ge("#load-detail").hidden = false;
     Ge("#load-announcement").textContent = "图形环境已恢复，可以重新载入空间";
     Ge("#load-retry").hidden = false; Ge("#load-retry").disabled = false;
     return;
@@ -504,7 +508,7 @@ async function restoreGraphics() {
   const current = () => controller === preparationAbort && !controller.signal.aborted;
   Ge("#loading").classList.remove("hidden");
   Ge("#loading").setAttribute("aria-hidden", "false");
-  Ge("#load-retry").hidden = true; Ge("#load-cancel").hidden = false;
+  Ge("#load-retry").hidden = true; Ge("#load-cancel").hidden = true;
   progress.stage("upload", { label: "恢复材质与纹理" });
   try {
     // prepareFirstSwitch reports its first stage and already yields before GPU work.

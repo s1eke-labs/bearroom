@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import { parseAst } from 'rollup/parseAst';
 import { LoadResources } from '../src/load-resources.js';
 import { createPhaseTimings } from '../src/asset-loading.js';
-import { createLoadingProgress, formatLoadingBytes } from '../src/loading-progress.js';
+import { createLoadingProgress, formatLoadingBytes, loadingPresentation } from '../src/loading-progress.js';
 import { prepareFirstSwitch } from '../src/first-switch-preparation.js';
 import { Mh as Scene, _t as Mesh, Hr as PlaneGeometry, ii as MeshBasicMaterial, nl as DirectionalLight, Gr as OrthographicCamera } from '../vendor/runtime-v11.js';
 
@@ -17,10 +17,11 @@ const tick = () => new Promise(resolve => setImmediate(resolve));
 const bytes = value => new TextEncoder().encode(value);
 
 function fixture() {
-  const elements = new Map(), events = [], snapshots = [], announcements = [], fetches = [], textures = [];
+  const elements = new Map(), events = [], snapshots = [], presentations = [], announcements = [], fetches = [], textures = [];
   const Ge = id => {
     if (id === '#loading p') id = '#load-stage';
-    if (!elements.has(id)) elements.set(id, { hidden: false, disabled: false, textContent: '', style: {}, attributes: new Map(),
+    if (id === '#load-secondary') return null;
+    if (!elements.has(id)) elements.set(id, { hidden: ['#load-detail', '#load-retry', '#load-cancel'].includes(id), disabled: false, textContent: '', style: {}, attributes: new Map(),
       classList: { add() {}, remove() {}, toggle() {} },
       setAttribute(key, value) { this.attributes.set(key, value); }, removeAttribute(key) { this.attributes.delete(key); } });
     return elements.get(id);
@@ -29,7 +30,7 @@ function fixture() {
   const meshes = Array.from({ length: 88 }, (_, index) => ({ name: `piano_key_${String(index).padStart(3, '0')}`, isMesh: true, userData: {}, rotation: { x: 0 }, geometry: resource, material: { name: 'key' } }));
   const root = { getObjectByName() { return null; }, traverse(fn) { meshes.forEach(fn); }, removeFromParent() {} };
   const c = {
-    AbortController, DOMException, Error, Map, Set, TextDecoder, Uint8Array, LoadResources, createPhaseTimings,
+    AbortController, DOMException, Error, Map, Set, TextDecoder, Uint8Array, LoadResources, createPhaseTimings, loadingPresentation,
     performance, setTimeout, clearTimeout, cancelAnimationFrame() {}, Ge,
     document: { querySelectorAll: () => [] }, bn: { dataset: { modelWorker: 'worker.js' }, setAttribute() {} },
     runtimeResources: null, textureTasks: new Map(), loadProgress: null, preparationAbort: new AbortController(),
@@ -62,10 +63,27 @@ function fixture() {
   vm.createContext(c); vm.runInContext(source, c);
   c.loadingProgressManager = createLoadingProgress({
     clock: { now: () => 0, setTimeout: () => 1, clearTimeout() {} },
-    onChange: snapshot => { snapshots.push(snapshot); c.renderLoadingProgress(snapshot); },
+    onChange: snapshot => {
+      snapshots.push(snapshot); c.renderLoadingProgress(snapshot);
+      presentations.push({ state: snapshot, label: Ge('#load-stage').textContent,
+        detail: Ge('#load-detail').textContent, detailHidden: Ge('#load-detail').hidden,
+        valueText: Ge('#load-meter').attributes.get('aria-valuetext'), width: Ge('#load-progress').style.width });
+    },
     onAnnounce: text => { announcements.push(text); },
   });
-  return { c, Ge, events, snapshots, announcements, fetches, textures, root };
+  return { c, Ge, events, snapshots, presentations, announcements, fetches, textures, root };
+}
+
+function assertMinimalPresentations(f) {
+  assert.equal(f.presentations.length, f.snapshots.length, 'every state renders successfully without a secondary node');
+  for (const ui of f.presentations.filter(value => value.state.status === 'loading')) {
+    assert.equal(ui.label, loadingPresentation(ui.state).label);
+    assert.equal(ui.detail, '', `no diagnostic text leaks into ${ui.state.stage}`);
+    assert.equal(ui.detailHidden, true, `no empty detail row during ${ui.state.stage}`);
+    assert.equal(ui.valueText, ui.label, 'progressbar speech contains only the stage');
+    assert.equal(ui.width, `${ui.state.workProgress * 100}%`, 'bar still follows actual retained work');
+    assert.doesNotMatch(ui.label, /\d|KB|MB|批|总大小|细分进度|尝试/);
+  }
 }
 
 test('actual startup adds only three CPU-stage paints and reserves ready until the complete first frame', async () => {
@@ -83,6 +101,7 @@ test('actual startup adds only three CPU-stage paints and reserves ready until t
   for (const phase of ['download', 'decompress', 'parse', 'scene', 'textures', 'screens', 'pc', 'gi', 'gi-apply', 'walk', 'preparation', 'frame', 'startup-total', 'textures-wait', 'gi-wait']) {
     assert.equal(f.c.oi.startup.filter(timing => timing.phase === phase).length, 1, `one ${phase} timing`);
   }
+  assertMinimalPresentations(f);
 });
 
 test('all 14 external images and GI start alongside the model and update parallel counts without changing stage', async () => {
@@ -94,14 +113,22 @@ test('all 14 external images and GI start alongside the model and update paralle
   assert.equal(new Set(f.textures).size, 14); assert.ok(f.textures.includes('/wall.webp'));
   imageTasks.slice(0, 3).forEach(image => image.resolve({})); await tick();
   assert.equal(f.c.loadProgress.snapshot().stage, 'download');
-  assert.match(f.Ge('#load-secondary').textContent, /3\s*\/\s*14/);
+  assert.match(f.c.loadProgress.snapshot().secondary, /3\s*\/\s*14/);
+  assert.equal(f.Ge('#load-secondary'), null);
+  assert.equal(f.Ge('#load-stage').textContent, '下载房间');
   const options = f.fetches.find(record => record.url.includes('.glb.gz')).options;
   options.onAttempt({ attempt: 2, maxAttempts: 3 }); options.onProgress({ received: 4096, total: 0, attempt: 2 });
-  assert.ok(f.Ge('#load-detail').textContent.includes(formatLoadingBytes(4096))); assert.match(f.Ge('#load-detail').textContent, /2\s*\/\s*3/);
+  assert.ok(f.c.loadProgress.snapshot().detail.includes(formatLoadingBytes(4096)));
+  assert.match(f.c.loadProgress.snapshot().detail, /2\s*\/\s*3/);
+  assert.equal(f.Ge('#load-detail').textContent, '');
+  assert.equal(f.Ge('#load-detail').hidden, true);
+  assert.equal(f.Ge('#load-retry').hidden, true);
+  assert.equal(f.Ge('#load-cancel').hidden, true);
   assert.equal(f.c.loadProgress.snapshot().indeterminate, true);
   assert.equal(f.Ge('#load-meter').attributes.has('aria-valuenow'), false);
   imageTasks.slice(3).forEach(image => image.resolve({})); gi.resolve(bytes('{}')); model.resolve(bytes('model'));
   await task; assert.equal(f.c.cs, true);
+  assertMinimalPresentations(f);
 });
 
 test('actual upload/batch counts remain truthful during indeterminate shader waiting', async () => {
@@ -111,6 +138,50 @@ test('actual upload/batch counts remain truthful during indeterminate shader wai
   const waiting = f.snapshots.find(state => state.stage === 'warm' && state.indeterminate && state.stageProgress?.completed === 1);
   assert.equal(waiting.stageProgress.total, 4); assert.match(waiting.detail, /等待显卡/); assert.match(waiting.detail, /1\s*\/\s*4/);
   assert.ok(f.snapshots.filter(state => state.stage === 'warm').every(state => state.workProgress < 1));
+  assertMinimalPresentations(f);
+});
+
+test('failure reveals actionable detail and retry, then a new load hides and clears the old reason', async () => {
+  const f = fixture();
+  f.c.fetchUint8Array = async () => { throw Object.assign(new Error('HTTP 503'), { status: 503, code: 'HTTP_ERROR' }); };
+  await f.c.loadRoom();
+  assert.equal(f.c.loadProgress.snapshot().status, 'failed');
+  assert.equal(f.Ge('#load-detail').hidden, false);
+  assert.match(f.Ge('#load-detail').textContent, /服务器 503/);
+  assert.match(f.Ge('#load-detail').textContent, /重试/);
+  assert.equal(f.Ge('#load-retry').hidden, false);
+  assert.equal(f.Ge('#load-retry').disabled, false);
+  assert.equal(f.Ge('#load-cancel').hidden, true);
+  assert.match(f.announcements.at(-1), /服务器 503/);
+  const model = deferred();
+  f.c.fetchUint8Array = async url => url.includes('irradiance') ? bytes('{}') : model.promise;
+  const retry = f.c.loadRoom(); await tick();
+  assert.equal(f.c.loadProgress.snapshot().status, 'loading');
+  assert.equal(f.Ge('#load-stage').textContent, '下载房间');
+  assert.equal(f.Ge('#load-detail').textContent, '');
+  assert.equal(f.Ge('#load-detail').hidden, true);
+  assert.equal(f.Ge('#load-retry').hidden, true);
+  assert.equal(f.Ge('#load-cancel').hidden, true);
+  assert.equal(f.Ge('#load-meter').attributes.get('aria-valuetext'), '下载房间');
+  model.resolve(bytes('model')); await retry;
+  assert.equal(f.c.loadProgress.snapshot().status, 'ready');
+  assertMinimalPresentations(f);
+});
+
+test('cancelled loading retains its recovery message without exposing progress diagnostics', async () => {
+  const f = fixture(), model = deferred();
+  f.c.fetchUint8Array = async url => url.includes('irradiance') ? bytes('{}') : model.promise;
+  const task = f.c.loadRoom(); await tick();
+  f.c.preparationAbort.abort(new DOMException('Cancelled', 'AbortError'));
+  model.resolve(bytes('model')); await task;
+  assert.equal(f.c.loadProgress.snapshot().status, 'cancelled');
+  assert.equal(f.Ge('#load-stage').textContent, '载入已取消');
+  assert.equal(f.Ge('#load-detail').textContent, '可以随时重新载入');
+  assert.equal(f.Ge('#load-detail').hidden, false);
+  assert.equal(f.Ge('#load-retry').hidden, false);
+  assert.equal(f.Ge('#load-cancel').hidden, true);
+  assert.equal(f.announcements.at(-1), '载入已取消。可以随时重新载入');
+  assertMinimalPresentations(f);
 });
 
 test('final frame may wait but neither the bar nor input reports readiness early', async () => {
@@ -149,7 +220,13 @@ test('only the dedicated status node announces loading; it survives hidden overl
   assert.match(html, /aria-describedby="load-meter-description"/);
   assert.match(html, /准备步骤与就绪确认，不表示已用时间或剩余时间/);
   assert.match(css, /prefers-reduced-motion:reduce/);
-  assert.match(css, /#load-secondary[^}]*font-size:11px/);
+  assert.doesNotMatch(overlay, /load-secondary|loading-bear/);
+  assert.match(overlay, /<p id="load-stage">下载房间<\/p>/);
+  assert.match(overlay, /<small id="load-detail" hidden><\/small>/);
+  assert.match(overlay, /<button id="load-retry" hidden>/);
+  assert.match(overlay, /<button id="load-cancel" hidden>/);
+  assert.match(css, /#load-detail\[hidden\]\s*\{\s*display:\s*none/);
+  assert.match(css, /\.loading-actions button\[hidden\]\s*\{\s*display:\s*none/);
 });
 
 test('real preparation emits separate actual upload and batch totals, with no invented shader-wait completion', async () => {

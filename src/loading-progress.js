@@ -14,6 +14,21 @@ export const LOADING_STAGES = Object.freeze([
   ['warm', '准备楼层与昼夜光照'], ['frame', '绘制首帧'],
 ].map(([id, label]) => Object.freeze({ id, label })));
 
+const conciseLabels = Object.freeze({
+  download: '下载房间', decompress: '展开房间', parse: '整理家具',
+  scene: '布置房间', textures: '载入画作', screens: '布置画作',
+  pc: '准备机箱', gi: '载入光照', 'gi-apply': '布置光照',
+  walk: '准备漫游', upload: '准备材质', warm: '准备光照', frame: '呈现房间',
+});
+
+// Keep measured diagnostics in the snapshot, outside the minimal loading UI.
+export function loadingPresentation(state) {
+  const terminal = state.status !== 'loading';
+  const label = terminal ? state.label : conciseLabels[state.stage] || state.label;
+  const detail = ['failed', 'cancelled'].includes(state.status) ? state.detail : '';
+  return { label, detail, announcement: [label, detail].filter(Boolean).join('。') };
+}
+
 const labels = new Map(LOADING_STAGES.map(stage => [stage.id, stage.label]));
 const countableWork = new Set(['textures', 'upload', 'warm']);
 const backgroundLabels = { textures: '画作与屏幕', gi: '间接光' };
@@ -116,7 +131,7 @@ export function createLoadingProgress({ onChange, onAnnounce, clock = defaultClo
 
       function announce(immediate = false) {
         if (!ownsGeneration() || (status === 'loading' && signal?.aborted)) return;
-        const text = [latestSnapshot.label, latestSnapshot.detail, latestSnapshot.secondary].filter(Boolean).join('。');
+        const text = loadingPresentation(latestSnapshot).announcement;
         if (text === lastAnnouncement) { clearAnnouncement(); return; }
         const remaining = announceIntervalMs - (clock.now() - lastAnnouncedAt);
         if (immediate || remaining <= 0) {

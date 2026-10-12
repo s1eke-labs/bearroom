@@ -4,7 +4,7 @@
 
 The previous “载入空间与画作” label remained active while the model download occupied its 5–65% interval. The following “整理家具与光线” label covered GLTF parsing, scene construction, external-image wait, screen binding, PC setup, GI and synchronous walking-collision construction. These were presentation and timing-attribution gaps; this release does not claim a faster network, parser, GPU or phone.
 
-The visible main stage now follows real operations:
+The internal stages still follow these real operations (the visible labels are shortened):
 
 1. 下载空间模型
 2. 解压空间模型
@@ -20,7 +20,9 @@ The visible main stage now follows real operations:
 12. 准备楼层与昼夜光照
 13. 绘制首帧, then 一切就绪 only after readiness validation
 
-The second line shows real received bytes/current request attempt, decoded external-image count, GPU texture-upload count or actual completed warm-up batches. Missing Content-Length keeps byte counts without inventing a denominator. Worker/native decompression is identified; parse/construction are explicitly indeterminate. Shader waiting retains the last real batch count and says it is waiting for compilation. Background image/GI status remains visible without stealing the primary stage.
+The loading page now shows only a short current-stage sentence and the work bar. Labels are 下载房间、展开房间、整理家具、布置房间、载入画作、布置画作、准备机箱、载入光照、布置光照、准备漫游、准备材质、准备光照、呈现房间. Errors reveal their reason and a retry button. No detail toggle, numeric diagnostics, background-task line or step list is shown.
+
+Real bytes, attempts, decoded image counts, uploads and warm-up batches remain in the internal snapshots and diagnostics. Unknown work remains semantically indeterminate; completion is still tied to real events, never a timer.
 
 ## Progress semantics and lifecycle
 
@@ -28,7 +30,7 @@ The bar represents equally weighted completed work checkpoints, not elapsed or r
 
 Model, GI and all fourteen external images still start concurrently. Each load captures its own controller, task map, progress generation and timing collector. Old attempts and late callbacks cannot repaint a replacement generation, declare readiness, overwrite its error or mix timing records. Automatic network retries reset their own byte count; the overall retained-work meter does not fall backward. Cancellation, failure, context interruption and duplicate Retry clicks preserve the existing resource/timeout guards.
 
-Visual counts can refresh promptly, while the sole screen-reader live region combines updates at most once per second; final success/failure/cancellation is announced immediately. The live region is outside the loading overlay so hiding the overlay cannot suppress the ready announcement. Unknown steps omit aria-valuenow. Reduced-motion preferences disable the activity pulse and progress-width animation.
+The sole screen-reader live region announces only the short current stage at most once per second; final success/failure/cancellation is announced immediately, including actionable error details. Numeric/background diagnostics are not announced. The live region is outside the loading overlay so hiding the overlay cannot suppress the ready announcement. Unknown steps omit aria-valuenow. Reduced-motion preferences disable the activity pulse and progress-width animation.
 
 Only parse, scene construction and walking-collision preparation add a paint boundary before potentially synchronous CPU work. Ordinary worker loading therefore adds three boundaries, not one delay per label. Native decompression fallback may add one more, bounded by its original cancellation/deadline budget. Existing GPU preparation and first-frame paint boundaries are reused unchanged. A boundary can make the current label visible; it does not split a long parser/BVH/driver call into smaller tasks.
 
@@ -49,4 +51,6 @@ Exact main-module changes are recorded in `recovery/loading-progress-hooks.json`
 
 ## Release verification
 
-`npm ci` and `npm run verify` passed with 333 tests, zero failures and zero skips. The distribution is 19,818,022 bytes, leaving 1,153,498 bytes under the 20 MiB budget (above the required 1 MiB reserve). Regression coverage includes real/unknown totals, parallel completion, bounded announcements, retries and stale callbacks, cancellation/timeout, duplicate retry clicks, context-loss restoration and readiness-only completion. Asset contracts and recovery fidelity also pass.
+The original detailed-status release passed 333 tests and the 1 MiB reserve requirement. The minimal presentation retains those loading lifecycle guards and adds visible-content regression coverage. Regression coverage includes real/unknown totals, parallel completion, bounded announcements, retries and stale callbacks, cancellation/timeout, duplicate retry clicks, context-loss restoration and readiness-only completion. Asset contracts and recovery fidelity also pass.
+
+Minimal UI release verification: `npm run verify` passes 339 tests with zero failures/skips. Distribution: 19,818,401 bytes; headroom: 1,153,119 bytes, still above the required 1 MiB reserve. No browser/device visual acceptance was performed.

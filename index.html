@@ -59,13 +59,11 @@
         <button id="zoom-out" aria-label="缩小">−</button>
       </div>
       <div id="loading" aria-labelledby="load-stage" aria-busy="true">
-        <div class="loading-bear">ʕ•ᴥ•ʔ</div>
-        <p id="load-stage">正在下载空间模型</p>
+        <p id="load-stage">下载房间</p>
         <div id="load-meter" class="loading-track" role="progressbar" aria-label="已完成的准备步骤" aria-describedby="load-meter-description" aria-valuemin="0" aria-valuemax="100"><i id="load-progress"></i></div>
         <span id="load-meter-description" class="sr-only">进度表示已完成的准备步骤与就绪确认，不表示已用时间或剩余时间。</span>
-        <small id="load-detail">正在连接服务器</small>
-        <small id="load-secondary"></small>
-        <div class="loading-actions"><button id="load-retry" hidden>重新载入</button><button id="load-cancel">取消载入</button></div>
+        <small id="load-detail" hidden></small>
+        <div class="loading-actions"><button id="load-retry" hidden>重新载入</button><button id="load-cancel" hidden>取消载入</button></div>
       </div>
       <span id="load-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></span>
       <aside class="bottom-bar">
