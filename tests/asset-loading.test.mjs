@@ -30,7 +30,9 @@ function fakeClock() {
 }
 const pending = () => new Promise(() => {});
 const response = chunks => new Response(new ReadableStream({ start(c) { for (const chunk of chunks) c.enqueue(Uint8Array.from(chunk)); c.close(); } }));
-const options = { headerTimeoutMs: 20, stallTimeoutMs: 30, totalTimeoutMs: 100, maxAttempts: 1, retryDelayMs: 0 };
+// Each spread gets an isolated deterministic clock. Cold native Response setup
+// and parallel CI scheduling must not consume a simulated 20 ms network budget.
+const options = { get clock() { return fakeClock(); }, headerTimeoutMs: 20, stallTimeoutMs: 30, totalTimeoutMs: 100, maxAttempts: 1, retryDelayMs: 0 };
 const expectCode = code => e => e.code === code;
 
 test('downloads streaming bytes and gives incremental attempt-local progress', async () => {
