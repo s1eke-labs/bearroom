@@ -125,9 +125,11 @@ export async function prepareFirstSwitch({ renderer, scene, camera, daylight, ex
   seed.frustumCulled = false; seed.matrixAutoUpdate = false; seed.matrixWorldAutoUpdate = false;
   const clipped = [new Plane(new Vector3(0, -1, 0), 2.78)];
   const parallel = renderer.extensions.has('KHR_parallel_shader_compile');
-  let uploadedTextures = 0, drawnBatches = 0;
+  let uploadedTextures = 0, drawnBatches = 0, variantIndex = 0;
   const total = resources.textures.length + config.variants.length * batches.length;
-  const report = phase => onProgress({ phase, completed: uploadedTextures + drawnBatches, total, metrics: snapshotMetrics() });
+  const report = phase => onProgress({ phase, completed: uploadedTextures + drawnBatches, total,
+    uploadedTextures, totalTextures: resources.textures.length, drawnBatches, totalBatches: config.variants.length * batches.length,
+    variantIndex, variants: config.variants.length, metrics: snapshotMetrics() });
   try {
     visibilityChanged(); documentTarget?.addEventListener('visibilitychange', visibilityChanged);
     report('textures'); await nextFrame();
@@ -144,6 +146,7 @@ export async function prepareFirstSwitch({ renderer, scene, camera, daylight, ex
     // the camera, canvas resolution and authored shadow maps do not.
     renderer.setRenderTarget(null); renderer.setViewport(0, 0, 1, 1); renderer.setScissor(0, 0, 1, 1); renderer.setScissorTest(true);
     for (const variant of config.variants) {
+      variantIndex++; report('shaders');
       check(); daylight.castShadow = variant.sunShadow;
       const planes = variant.clipped ? clipped : [];
       for (const material of resources.materials) { material.clippingPlanes = planes; material.clipShadows = true; }
@@ -170,6 +173,7 @@ export async function prepareFirstSwitch({ renderer, scene, camera, daylight, ex
           const waitStart = activeNow();
           while ([...compiled].some(material => [...renderer.properties.get(material).programs.values()].some(program => !program.isReady()))) {
             if (activeNow() - waitStart > config.shaderWaitMilliseconds) throw new Error('Room shader preparation timed out');
+            report('shader-wait');
             await nextFrame('shader-wait');
           }
         }

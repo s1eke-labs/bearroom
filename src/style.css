@@ -22,3 +22,14 @@
    Reserve the second row in the room camera's portrait top padding. */
 @media(max-width:600px){.view-toolbar{display:grid;grid-template-columns:auto auto;column-gap:8px;row-gap:7px;justify-content:center;width:calc(100% - 28px)}.view-toolbar .floor-control{grid-column:1 / -1;justify-content:center}.floor-control button{min-width:44px;padding:0 8px}.preset-control{grid-column:1;padding:3px}.preset-control button{min-width:58px;padding:0 8px}.view-toolbar #walk-toggle{grid-column:2;height:50px;min-width:88px;padding:0 11px}.is-walking .view-toolbar{display:flex}.is-walking .view-toolbar #walk-toggle{height:44px}}
 @media(prefers-reduced-motion:reduce){.preset-control button{transition:none}}
+
+/* Stage text and real counts stay readable without broadcasting every byte. */
+#loading #load-stage{max-width:calc(100vw - 40px);text-align:center;letter-spacing:1px}
+#load-meter{position:relative;width:min(280px,calc(100vw - 48px));height:3px;margin:14px 20px 18px}
+#load-progress{width:0;transition:width .18s linear}
+#load-meter.is-indeterminate:after{content:"";position:absolute;right:-10px;top:-2px;width:7px;height:7px;border-radius:50%;background:#dec29d;animation:load-pulse 1.4s ease-in-out infinite}
+#load-detail,#load-secondary{display:block;max-width:calc(100vw - 40px);text-align:center;line-height:1.7;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#load-detail{font-size:12px;min-height:1.7em;opacity:.85}
+#load-secondary{font-size:11px;min-height:3.4em;margin-top:5px;white-space:pre-line;opacity:.72}
+@keyframes load-pulse{50%{opacity:.25}}
+@media(prefers-reduced-motion:reduce){.loading-bear,#load-meter.is-indeterminate:after{animation:none}#load-progress{transition:none}}

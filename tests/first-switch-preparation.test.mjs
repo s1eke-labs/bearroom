@@ -164,7 +164,7 @@ test('startup integration locks input/render/resize, preserves shadow toggle, an
   const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
   const start = main.includes('async function loadRoom()') ? main.indexOf('async function loadRoom()') : main.indexOf('async function pv()');
   const startup = main.slice(start, main.indexOf('function setRoomReady'));
-  const prepare = startup.indexOf('prepareFirstSwitch('), frame = startup.indexOf('finishRoomPreparation()'), reveal = startup.lastIndexOf('classList.add("hidden")');
+  const prepare = startup.indexOf('prepareFirstSwitch('), frame = startup.indexOf('finishRoomPreparation(controller)'), reveal = startup.lastIndexOf('classList.add("hidden")');
   assert.ok(prepare >= 0 && frame > prepare && reveal > frame, 'prepare all variants, complete a full frame, then reveal');
   assert.match(main, /if \(!cs\) \{ Cr = i; return; \}/);
   for (const fn of ['ll', 'gv']) assert.match(main, new RegExp(`function ${fn}\\(i\\) \\{\\n  if \\(!cs\\) return;`));

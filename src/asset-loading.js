@@ -119,16 +119,22 @@ export async function fetchUint8Array(url, {
  */
 export async function decodeGzip(bytes, {
   workerUrl, signal, timeoutMs = 45000, WorkerImpl = globalThis.Worker,
-  DecompressionStreamImpl = globalThis.DecompressionStream, clock = defaultClock,
+  DecompressionStreamImpl = globalThis.DecompressionStream, onDecodeStage, clock = defaultClock,
 } = {}) {
   if (!(bytes instanceof Uint8Array)) throw new TypeError('decodeGzip requires Uint8Array');
   const limits = budget({ signal, timeoutMs, clock, stage: 'decode' });
   limits.check();
   let worker, reader, outputStream, workerFailure;
+  // A native fallback can ask the UI to paint its label before allocation. The
+  // callback remains inside the same cancellation/deadline budget as decoding.
+  const announce = mode => limits.wait(async () => {
+    try { await onDecodeStage?.({ mode }); } catch { /* Presentation must not fail an asset. */ }
+  }, timeoutMs, 'decode', 'DECODE_TIMEOUT');
   try {
     if (typeof WorkerImpl === 'function') {
       if (!workerUrl) throw fail('decode', 'WORKER_URL_REQUIRED', 'A built model decode worker URL is required');
       try {
+        if (onDecodeStage) await announce('worker');
         worker = new WorkerImpl(workerUrl, { type: 'module', name: 'bearroom-model-decode' });
         return await limits.wait(() => new Promise((resolve, reject) => {
           worker.onmessage = ({ data }) => {
@@ -150,6 +156,7 @@ export async function decodeGzip(bytes, {
       }
     }
     if (typeof DecompressionStreamImpl !== 'function') throw fail('decode', 'DECODE_UNSUPPORTED', 'No usable worker or native gzip decompression is available', { cause: workerFailure });
+    if (onDecodeStage) await announce('native');
     outputStream = new Blob([bytes]).stream().pipeThrough(new DecompressionStreamImpl('gzip'));
     reader = outputStream.getReader();
     const chunks = []; let length = 0;

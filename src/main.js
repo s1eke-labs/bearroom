@@ -17,6 +17,7 @@ import { prepareFirstSwitch, preparationFrame } from './first-switch-preparation
 import { RoomInteractions, roomHitIsVisible, sceneTapEndsOnCanvas } from './room-interactions.js';
 import { fetchUint8Array, decodeGzip, createPhaseTimings } from './asset-loading.js';
 import { LoadResources } from './load-resources.js';
+import { createLoadingProgress } from './loading-progress.js';
 import { cancelOrbitGesture } from './orbit-input.js';
 import { ASSET_REVISION } from './asset-revision.js';
 const Ge = (i) => document.querySelector(i), bn = Ge("#room"), jt = new Mh();
@@ -52,8 +53,12 @@ let pcCase = null;
 let roomInteractions = null;
 let preparationAbort = new AbortController();
 let graphicsAvailable = true, contextWasReady = false;
-let loadTask = null, runtimeResources = null, textureTasks = new Map(), phaseTimings = null;
-const phaseNames = { download: "空间下载", decompress: "模型解压", parse: "家具解析", textures: "画作载入", gi: "间接光载入", "gi-apply": "间接光准备", pc: "机箱准备", preparation: "光照准备", frame: "首帧准备" };
+let loadTask = null, runtimeResources = null, textureTasks = new Map(), loadProgress = null;
+const loadingProgressManager = createLoadingProgress({
+  onChange: renderLoadingProgress,
+  onAnnounce: text => { Ge("#load-announcement").textContent = text; },
+});
+const phaseNames = { download: "空间下载", decompress: "模型解压", parse: "家具解析", scene: "房间搭建", textures: "画作载入", screens: "屏幕与画作装配", gi: "间接光载入", "gi-apply": "间接光准备", pc: "机箱准备", walk: "漫游碰撞准备", preparation: "光照准备", upload: "纹理上传", warm: "光照预热", frame: "首帧准备" };
 setRoomReady(false);
 const Qh = new gf("#bdcfed", "#a49282", 0.46);
 jt.add(Qh);
@@ -93,8 +98,8 @@ function cv() {
   }
 }
 const hv = new Dh();
-async function measurePhase(phase, operation) {
-  const finish = phaseTimings.start(phase);
+async function measurePhase(timings, phase, operation) {
+  const finish = timings.start(phase);
   try { return await operation(); }
   catch (error) { if (!(error instanceof Error)) error = new Error(String(error)); error.roomStage ||= phase; throw error; }
   finally { finish(); }
@@ -111,9 +116,9 @@ async function loadTexture(url, scope) {
     return texture;
   } finally { URL.revokeObjectURL(objectUrl); }
 }
-async function $c(url) {
-  if (!textureTasks.has(url)) textureTasks.set(url, loadTexture(url, runtimeResources));
-  return textureTasks.get(url);
+async function $c(url, scope = runtimeResources, tasks = textureTasks) {
+  if (!tasks.has(url)) tasks.set(url, loadTexture(url, scope));
+  return tasks.get(url);
 }
 function uv(i) {
   const e = { nextMap: { value: i[1] || i[0] }, blend: { value: 0 }, brightness: { value: 0.82 } }, t = new ii({ map: i[0], toneMapped: false });
@@ -124,17 +129,17 @@ vec4 texelA=texture2D(map,vMapUv);vec4 texelB=texture2D(nextMap,vMapUv);diffuseC
 #endif`);
   }, { material: t, uniforms: e };
 }
-async function dv() {
+async function dv(scope, tasks) {
   const i = [["screen_PC", "pc", 6, 16, 0], ["screen_TV", "tv", 4, 23, 7]];
   await Promise.all(i.map(async ([e, t, n, s, r]) => {
-    const a = await Promise.all(Array.from({ length: n }, (u, h) => $c(`/assets/textures/${t}-${String(h + 1).padStart(2, "0")}.webp`))), o = wi.get(e);
+    const a = await Promise.all(Array.from({ length: n }, (u, h) => $c(`/assets/textures/${t}-${String(h + 1).padStart(2, "0")}.webp`, scope, tasks))), o = wi.get(e);
     if (!o) throw Error(`缺少屏幕模型 ${e}`);
     const { material: l, uniforms: c } = uv(a);
     o.material = l, No.push({ object: o, imgs: a, material: l, uniforms: c, hold: s, offset: r });
   })), await Promise.all([1, 2, 3].map(async (e) => {
     const t = wi.get(`frame_${String(e).padStart(2, "0")}`);
     if (!t) throw Error(`缺少相框画面 ${e}`);
-    t.material = new Ai({ map: await $c(`/assets/textures/frame-${String(e).padStart(2, "0")}.webp`), roughness: 0.83 });
+    t.material = new Ai({ map: await $c(`/assets/textures/frame-${String(e).padStart(2, "0")}.webp`, scope, tasks), roughness: 0.83 });
   }));
 }
 function fv() {
@@ -154,8 +159,34 @@ function fv() {
     }
   }
 }
-function ji(i, e) {
-  Ge("#load-progress").style.width = `${i * 100}%`, e && (Ge("#load-detail").textContent = e);
+function renderLoadingProgress(state) {
+  Ge("#load-stage").textContent = state.label;
+  Ge("#load-detail").textContent = state.detail;
+  Ge("#load-secondary").textContent = state.secondary;
+  Ge("#load-progress").style.width = `${state.workProgress * 100}%`;
+  const meter = Ge("#load-meter");
+  meter.classList.toggle("is-indeterminate", state.indeterminate);
+  meter.setAttribute("aria-valuetext", [state.label, state.detail, state.secondary].filter(Boolean).join("，"));
+  if (state.indeterminate) meter.removeAttribute("aria-valuenow");
+  else meter.setAttribute("aria-valuenow", String(Math.round(state.workProgress * 100)));
+  Ge("#loading").setAttribute("aria-busy", String(state.status === "loading"));
+}
+function createLoadProgress(controller, stages) {
+  return loadProgress = loadingProgressManager.begin({
+    signal: controller.signal, isCurrent: () => controller === preparationAbort, stages,
+  });
+}
+function reportPreparationProgress(progress, event) {
+  if (event.phase === "textures") {
+    progress.stage("upload");
+    progress.update("upload", { completed: event.uploadedTextures, total: event.totalTextures, unit: "张纹理" });
+    if (event.uploadedTextures === event.totalTextures) progress.complete("upload");
+  } else {
+    progress.complete("upload");
+    progress.stage("warm", { detail: event.phase === "shader-wait" ? "等待显卡编译着色器" : "", indeterminate: event.phase === "shader-wait" });
+    progress.update("warm", { completed: event.drawnBatches, total: event.totalBatches, unit: "批" });
+    if (event.drawnBatches === event.totalBatches) progress.complete("warm");
+  }
 }
 function cleanupRoom() {
   cs = false; setRoomReady(false); Xr();
@@ -178,8 +209,10 @@ function showLoadFailure(error) {
   const reason = error?.status ? `（服务器 ${error.status}）` : /TIMEOUT/.test(error?.code || "") ? "（等待超时）" : "";
   Ge("#loading").classList.remove("hidden");
   Ge("#loading").setAttribute("aria-hidden", "false");
-  Ge("#loading p").textContent = cancelled ? "载入已取消" : "小熊的家暂时没有准备好";
-  Ge("#load-detail").textContent = cancelled ? "可以随时重新载入" : `${stage}未完成${reason}，请检查网络后重试`;
+  const label = cancelled ? "载入已取消" : "小熊的家暂时没有准备好";
+  const detail = cancelled ? "可以随时重新载入" : `${stage}未完成${reason}，请检查网络后重试`;
+  if (cancelled) loadProgress?.cancel({ label, detail }); else loadProgress?.fail({ label, detail });
+  Ge("#loading p").textContent = label; Ge("#load-detail").textContent = detail;
   Ge("#load-retry").hidden = false; Ge("#load-retry").disabled = !graphicsAvailable;
   Ge("#load-cancel").hidden = true;
   oi.errors.push(String(error)); oi.errors.splice(0, Math.max(0, oi.errors.length - 32));
@@ -193,65 +226,114 @@ async function loadRoom() {
   cleanupRoom();
   const controller = preparationAbort = new AbortController();
   const scope = runtimeResources = new LoadResources(controller.signal);
+  const tasks = textureTasks = new Map();
+  const progress = createLoadProgress(controller);
+  const timings = createPhaseTimings(); oi.startup = timings.measurements;
+  const finishStartup = timings.start("startup-total");
+  const measure = (phase, operation) => measurePhase(timings, phase, operation);
+  const check = () => {
+    scope.check();
+    if (controller !== preparationAbort) throw new DOMException("Superseded room load", "AbortError");
+  };
+  // Only the three known synchronous CPU stages need a new paint boundary.
+  // Existing preparation/final-frame yields are reused; quick labels add no RAFs.
+  const runStage = async (phase, operation, options, timingPhase = phase) => {
+    progress.stage(phase, options);
+    if (phase === "parse" || phase === "scene" || phase === "walk") await preparationFrame(controller.signal);
+    check();
+    const result = await measure(timingPhase, operation); check();
+    progress.complete(phase); return result;
+  };
   let firstFailure = null;
-  phaseTimings = createPhaseTimings(); oi.startup = phaseTimings.measurements;
   Ge("#loading").classList.remove("hidden"); Ge("#loading").setAttribute("aria-hidden", "false");
-  Ge("#loading p").textContent = "正在点亮小熊的家";
   Ge("#load-retry").hidden = true; Ge("#load-retry").disabled = true; Ge("#load-cancel").hidden = false;
-  ji(0.03, "载入空间与画作");
   try {
-    const modelTask = measurePhase("download", () => fetchUint8Array(`/assets/bearroom.glb.gz?rev=${ASSET_REVISION.modelSha256.slice(0,16)}`, {
-      signal: controller.signal, totalTimeoutMs: 180000, maxBytes: 32 * 1024 * 1024, onProgress: ({ received, total }) => total && ji(0.05 + 0.60 * Math.min(1, received / total)),
+    progress.stage("download");
+    const modelTask = measure("download", () => fetchUint8Array(`/assets/bearroom.glb.gz?rev=${ASSET_REVISION.modelSha256.slice(0,16)}`, {
+      signal: controller.signal, totalTimeoutMs: 180000, maxBytes: 32 * 1024 * 1024,
+      onAttempt: event => progress.attempt("download", event),
+      onProgress: event => progress.update("download", { ...event, unit: "bytes" }),
     }));
-    const giTask = measurePhase("gi", async () => JSON.parse(new TextDecoder().decode(await fetchUint8Array(`/assets/baked-gi/irradiance.json?v=${Io.slice(0,16)}`, { signal: controller.signal, maxBytes: 1024 * 1024 }))));
+    const giTask = measure("gi", async () => {
+      const bytes = await fetchUint8Array(`/assets/baked-gi/irradiance.json?v=${Io.slice(0,16)}`, {
+        signal: controller.signal, maxBytes: 1024 * 1024,
+        onAttempt: event => progress.attempt("gi", event),
+        onProgress: event => progress.update("gi", { ...event, unit: "bytes" }),
+      });
+      check(); const data = JSON.parse(new TextDecoder().decode(bytes));
+      progress.complete("gi"); return data;
+    });
     const urls = [ ...Array.from({length:6},(_,i)=>`/assets/textures/pc-${String(i+1).padStart(2,"0")}.webp`), ...Array.from({length:4},(_,i)=>`/assets/textures/tv-${String(i+1).padStart(2,"0")}.webp`), ...Array.from({length:3},(_,i)=>`/assets/textures/frame-${String(i+1).padStart(2,"0")}.webp`), PC_CASE_CONFIG.wallpaperUrl ];
-    for (const url of urls) textureTasks.set(url, loadTexture(url, scope));
-    const textureTask = measurePhase("textures", () => Promise.all([...textureTasks.values()]));
+    let completedTextures = 0;
+    progress.update("textures", { completed: 0, total: urls.length, unit: "张" });
+    for (const url of urls) tasks.set(url, loadTexture(url, scope).then(texture => {
+      check(); progress.update("textures", { completed: ++completedTextures, total: urls.length, unit: "张" });
+      return texture;
+    }));
+    const textureTask = measure("textures", async () => {
+      const textures = await Promise.all([...tasks.values()]); check();
+      progress.complete("textures"); return textures;
+    });
     // These independent requests start with the model; attach handlers immediately
     // so an early texture/GI failure cannot become an unhandled rejection.
     const abortOnFailure = error => { firstFailure ||= error; controller.abort(error); };
     giTask.catch(abortOnFailure); textureTask.catch(abortOnFailure);
-    const packed = await modelTask; scope.check();
-    ji(0.69, "解压空间模型");
-    const decoded = await measurePhase("decompress", () => decodeGzip(packed, { signal: controller.signal, workerUrl: bn.dataset.modelWorker }));
-    scope.check(); ji(0.73, "整理家具与光线");
-    const parsed = await measurePhase("parse", () => scope.wait(new j0().parseAsync(decoded.byteOffset === 0 && decoded.byteLength === decoded.buffer.byteLength ? decoded.buffer : decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength), "/assets/"), { lateDispose: value => scope.disposeRoot(value.scene) }));
-    Qn = scope.ownRoot(parsed.scene); scope.check();
-    if (Qn.getObjectByName("Exterior_city")?.removeFromParent(), jt.add(Qn), pt = new Ox(Qn, Rt, tn), pt.applyCutaway(), pt.fit(innerWidth, innerHeight), Qn.traverse((a) => {
-      if (wi.set(a.name, a), a.isMesh) {
-        a.castShadow = a.userData.noShadowCaster !== true, a.receiveShadow = true, a.name === "window_glass" && (a.material = a.material.clone(), a.material.name = "window_glass");
-        const o = Array.isArray(a.material) ? a.material : [a.material];
-        for (const l of o) ov(l);
-        if (o.some((l) => /glass/i.test(l.name)) && (a.castShadow = false), /^piano_key_\d{3}$/.test(a.name)) {
-          const l = Number(a.name.slice(-3));
-          a.userData.midi = l, a.userData.restRotation = a.rotation.x, Rr.push(a);
-        }
-      }
-    }), Nr = new Qx(Qn, pt.frame.up), Nr.update(Rt, innerHeight, pt.view), Rr.length !== 88) throw Error(`琴键资产不完整（${Rr.length}/88）`);
-    for (const [a, o] of [["anim_clock_second", 60], ["anim_clock_minute", 3600], ["anim_clock_hour", 43200]]) {
-      const l = wi.get(a);
-      l && nu.push({ object: l, period: o });
-    }
-    fv(); cv(); scope.collect(Qn);
-    await textureTask; scope.check();
-    await dv(); scope.check();
-    pcCase = await measurePhase("pc", async () => wi.has(PC_CASE_CONFIG.screenName) ? new PcCaseController(Qn, { wallpaper: await $c(PC_CASE_CONFIG.wallpaperUrl), genericEmissives: eu }) : null);
-    scope.check();
-    Fr = await measurePhase("gi-apply", async () => sv(Qn, { data: await giTask })); scope.check();
-    Fr.setDay(_n); pt.applyCutaway(); Kx(jt); initializeWalk(); setRoomReady(false); scope.collect(Qn);
-    ji(0.94, "准备楼层与昼夜光照");
-    oi.preparation = await measurePhase("preparation", () => prepareFirstSwitch({ renderer: Ot, scene: jt, camera: Rt, daylight: It, signal: controller.signal,
-      extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures],
-      onProgress: ({ phase, completed, total }) => ji(0.94 + 0.055 * completed / Math.max(1,total), phase === "textures" ? "准备材质与纹理" : "准备楼层与昼夜光照"),
+    const packed = await modelTask; check(); progress.complete("download");
+    const decoded = await runStage("decompress", () => decodeGzip(packed, {
+      signal: controller.signal, workerUrl: bn.dataset.modelWorker,
+      onDecodeStage: async ({ mode }) => {
+        progress.stage("decompress", { detail: mode === "worker" ? "后台 Worker 正在解压模型" : "浏览器原生解压正在处理模型", indeterminate: true });
+        if (mode === "native") { await preparationFrame(controller.signal); check(); }
+      },
     }));
-    scope.check(); await measurePhase("frame", () => finishRoomPreparation());
-    scope.retain(); ji(1, "一切就绪"); Yc = performance.now(); oi.loadedAt = Yc; contextWasReady = false;
+    const parsed = await runStage("parse", async () => {
+      const value = await scope.wait(new j0().parseAsync(decoded.byteOffset === 0 && decoded.byteLength === decoded.buffer.byteLength ? decoded.buffer : decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength), "/assets/"), { lateDispose: value => scope.disposeRoot(value.scene) });
+      scope.ownRoot(value.scene); return value;
+    });
+    check(); Qn = parsed.scene;
+    await runStage("scene", () => {
+      if (Qn.getObjectByName("Exterior_city")?.removeFromParent(), jt.add(Qn), pt = new Ox(Qn, Rt, tn), pt.applyCutaway(), pt.fit(innerWidth, innerHeight), Qn.traverse((a) => {
+        if (wi.set(a.name, a), a.isMesh) {
+          a.castShadow = a.userData.noShadowCaster !== true, a.receiveShadow = true, a.name === "window_glass" && (a.material = a.material.clone(), a.material.name = "window_glass");
+          const o = Array.isArray(a.material) ? a.material : [a.material];
+          for (const l of o) ov(l);
+          if (o.some((l) => /glass/i.test(l.name)) && (a.castShadow = false), /^piano_key_\d{3}$/.test(a.name)) {
+            const l = Number(a.name.slice(-3));
+            a.userData.midi = l, a.userData.restRotation = a.rotation.x, Rr.push(a);
+          }
+        }
+      }), Nr = new Qx(Qn, pt.frame.up), Nr.update(Rt, innerHeight, pt.view), Rr.length !== 88) throw Error(`琴键资产不完整（${Rr.length}/88）`);
+      for (const [a, o] of [["anim_clock_second", 60], ["anim_clock_minute", 3600], ["anim_clock_hour", 43200]]) {
+        const l = wi.get(a);
+        l && nu.push({ object: l, period: o });
+      }
+      fv(); cv(); scope.collect(Qn);
+    });
+    await runStage("textures", () => textureTask, undefined, "textures-wait");
+    await runStage("screens", () => dv(scope, tasks));
+    pcCase = await runStage("pc", async () => wi.has(PC_CASE_CONFIG.screenName) ? new PcCaseController(Qn, { wallpaper: await $c(PC_CASE_CONFIG.wallpaperUrl, scope, tasks), genericEmissives: eu }) : null);
+    check();
+    const giData = await runStage("gi", () => giTask, undefined, "gi-wait");
+    Fr = await runStage("gi-apply", () => sv(Qn, { data: giData })); check();
+    await runStage("walk", () => {
+      Fr.setDay(_n); pt.applyCutaway(); Kx(jt); initializeWalk(); setRoomReady(false); scope.collect(Qn);
+    });
+    progress.stage("upload"); check();
+    oi.preparation = await measure("preparation", () => prepareFirstSwitch({ renderer: Ot, scene: jt, camera: Rt, daylight: It, signal: controller.signal,
+      extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures],
+      onProgress: event => reportPreparationProgress(progress, event),
+    }));
+    check(); progress.complete("upload"); progress.complete("warm");
+    await runStage("frame", () => finishRoomPreparation(controller));
+    check(); scope.retain(); progress.ready(); Yc = performance.now(); oi.loadedAt = Yc; contextWasReady = false;
     Ge("#loading").classList.add("hidden"); Ge("#loading").setAttribute("aria-hidden", "true");
     Ge("#load-cancel").hidden = true;
   } catch (caught) {
     const error = firstFailure || caught;
-    controller.abort(error); cleanupRoom(); showLoadFailure(error);
-  }
+    controller.abort(error);
+    if (controller !== preparationAbort) { scope.dispose(); return; }
+    cleanupRoom(); showLoadFailure(error);
+  } finally { finishStartup(); }
 }
 function setRoomReady(ready) {
   tn.enabled = ready && !walk?.active;
@@ -274,9 +356,10 @@ function syncPresetControls(ready = cs) {
     button.setAttribute("aria-pressed", String(selected));
   }
 }
-async function finishRoomPreparation() {
+async function finishRoomPreparation(controller = preparationAbort) {
   for (;;) {
-    await preparationFrame(preparationAbort.signal);
+    await preparationFrame(controller.signal);
+    if (controller !== preparationAbort || controller.signal.aborted) throw new DOMException("Superseded room preparation", "AbortError");
     // Refit for the latest size; resize events cannot disturb the temporary GPU viewport.
     Ot.setSize(innerWidth, innerHeight);
     walk?.resize(innerWidth, innerHeight);
@@ -287,7 +370,7 @@ async function finishRoomPreparation() {
     cancelAnimationFrame(Hs); Hs = null; Cr = performance.now(); cs = true;
     const rendered = vv(Cr);
     if (!rendered) { cs = false; continue; }
-    if (Ot.getContext().isContextLost() || preparationAbort.signal.aborted) throw new Error("WebGL interrupted before room readiness");
+    if (Ot.getContext().isContextLost() || controller !== preparationAbort || controller.signal.aborted) throw new Error("WebGL interrupted before room readiness");
     setRoomReady(true);
     return;
   }
@@ -410,29 +493,42 @@ async function restoreGraphics() {
   graphicsAvailable = true;
   if (!contextWasReady || !Qn || !Fr || !walk) {
     Ge("#load-detail").textContent = "图形环境已恢复，请重新载入空间";
+    Ge("#load-announcement").textContent = "图形环境已恢复，可以重新载入空间";
     Ge("#load-retry").hidden = false; Ge("#load-retry").disabled = false;
     return;
   }
   const controller = preparationAbort = new AbortController();
+  const progress = createLoadProgress(controller, ["upload", "warm", "frame"]);
+  const timings = createPhaseTimings(); oi.recovery = timings.measurements;
+  const finishTotal = timings.start("recovery-total");
+  const current = () => controller === preparationAbort && !controller.signal.aborted;
   Ge("#loading").classList.remove("hidden");
   Ge("#loading").setAttribute("aria-hidden", "false");
-  Ge("#load-detail").textContent = "重新准备材质与昼夜光照";
+  Ge("#load-retry").hidden = true; Ge("#load-cancel").hidden = false;
+  progress.stage("upload", { label: "恢复材质与纹理" });
   try {
-    oi.preparation = await prepareFirstSwitch({ renderer: Ot, scene: jt, camera: Rt, daylight: It,
-      signal: controller.signal, extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures] });
-    if (controller.signal.aborted || controller !== preparationAbort) return;
-    await finishRoomPreparation();
-    if (controller !== preparationAbort || controller.signal.aborted) return;
+    // prepareFirstSwitch reports its first stage and already yields before GPU work.
+    if (!current()) return;
+    oi.preparation = await measurePhase(timings, "preparation", () => prepareFirstSwitch({ renderer: Ot, scene: jt, camera: Rt, daylight: It,
+      signal: controller.signal, extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures],
+      onProgress: event => reportPreparationProgress(progress, event) }));
+    if (!current()) return;
+    progress.complete("upload"); progress.complete("warm");
+    progress.stage("frame", { label: "绘制恢复后的首帧" });
+    await measurePhase(timings, "frame", () => finishRoomPreparation(controller));
+    if (!current()) return;
+    progress.complete("frame"); progress.ready();
     contextWasReady = false;
     Ge("#loading").classList.add("hidden");
     Ge("#loading").setAttribute("aria-hidden", "true");
+    Ge("#load-cancel").hidden = true;
     Ge("#note").textContent = "画面已恢复";
     setTimeout(() => Ge("#note").classList.remove("show"), 2e3);
   } catch (error) {
     if (controller !== preparationAbort) return;
     cs = false; setRoomReady(false);
     showLoadFailure(error);
-  }
+  } finally { finishTotal(); }
 }
 bn.addEventListener("webglcontextlost", suspendGraphics);
 bn.addEventListener("webglcontextrestored", restoreGraphics);
@@ -551,7 +647,7 @@ Ge("#load-retry").onclick = () => pv();
 Ge("#load-cancel").onclick = () => preparationAbort.abort(new DOMException("Loading cancelled", "AbortError"));
 window.addEventListener("pagehide", () => { if (!cs) preparationAbort.abort(new DOMException("Page hidden", "AbortError")); });
 if (new URLSearchParams(location.search).get("diagnostics") === "1") {
-  Object.defineProperty(window, "bearroomDiagnostics", { value: Object.freeze({ startup: () => ({ phases: (oi.startup || []).map(value => ({...value})), preparation: structuredClone(oi.preparation || null), ready: cs, graphicsAvailable }) }) });
+  Object.defineProperty(window, "bearroomDiagnostics", { value: Object.freeze({ startup: () => ({ phases: (oi.startup || []).map(value => ({...value})), preparation: structuredClone(oi.preparation || null), recovery: (oi.recovery || []).map(value => ({...value})), ready: cs, graphicsAvailable }) }) });
 }
 cl();
 pv();

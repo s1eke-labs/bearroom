@@ -18,6 +18,7 @@ function fixture({ loss = false, abortOnRender = false } = {}) {
   const sun = { intensity: 0, castShadow: true, shadow: { needsUpdate: false } };
   const spot = { intensity: 1, castShadow: true, shadow: { needsUpdate: false } };
   const context = {
+    DOMException,
     document: { visibilityState: 'hidden' }, preparationAbort: new AbortController(),
     innerWidth: 800, innerHeight: 600, graphicsAvailable: true, cs: false, Ei: false, kr: false, Hs: 98, Cr: 0,
     _i: 0, _n: 0, Or: 'night', qc: 0, rv: 1 / 30, Fr: null, Qh: {}, It: sun, ol: {},

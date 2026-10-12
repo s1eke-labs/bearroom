@@ -207,3 +207,38 @@ test('real worker matches frozen decoder and zlib for the full production model'
   assert.equal(hash(actual), hash(frozenGunzipSync(packed)));
   t.diagnostic(`Decoded ${actual.byteLength} bytes; SHA-256 ${hash(actual)}`);
 });
+
+test('decode stage callback names worker and native fallback without changing bytes', async () => {
+  const raw = Buffer.from('visible stages preserve exact bytes'), gzip = gzipSync(raw), stages = [];
+  class BrokenWorker { constructor() { stages.push('construct'); throw Error('Worker unavailable'); } }
+  const actual = await decodeGzip(gzip, {
+    WorkerImpl: BrokenWorker, workerUrl,
+    onDecodeStage: async ({ mode }) => { stages.push(mode); if (mode === 'worker') throw Error('Broken presentation'); },
+  });
+  assert.deepEqual(stages, ['worker', 'construct', 'native']);
+  assert.deepEqual(Buffer.from(actual), raw);
+});
+
+test('native decode stage can paint before allocation while sharing the decode deadline', async () => {
+  const raw = Buffer.from('yield before fallback'), gzip = gzipSync(raw), events = [];
+  let paint;
+  class Native { constructor(format) { events.push('allocate'); return new DecompressionStream(format); } }
+  const task = decodeGzip(gzip, { WorkerImpl: null, DecompressionStreamImpl: Native,
+    onDecodeStage: ({ mode }) => { events.push(mode); return new Promise(resolve => { paint = resolve; }); } });
+  await flush(); assert.deepEqual(events, ['native']);
+  paint(); assert.deepEqual(Buffer.from(await task), raw); assert.deepEqual(events, ['native', 'allocate']);
+});
+
+for (const stop of ['abort', 'timeout']) test(`pending decode stage callback is bounded by ${stop} and never starts late work`, async () => {
+  const clock = fakeClock(), controller = new AbortController(); let allocated = 0, finishPaint;
+  class Native { constructor(format) { allocated++; return new DecompressionStream(format); } }
+  const task = decodeGzip(gzipSync(Buffer.from('late stage')), {
+    WorkerImpl: null, DecompressionStreamImpl: Native, clock, timeoutMs: 25, signal: controller.signal,
+    onDecodeStage: () => new Promise(resolve => { finishPaint = resolve; }),
+  });
+  const check = assert.rejects(task, expectCode(stop === 'abort' ? 'ABORTED' : 'TOTAL_TIMEOUT'));
+  await flush();
+  if (stop === 'abort') controller.abort(); else await clock.advance(25);
+  await check; finishPaint(); await flush();
+  assert.equal(allocated, 0); assert.equal(clock.pending, 0);
+});

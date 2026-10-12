@@ -5,9 +5,10 @@ import vm from 'node:vm';
 import { parseAst } from 'rollup/parseAst';
 import { LoadResources } from '../src/load-resources.js';
 import { AssetLoadError, createPhaseTimings } from '../src/asset-loading.js';
+import { createLoadingProgress } from '../src/loading-progress.js';
 
 const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
-const names = ['pv', 'loadRoom', 'measurePhase', 'cleanupRoom', 'showLoadFailure', 'setRoomReady', 'syncPresetControls', 'suspendGraphics', 'restoreGraphics', 'finishRoomPreparation'];
+const names = ['pv', 'loadRoom', 'measurePhase', 'createLoadProgress', 'reportPreparationProgress', 'cleanupRoom', 'showLoadFailure', 'setRoomReady', 'syncPresetControls', 'suspendGraphics', 'restoreGraphics', 'finishRoomPreparation'];
 const source = parseAst(main).body.filter(n => n.type === 'FunctionDeclaration' && names.includes(n.id.name)).map(n => main.slice(n.start, n.end)).join('\n');
 const deferred = () => { let resolve, reject; const promise = new Promise((a,b) => { resolve=a; reject=b; }); return { promise, resolve, reject }; };
 const tick = () => new Promise(resolve => setImmediate(resolve));
@@ -21,7 +22,7 @@ function fixture() {
     AbortController, DOMException, Error, Map, Set, TextDecoder, Uint8Array, LoadResources, createPhaseTimings,
     performance, setTimeout(){return 1;}, clearTimeout(){}, cancelAnimationFrame(){},
     Ge, document:{querySelectorAll:()=>[]}, bn:{dataset:{modelWorker:'worker.js'},setAttribute(){}},
-    loadTask:null, runtimeResources:null, textureTasks:new Map(), phaseTimings:null, preparationAbort:new AbortController(),
+    loadTask:null, runtimeResources:null, textureTasks:new Map(), loadProgress:null, preparationAbort:new AbortController(),
     graphicsAvailable:true, contextWasReady:false, cs:false, walk:null, roomInteractions:null, pcCase:null, Fr:null, Qn:null, pt:null, Nr:null,
     Uo:[], eu:[], tu:[], No:[], Rr:[], nu:[], wi:new Map(), Fo:new Map(), _i:0, _n:0, qc:0, Hs:null,
     tn:{enabled:false}, oi:{errors:[]}, phaseNames:{download:'空间下载',textures:'画作载入',parse:'家具解析'},
@@ -38,6 +39,7 @@ function fixture() {
     prepareFirstSwitch:async()=>({}),
     preparationFrame:async()=>{}, vv(){log.push(['frame']);return true;}, Yc:null,
   };
+  c.loadingProgressManager = createLoadingProgress({onChange(state){Ge('#load-detail').textContent=state.detail;}});
   vm.createContext(c);vm.runInContext(source,c);
   return {c,Ge,log,counts,root,resource};
 }
