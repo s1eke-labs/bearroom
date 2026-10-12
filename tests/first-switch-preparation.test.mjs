@@ -113,7 +113,7 @@ test('bounded real draws cover all four original shader topologies, all meshes a
   assert.equal(progress.at(-1).completed, progress.at(-1).total);
   assert.deepEqual(f.camera.projectionMatrix.toArray(), before); assertRestored(f, r);
 });
-test('ready fallback batches compile and draw in one slice, then always yield', async () => {
+test('a one-batch topology compiles and draws before its transition yield', async () => {
   const f = fixture(3), r = fakeRenderer(f, { parallel: false });
   const result = await prepareFirstSwitch({ ...f, renderer: r.renderer, yieldFrame: r.next });
   assert.equal(result.parallelShaderCompile, false);
@@ -155,14 +155,17 @@ test('real v19 model and genuine packed GI are enumerable for preparation withou
   const scene = await loadSceneForCPU(), gi = JSON.parse(fs.readFileSync(assetDirectory() + '/baked-gi/irradiance.json'));
   const baked = await applyBakedGI(scene, { data: gi }), before = JSON.stringify(baked.diagnostics());
   const resources = collectPreparationResources(scene, baked.textures), batches = preparationBatches(resources.meshes);
-  assert.equal(resources.meshes.length, 365); assert.ok(batches.every(batch => batch.length <= CONFIG.meshesPerBatch));
+  assert.equal(resources.meshes.length, 365); assert.equal(batches.length, 47); assert.ok(batches.every(batch => batch.length <= CONFIG.meshesPerBatch));
   assert.ok(Object.isFrozen(baked.textures)); assert.equal(baked.textures.length, 1); assert.equal(baked.textures[0].image.data.byteLength, 15360);
   assert.equal(resources.textures[0], baked.textures[0]); assert.equal(JSON.stringify(baked.diagnostics()), before);
   baked.dispose();
 });
 test('startup integration locks input/render/resize, preserves shadow toggle, and reveals after a full frame', () => {
   const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
-  assert.match(main, /await prepareFirstSwitch\([\s\S]+?await finishRoomPreparation\(\), ji\(1,[\s\S]+?oi.loadedAt = Yc, Ge\("#loading"\)\.classList\.add\("hidden"\)/);
+  const start = main.includes('async function loadRoom()') ? main.indexOf('async function loadRoom()') : main.indexOf('async function pv()');
+  const startup = main.slice(start, main.indexOf('function setRoomReady'));
+  const prepare = startup.indexOf('prepareFirstSwitch('), frame = startup.indexOf('finishRoomPreparation()'), reveal = startup.lastIndexOf('classList.add("hidden")');
+  assert.ok(prepare >= 0 && frame > prepare && reveal > frame, 'prepare all variants, complete a full frame, then reveal');
   assert.match(main, /if \(!cs\) \{ Cr = i; return; \}/);
   for (const fn of ['ll', 'gv']) assert.match(main, new RegExp(`function ${fn}\\(i\\) \\{\\n  if \\(!cs\\) return;`));
   assert.match(main, /window.addEventListener\("resize", \(\) => \{\n  if \(!cs\) return;/);
@@ -201,4 +204,73 @@ test('expensive observed compile slices yield before rendering even when shaders
   const compile = r.renderer.compile; r.renderer.compile = (...args) => { const result = compile(...args); time += 5; return result; };
   await prepareFirstSwitch({ ...f, renderer: r.renderer, yieldFrame: r.next, now: () => time });
   for (let index = 0; index < r.events.length; index++) if (r.events[index] === 'compile') assert.deepEqual(r.events.slice(index, index + 4), ['compile', 'yield', 'draw', 'yield']);
+});
+
+test('shared geometry views are counted once per batch but all mesh draws remain', () => {
+  const array = new Uint8Array(70), geometry = { attributes: { position: { array }, normal: { array } } };
+  const meshes = Array.from({ length: 5 }, () => ({ geometry }));
+  assert.deepEqual(preparationBatches(meshes, { meshesPerBatch: 4, geometryBytesPerBatch: 100 }).map(batch => batch.length), [4, 1]);
+});
+
+for (const [label, compileCost, drawCost, expectedYields, expectedMaxBatches] of [
+  ['cheap ready batches', .125, .25, 53, 4],
+  ['expensive ready batches', 2, 2, 193, 1],
+]) {
+  test(`366-mesh CPU scheduling simulation: ${label} preserves 188 draws`, async () => {
+    const f = fixture(366), model = collectPreparationResources(await loadSceneForCPU());
+    model.meshes.forEach((mesh, index) => { f.meshes[index].geometry = mesh.geometry; });
+    const r = fakeRenderer(f, { parallel: false });
+    let time = 0;
+    const compile = r.renderer.compile, render = r.renderer.render;
+    r.renderer.compile = (...args) => { const value = compile(...args); time += compileCost; return value; };
+    r.renderer.render = (...args) => { render(...args); time += drawCost; };
+    const result = await prepareFirstSwitch({ ...f, renderer: r.renderer, now: () => time,
+      yieldFrame: async () => { await r.next(); time += 1000 / 60; } });
+    assert.equal(result.meshes, 366); assert.equal(result.batches, 188);
+    assert.equal(result.metrics.compileCalls, 188); assert.equal(result.metrics.seedDraws, 4);
+    assert.equal(result.metrics.frameYields, expectedYields);
+    assert.equal(result.metrics.maxBatchesPerSlice, expectedMaxBatches);
+    assert.ok(result.metrics.maxSliceCpuMilliseconds <= 4.000001);
+    assert.equal(result.metrics.compileCpuMilliseconds, 188 * compileCost);
+    assert.equal(result.metrics.drawCpuMilliseconds, 192 * drawCost);
+    assert.equal(r.variants.size, 4); assertRestored(f, r);
+    // A synthetic 60 Hz schedule is a deterministic planning comparison, not FPS evidence.
+    const oldYields = 1 + 4 + 188;
+    assert.equal(oldYields - result.metrics.frameYields, label.startsWith('cheap') ? 140 : 0);
+  });
+}
+
+test('adaptive prediction yields before starting a batch that would exceed the CPU target', async () => {
+  const f = fixture(32), r = fakeRenderer(f, { parallel: false }); let time = 0;
+  const render = r.renderer.render;
+  r.renderer.render = (...args) => { render(...args); time += 1.5; };
+  const result = await prepareFirstSwitch({ ...f, renderer: r.renderer, now: () => time, yieldFrame: r.next });
+  assert.equal(result.metrics.maxBatchesPerSlice, 2);
+  assert.equal(result.metrics.maxSliceCpuMilliseconds, 3);
+  assert.equal(result.metrics.frameYields, 13);
+  assert.equal(result.batches, 16); assertRestored(f, r);
+});
+
+test('adaptive grouping remains bounded with a coarse clock and stops on a synchronous abort', async () => {
+  const f = fixture(366), controller = new AbortController(); let draws = 0;
+  const r = fakeRenderer(f, { parallel: false, checkStage(stage) {
+    if (stage.children.some(mesh => mesh.name?.startsWith('original-')) && ++draws === 2) controller.abort(Error('Stop grouped work'));
+  } });
+  await assert.rejects(prepareFirstSwitch({ ...f, renderer: r.renderer, signal: controller.signal, now: () => 0, yieldFrame: r.next }), /Stop grouped work/);
+  assert.equal(draws, 2); assertRestored(f, r);
+});
+
+test('progress metrics are immutable snapshots and hidden yields cannot schedule GPU work', async () => {
+  const f = fixture(8), r = fakeRenderer(f, { parallel: false }), documentTarget = new EventTarget();
+  documentTarget.visibilityState = 'hidden'; const progress = []; let yields = 0;
+  const result = await prepareFirstSwitch({ ...f, renderer: r.renderer, documentTarget, now: () => 0,
+    onProgress: value => progress.push(value), yieldFrame: async () => {
+      await r.next(); if (++yields <= 2) assert.deepEqual(r.events, Array(yields).fill('yield'));
+      if (yields === 2) { documentTarget.visibilityState = 'visible'; documentTarget.dispatchEvent(new Event('visibilitychange')); }
+    } });
+  assert.equal(progress[0].metrics.frameYields, 0);
+  assert.deepEqual(progress[0].metrics.yieldReasons, {});
+  assert.equal(result.metrics.frameYields, 10);
+  assert.equal(progress.at(-1).metrics.frameYields, 10);
+  assertRestored(f, r);
 });
