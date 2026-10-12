@@ -8,6 +8,7 @@ import {loadSceneForCPU} from './helpers.mjs';
 import {RoomInteractions,KEYBOARD_CONFIG,roomHitIsVisible,sceneTapEndsOnCanvas} from '../src/room-interactions.js';
 import {PcCaseController} from '../src/pc-case.js';
 import {isTap} from '../src/domain.js';
+import {cancelOrbitGesture} from '../src/orbit-input.js';
 import {IsometricRoom,configureControls} from '../src/camera.js';
 import {freezeTransforms} from '../src/performance.js';
 import {L as Vector3,Lf as Raycaster,Gr as OrthographicCamera} from '../vendor/runtime-v11.js';
@@ -75,7 +76,7 @@ const handlers=ast.body.filter(n=>n.type==='ExpressionStatement'&&n.expression.t
 const clear=ast.body.find(n=>n.type==='FunctionDeclaration'&&n.id.name==='Xr');assert.equal(handlers.length,5);
 function pointerFixture(){
  const canvas=new QAElement('canvas');let now=0,hits=0,overlay=false,modal=false;
- const context={bn:canvas,cs:true,walk:{active:false},Rt:{position:new Vector3(),zoom:1,updateProjectionMatrix(){}},tn:{target:new Vector3(),update(){}},performance:{now:()=>now},Kc:{set(){}},jc:{setFromCamera(){},intersectObject(){return [{}]}},Qn:{},roomHitIsVisible:()=>true,roomInteractions:{target:()=>({type:'pc'}),interact:()=>hits++},_i:0,pt:{constrain(){}},kx:isTap,sceneTapEndsOnCanvas:(e,c)=>sceneTapEndsOnCanvas(e,c,context.document),document:{querySelector:()=>modal?{}:null,elementFromPoint:()=>overlay?{}:canvas}};
+ const context={bn:canvas,cancelOrbitGesture,cs:true,walk:{active:false},Rt:new OrthographicCamera(-4,4,3,-3,.1,100),tn:{target:new Vector3(),update(){}},performance:{now:()=>now},Kc:{set(){}},jc:{setFromCamera(){},intersectObject(){return [{}]}},Qn:{},roomHitIsVisible:()=>true,roomInteractions:{target:()=>({type:'pc'}),interact:()=>hits++},_i:0,pt:{constrain(){}},kx:isTap,sceneTapEndsOnCanvas:(e,c)=>sceneTapEndsOnCanvas(e,c,context.document),document:{querySelector:()=>modal?{}:null,elementFromPoint:()=>overlay?{}:canvas}};
  vm.createContext(context);vm.runInContext('const Ri=new Set();let dt=null;'+source.slice(clear.start,clear.end)+'\n'+handlers.map(n=>source.slice(n.start,n.end)).join('\n'),context);
  const fire=(type,id=1,x=400,y=300,button=0)=>dispatch(canvas,type,{pointerId:id,clientX:x,clientY:y,button});
  return {fire,context,get hits(){return hits},setTime:v=>now=v,setOverlay:v=>overlay=v,setModal:v=>modal=v};

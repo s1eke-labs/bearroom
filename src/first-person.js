@@ -4,6 +4,7 @@
 import { zt as PerspectiveCamera, L as Vector3, _t as Mesh, Hr as PlaneGeometry } from '../vendor/runtime-v11.js';
 import { WalkNavigation } from './walk-navigation.js';
 import { sceneTapEndsOnCanvas } from './room-interactions.js';
+import { cancelOrbitGesture } from './orbit-input.js';
 
 export const WALK_CEILING = Object.freeze({ width: 10, depth: 8, height: 5.8 });
 export const WALK_VIEW = Object.freeze({ eyeHeight: 1.6, fov: 68, near: 0.045, far: 80, pitchLimit: 80 * Math.PI / 180, lookSensitivity: 0.0032 });
@@ -42,19 +43,7 @@ export function restoreIsometricState(room, camera, controls, saved) {
   controls.maxZoom = saved.maxZoom;
   camera.updateProjectionMatrix();
   camera.updateMatrixWorld(true);
-}
-
-/** Eliminate latent damping and interrupted pointer drags before changing cameras.
- * These fields belong to the frozen, version-pinned OrbitControls implementation.
- * No fixed-view input or camera math changes while roaming is inactive.
- */
-function stopOrbitGesture(controls) {
-  for (const pointerId of [...(controls._pointers || [])]) controls._onPointerUp?.({ pointerId });
-  controls._sphericalDelta?.set(0, 0, 0);
-  controls._panOffset?.set(0, 0, 0);
-  if ('_scale' in controls) controls._scale = 1;
-  if ('_performCursorZoom' in controls) controls._performCursorZoom = false;
-  if ('state' in controls) controls.state = -1;
+  room.syncFrame?.();
 }
 
 export class FirstPersonController {
@@ -111,7 +100,7 @@ export class FirstPersonController {
     if (this.active || !this.inputEnabled) return;
     this.saved = captureIsometricState(this.room, this.isometricCamera, this.orbitControls);
     this.savedSize = { ...this.size };
-    stopOrbitGesture(this.orbitControls);
+    cancelOrbitGesture(this.orbitControls);
     // Cancelling a prior gesture must not alter the exact visible frame being saved.
     restoreIsometricState(this.room, this.isometricCamera, this.orbitControls, this.saved);
     this.orbitControls.enabled = false;
@@ -160,7 +149,7 @@ export class FirstPersonController {
       else object.userData.cutawayVisible = cutaway;
     }
     for (const [material, saved] of this.savedMaterials) Object.assign(material, saved);
-    stopOrbitGesture(this.orbitControls);
+    cancelOrbitGesture(this.orbitControls);
     restoreIsometricState(this.room, this.isometricCamera, this.orbitControls, this.saved);
     // Rotation changes the viewport, not the saved view or zoom. Refit only when needed.
     if (this.size.width !== this.savedSize.width || this.size.height !== this.savedSize.height) {
@@ -172,7 +161,7 @@ export class FirstPersonController {
     if (this.toggleButton) this.toggleButton.textContent = '进入漫游';
     if (this.hint) this.hint.innerHTML = this.savedHint;
     if (this.status) this.status.textContent = this.savedStatus;
-    this.canvas.setAttribute('aria-label', '小熊的三维 Loft，拖动平移查看细节，捏合缩放，直接点按琴键弹奏');
+    this.canvas.setAttribute('aria-label', '小熊的三维 Loft，单指或左键拖动有限旋转，双指或右键平移，捏合或滚轮缩放，直接轻点琴键弹奏');
     this.canvas.focus?.({ preventScroll: true });
     this.onChange(false);
   }

@@ -17,6 +17,7 @@ import { prepareFirstSwitch, preparationFrame } from './first-switch-preparation
 import { RoomInteractions, roomHitIsVisible, sceneTapEndsOnCanvas } from './room-interactions.js';
 import { fetchUint8Array, decodeGzip, createPhaseTimings } from './asset-loading.js';
 import { LoadResources } from './load-resources.js';
+import { cancelOrbitGesture } from './orbit-input.js';
 import { ASSET_REVISION } from './asset-revision.js';
 const Ge = (i) => document.querySelector(i), bn = Ge("#room"), jt = new Mh();
 jt.background = new we("#192b3b");
@@ -321,7 +322,7 @@ bn.addEventListener("pointerdown", (i) => {
     dt && (dt.multi = true);
     return;
   }
-  dt = { id: i.pointerId, x: i.clientX, y: i.clientY, time: performance.now(), distance: 0, multi: false, cancelled: false, camera: Rt.position.clone(), target: tn.target.clone(), zoom: Rt.zoom };
+  dt = { id: i.pointerId, x: i.clientX, y: i.clientY, time: performance.now(), distance: 0, multi: false, cancelled: false, camera: Rt.position.clone(), quaternion: Rt.quaternion.clone(), up: Rt.up.clone(), target: tn.target.clone(), zoom: Rt.zoom };
 }, { capture: true });
 bn.addEventListener("pointermove", (i) => {
   if (!cs || walk?.active) return;
@@ -330,11 +331,12 @@ bn.addEventListener("pointermove", (i) => {
 bn.addEventListener("pointerup", (i) => {
   if (!cs || walk?.active) return;
   if (Ri.delete(i.pointerId), !(!dt || i.pointerId !== dt.id)) {
+    const completed = dt;
     if (dt.duration = performance.now() - dt.time, dt.distance = Math.max(dt.distance, Math.hypot(i.clientX - dt.x, i.clientY - dt.y)), kx(dt) && i.button === 0 && cs && sceneTapEndsOnCanvas(i, bn) && !document.querySelector("dialog[open]")) {
       const e = bn.getBoundingClientRect();
       Kc.set((i.clientX - e.left) / e.width * 2 - 1, -(i.clientY - e.top) / e.height * 2 + 1), jc.setFromCamera(Kc, Rt);
       const t = jc.intersectObject(Qn, true).filter(roomHitIsVisible);
-      t.length && roomInteractions?.target(t[0]) && (tn.enableDamping = false, tn.update(), tn.enableDamping = true, Rt.zoom = dt.zoom, Rt.updateProjectionMatrix(), Rt.position.copy(dt.camera), tn.target.copy(dt.target), pt?.constrain(), roomInteractions.interact(t[0], performance.now(), _i));
+      t.length && roomInteractions?.target(t[0]) && (cancelOrbitGesture(tn), Rt.zoom = completed.zoom, Rt.updateProjectionMatrix(), Rt.position.copy(completed.camera), Rt.quaternion.copy(completed.quaternion), Rt.up.copy(completed.up), tn.target.copy(completed.target), pt?.constrain(), roomInteractions.interact(t[0], performance.now(), _i));
     }
     dt = null;
   }
@@ -342,10 +344,14 @@ bn.addEventListener("pointerup", (i) => {
 bn.addEventListener("pointercancel", (i) => {
   if (!cs || walk?.active) return;
   Ri.delete(i.pointerId), dt && (dt.cancelled = true);
+  Xr();
 });
-bn.addEventListener("lostpointercapture", Xr);
+bn.addEventListener("lostpointercapture", (event) => {
+  // Normal pointerup has already released this owner; preserve a surviving touch.
+  if (Ri.has(event.pointerId) || tn._pointers?.includes(event.pointerId)) Xr();
+});
 window.addEventListener("blur", () => {
-  Ri.clear(), dt = null; roomInteractions?.resetKeys();
+  Xr(); roomInteractions?.resetKeys();
 });
 window.addEventListener("pagehide", () => { Xr(); roomInteractions?.resetKeys(); });
 function suspendGraphics(event) {
@@ -402,6 +408,7 @@ window.addEventListener("resize", () => {
 });
 function Xr() {
   Ri.clear(), dt = null;
+  cancelOrbitGesture(tn);
 }
 function gv(i) {
   if (!cs) return;
@@ -441,7 +448,7 @@ function cl() {
   graphicsAvailable && Hs === null && document.visibilityState !== "hidden" && (Hs = requestAnimationFrame(vv));
 }
 document.addEventListener("visibilitychange", () => {
-  document.visibilityState === "hidden" ? (cancelAnimationFrame(Hs), Hs = null, Ri.clear(), dt = null, roomInteractions?.resetKeys()) : (Cr = performance.now(), Ei = true, cl());
+  document.visibilityState === "hidden" ? (cancelAnimationFrame(Hs), Hs = null, Xr(), roomInteractions?.resetKeys()) : (Cr = performance.now(), Ei = true, cl());
 });
 const _v = new we("#192b3b"), xv = new we("#afc8d3");
 function vv(i) {

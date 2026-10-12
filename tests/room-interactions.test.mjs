@@ -4,8 +4,9 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import { RoomInteractions, KEYBOARD_CONFIG, keyboardComponents, roomHitIsVisible, sceneTapEndsOnCanvas } from '../src/room-interactions.js';
 import { PcCaseController } from '../src/pc-case.js';
+import { cancelOrbitGesture } from '../src/orbit-input.js';
 import { kx } from '../src/domain.js';
-import { L as Vector3, Lf as Raycaster, Ee as Vector2, Mh as Scene, _t as Mesh, Hr as PlaneGeometry, Ai as Material } from '../vendor/runtime-v11.js';
+import { Gr as OrthographicCamera, L as Vector3, Lf as Raycaster, Ee as Vector2, Mh as Scene, _t as Mesh, Hr as PlaneGeometry, Ai as Material } from '../vendor/runtime-v11.js';
 import { loadSceneForCPU } from './helpers.mjs';
 import { qaDOM, dispatch } from './walk-qa-helpers.mjs';
 const source = await loadSceneForCPU();
@@ -112,13 +113,13 @@ test('opaque foreground occludes actions, hidden/clipped geometry and normal roo
 });
 
 function gestures() {
-  const dom = qaDOM(500, 400), clock = { value: 0 }, hit = { object: { userData: {} } }, camera = { position: new Vector3(4, 5, 6), zoom: 2, updateProjectionMatrix() {} };
-  const context = { bn: dom.canvas, window: dom.windowTarget, document: dom.documentTarget, performance: { now: () => clock.value }, cs: true, walk: null, Rt: camera,
+  const dom = qaDOM(500, 400), clock = { value: 0 }, hit = { object: { userData: {} } }, camera = new OrthographicCamera(-4,4,3,-3,.1,100); camera.position.set(4,5,6); camera.zoom=2;
+  const context = { bn: dom.canvas, window: dom.windowTarget, document: dom.documentTarget, performance: { now: () => clock.value }, cancelOrbitGesture, cs: true, walk: null, Rt: camera,
     tn: { target: new Vector3(0, 1, 0), update() {}, enableDamping: true }, kx, sceneTapEndsOnCanvas: (event, canvas) => sceneTapEndsOnCanvas(event, canvas, dom.documentTarget), roomHitIsVisible: () => true,
     Kc: new Vector2(), jc: { setFromCamera() {}, intersectObject: () => [hit] }, Qn: {}, pt: { constrain() {} }, _i: 1,
     roomInteractions: { target: () => ({ type: 'test' }), interact() { context.actions++; }, resetKeys() {} }, actions: 0 };
   vm.createContext(context);
-  vm.runInContext(main.slice(main.indexOf('const Ri ='), main.indexOf('bn.addEventListener("webglcontextlost"')) + '\nfunction Xr(){Ri.clear();dt=null;}', context);
+  vm.runInContext(main.slice(main.indexOf('const Ri ='), main.indexOf('bn.addEventListener("webglcontextlost"')) + '\n' + main.slice(main.indexOf('function Xr()'),main.indexOf('function gv(')), context);
   return { ...dom, context, clock, pointer(type, id = 1, x = 100, y = 100, button = 0) { dispatch(dom.canvas, type, { pointerId: id, clientX: x, clientY: y, button }); } };
 }
 test('fixed-view only completed stationary primary taps dispatch; drag, multi-touch, cancel, blur and lost capture do not', () => {
@@ -151,3 +152,10 @@ test('cosmetic keyboard has no text event, command, audio, storage, timer or ind
   assert.doesNotMatch(update, /traverse|clone\(|keyboardComponents|StaticTriangleBVH/);
   assert.match(main, /if \(roomInteractions\?\.update\(i\)\) Ei = true/);
 });
+
+ test('stationary scene tap restores complete rotated pose without consuming residual orbit damping',()=>{
+ const f=gestures(),camera=f.context.Rt,controls=f.context.tn;camera.rotation.set(.2,.3,.1);const position=camera.position.clone(),quaternion=camera.quaternion.clone(),up=camera.up.clone();
+ controls._sphericalDelta={set(){this.cleared=true}};controls._panOffset=new Vector3(.3,0,0);
+ f.pointer('pointerdown');camera.position.x+=.01;camera.rotateY(.02);f.clock.value=100;f.pointer('pointerup');
+ assert.equal(f.context.actions,1);assert.deepEqual(camera.position.toArray(),position.toArray());assert.deepEqual(camera.quaternion.toArray(),quaternion.toArray());assert.deepEqual(camera.up.toArray(),up.toArray());assert.equal(controls._sphericalDelta.cleared,true);assert.equal(controls._panOffset.lengthSq(),0);
+ });
