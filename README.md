@@ -4,7 +4,7 @@ This is the **current production-v11 runtime recovered into editable modules**, 
 
 The original source files and source maps for that revision were unavailable after workspace recovery. We preserved the deployed code and split its app layer at existing declaration boundaries. Minifier aliases remain in function bodies deliberately, avoiding risky rewrites. Public module exports have descriptive names for tests and future work. Vendor code is frozen from the deployment so dependency changes cannot silently change rendering or controls.
 
-Current release: **v20.4.2 minimal loading status**. The loading page preserves its original animated bear logo, followed by one short current-stage sentence and a progress bar. Byte counts, image counts, batch counts and parallel-task diagnostics stay internal; failures reveal a reason and retry button. The thirteen real work stages, readiness guard, retries, diagnostics and accessibility announcement throttling remain intact. See `docs/loading-progress.md`.
+Current release: **v20.5 simplified home UI**. The home toolbar exposes only three floor choices and the classic/left/right angles. Bear/piano focus buttons, the English subtitle and persistent instruction text are removed; essential instructions remain in Help. Both bear logos, direct piano playing and all model interactions remain. The loading page preserves its original animated bear logo, followed by one short current-stage sentence and a progress bar. Byte counts, image counts, batch counts and parallel-task diagnostics stay internal; failures reveal a reason and retry button. The thirteen real work stages, readiness guard, retries, diagnostics and accessibility announcement throttling remain intact. See `docs/loading-progress.md`.
 
 The classic / 正左 / 正右 axial camera presets and smooth transitions remain unchanged (`docs/axial-viewpoints.md`).
 
@@ -27,7 +27,7 @@ Runtime assets are read from `public/assets`. The canonical compressed model is 
 ## Source map
 
 - `src/camera-presets.js`: reviewed preset angles and finite camera-transition policy.
-- `src/camera.js`: classic/axial viewpoints, per-angle transition-safe fit, room-constrained pan, 5 presets, cutaway. `Ox` → `IsometricRoom`, `Ix` → `configureControls`.
+- `src/camera.js`: classic/axial viewpoints, per-angle transition-safe fit, room-constrained pan, three public floor choices and retained internal legacy focus modes, cutaway. `Ox` → `IsometricRoom`, `Ix` → `configureControls`.
 - `src/domain.js`: 88 MIDI keys, 23 furniture categories, 12 animated categories, tap and slideshow behavior.
 - `src/audio.js`: Web Audio piano voices. `Hx` → `PianoAudio`.
 - `src/lighting.js`: 10 lamps and blended day/night settings. The reviewed v13 patch changes four fixture colors and the night moon coefficient; all lamp powers/ranges, day lamp coefficients and shadow allocations remain recovered behavior.
@@ -65,7 +65,7 @@ For frozen realism asset identities, exact-image deduplication proof and final v
 
 ## Verification scope and limitations
 
-The current CPU suite evaluates the actual recovered camera class against real model geometry, including every preset, portrait/landscape resizing, extreme panning, 8× normal zoom, 16× piano zoom, curated transitions, default-direction reset and cutaway. It also covers velvet/fiber selection, GI loading/packing/shader hooks, exact asset hashes, tap thresholds, all 88 physically reachable piano raycast targets from the fixed view, single-sided screen-face visibility, slideshow transitions, real exported cloth deformation and bounded metrics. Frozen v12 records guard 153 protected world transforms, piano/art geometry, and all 13 slideshow asset hashes. Sky tests cover every packed face/channel, zero-sky equivalence, source identity, semantic separation and Float16 limits. Structural recovery checks cover every recovered app module plus vendor code.
+The current CPU suite evaluates the actual recovered camera class against real model geometry, including retained internal legacy focus modes (not exposed in the UI), portrait/landscape resizing, extreme panning, 8× normal zoom, 16× piano zoom, curated transitions, default-direction reset and cutaway. It also covers velvet/fiber selection, GI loading/packing/shader hooks, exact asset hashes, tap thresholds, all 88 physically reachable piano raycast targets from the fixed view, single-sided screen-face visibility, slideshow transitions, real exported cloth deformation and bounded metrics. Frozen v12 records guard 153 protected world transforms, piano/art geometry, and all 13 slideshow asset hashes. Sky tests cover every packed face/channel, zero-sky equivalence, source identity, semantic separation and Float16 limits. Structural recovery checks cover every recovered app module plus vendor code.
 
 These are not GPU rendering, acoustic, touch-device performance, occlusion or visual-realism acceptance tests. A separate supported-browser and rendered-scene review remains necessary for a new model. CPU test fixtures omit image loading in memory only, without altering shipped assets.
 
@@ -102,3 +102,5 @@ See `docs/pc-case-runtime-v16.md` for animation/display behavior, true clock sem
 ## First-switch preparation
 
 Before the room becomes interactive, v18 progressively prepares the original four floor/day-night shader combinations, texture uploads, geometry and existing shadow targets. It keeps the original night shadow cost and all visuals/assets intact. The loading indicator includes this preparation, so startup may take several additional seconds; a single driver compile/upload cannot be preempted. Full device/GPU performance and visual acceptance remain unverified. See `docs/first-switch-preparation-v18.md` for source evidence, bounded work, cancellation and the precise verification scope.
+
+Home UI release verification (v20.5): `npm ci` and `npm run verify` pass; 342 tests, zero failures/skips. Distribution: 19,817,106 bytes; reserve: 1,154,414 bytes. CPU DOM regressions cover the retired entries, rejected IDs, both logos, 320px control sizing and repeated floor/walking transitions with no persistent hint. No browser/WebGL/device visual acceptance was performed for this UI change.

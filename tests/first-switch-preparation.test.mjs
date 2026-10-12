@@ -167,7 +167,8 @@ test('startup integration locks input/render/resize, preserves shadow toggle, an
   const prepare = startup.indexOf('prepareFirstSwitch('), frame = startup.indexOf('finishRoomPreparation(controller)'), reveal = startup.lastIndexOf('classList.add("hidden")');
   assert.ok(prepare >= 0 && frame > prepare && reveal > frame, 'prepare all variants, complete a full frame, then reveal');
   assert.match(main, /if \(!cs\) \{ Cr = i; return; \}/);
-  for (const fn of ['ll', 'gv']) assert.match(main, new RegExp(`function ${fn}\\(i\\) \\{\\n  if \\(!cs\\) return;`));
+  assert.match(main, /function ll\(i\) \{\n  if \(!cs\) return;/);
+  assert.match(main, /function gv\(i\) \{\n  if \(!cs \|\| !\["overview", "lower", "upper"\]\.includes\(i\)\) return;/);
   assert.match(main, /window.addEventListener\("resize", \(\) => \{\n  if \(!cs\) return;/);
   assert.match(main, /cancelAnimationFrame\(Hs\); Hs = null; Cr = performance.now\(\); cs = true;\n    const rendered = vv\(Cr\);[\s\S]+?setRoomReady\(true\);/);
   assert.match(main, /It.shadow.needsUpdate = It.intensity > 0, It.castShadow = It.intensity > 0;/);

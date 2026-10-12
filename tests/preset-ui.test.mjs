@@ -41,7 +41,7 @@ function fixture({ reduced = false, width = 1440, height = 900 } = {}) {
     return elements.get(selector);
   };
   const buttons = CAMERA_PRESETS.map(preset => { const button = new QAElement(preset.id); button.dataset.preset = preset.id; return button; });
-  const floors = ['overview', 'lower', 'upper', 'bear', 'piano'].map(view => { const button = new QAElement(view); button.dataset.view = view; return button; });
+  const floors = ['overview', 'lower', 'upper'].map(view => { const button = new QAElement(view); button.dataset.view = view; return button; });
   let dialog = false, now = 1000, taps = 0;
   element('#help-dialog').showModal = () => { dialog = true; };
   dom.documentTarget.querySelector = selector => selector === 'dialog[open]' ? dialog ? element('#help-dialog') : null : element(selector);
@@ -77,7 +77,7 @@ function fixture({ reduced = false, width = 1440, height = 900 } = {}) {
     reset(floor) { this.position.set(0, floor === 'upper' ? 3.13 : .014, 0); },
     eyePosition(out) { return out.copy(this.position).add(new Vector3(0, 1.6, 0)); }, move() {},
   };
-  const walk = new FirstPersonController({ ...dom, root, room, isometricCamera: camera, orbitControls: controls, navigation, onChange: () => context.Xr() });
+  const walk = new FirstPersonController({ ...dom, hint: null, status: element('#view-status'), root, room, isometricCamera: camera, orbitControls: controls, navigation, onChange: () => context.Xr() });
   context.walk = walk; context.setRoomReady(true);
   return { ...dom, context, room, camera, controls, walk, media, element, buttons, floors,
     get taps() { return taps; }, setTime(time) { now = time; },
@@ -202,5 +202,40 @@ test('preset UI: portrait row dimensions fit 320px and keep 44px native targets'
   assert.ok(presetWidth + walkWidth + gap <= 320 - 28);
   const f = fixture({ width: 320, height: 844 });
   assert.ok(f.room.viewport.top >= 202, 'camera safe area clears the two-row toolbar');
+  f.dispose();
+});
+
+
+test('home UI retains both logos and essential controls without retired focus buttons or persistent instructions', () => {
+  const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const css = fs.readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
+  assert.deepEqual([...html.matchAll(/data-view="([^"]+)"/g)].map(match => match[1]), ['overview','lower','upper']);
+  for (const id of ['night','day','walk-toggle','reset-view','zoom-in','zoom-out','sound','help','help-dialog']) assert.match(html,new RegExp(`id="${id}"`));
+  assert.match(html, /<span class="bearmark">ʕ•ᴥ•ʔ<\/span>/);
+  assert.match(html, /<div class="loading-bear">ʕ•ᴥ•ʔ<\/div>/);
+  assert.doesNotMatch(html, /id="hint"|ISOMETRIC DOLLHOUSE|orientation-control|点「小熊」|点「钢琴」|真实手机性能尚待验收/);
+  assert.match(html, /id="view-status" class="sr-only" aria-live="polite"/);
+  assert.match(html, /直接点琴键弹奏/);
+  assert.match(html, /WASD \/ 方向键/);
+  assert.match(css, /\.bottom-bar\{justify-content:flex-end\}/);
+  assert.match(css, /@media\(max-width:600px\)\{\.view-toolbar\{width:calc\(100% - 24px\)/);
+  assert.match(css, /\.preset-control button\{min-width:44px;padding:0 10px\}/);
+});
+
+test('home UI rejects removed focus views without moving the camera or exiting walking', () => {
+  const f = fixture({width:320,height:568});
+  f.click('left');f.frame(2000);const before=pose(f);
+  for(const view of ['bear','piano','missing']) { f.context.gv(view);samePose(pose(f),before); }
+  f.walk.enter();
+  for(const view of ['bear','piano']) {f.context.gv(view);assert.equal(f.walk.active,true);}
+  f.walk.exit();samePose(pose(f),before);f.dispose();
+});
+
+test('home UI floor switching and repeated walking work with no persistent hint node', () => {
+  const f=fixture({width:390,height:844});
+  for(let round=0;round<3;round++)for(const view of ['lower','upper','overview']) {
+    f.context.gv(view);assert.equal(f.room.view,view);assert.equal(f.element('#view-status').textContent,{overview:'全景',lower:'一层',upper:'二层'}[view]);
+    const before=pose(f);assert.equal(f.walk.hint,null);f.walk.enter();f.walk.exit();samePose(pose(f),before);
+  }
   f.dispose();
 });

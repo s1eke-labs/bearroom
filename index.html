@@ -27,7 +27,7 @@
       <header>
         <div class="wordmark">
           <span class="bearmark">ʕ•ᴥ•ʔ</span>
-          <div>小熊的家<small>BEARROOM · ISOMETRIC DOLLHOUSE</small></div>
+          <div>小熊的家</div>
         </div>
         <div class="mode-control" role="group" aria-label="昼夜模式">
           <button id="night" class="selected" aria-pressed="true">
@@ -40,8 +40,6 @@
           <button data-view="overview" class="selected" aria-pressed="true">全景</button>
           <button data-view="lower" aria-pressed="false">一层</button>
           <button data-view="upper" aria-pressed="false">二层</button>
-          <button data-view="bear" aria-pressed="false">小熊</button>
-          <button data-view="piano" aria-pressed="false">钢琴</button>
         </div>
         <div id="preset-control" class="preset-control" role="group" aria-label="预设视角" aria-busy="false" hidden>
           <button type="button" data-preset="classic" class="selected" aria-pressed="true" disabled>经典</button>
@@ -49,9 +47,7 @@
           <button type="button" data-preset="right" aria-pressed="false" disabled>正右</button>
         </div>
         <button id="walk-toggle" aria-pressed="false" aria-describedby="walk-instructions" disabled>进入漫游</button>
-        <div class="orientation-control" role="group" aria-label="视角方向">
-          <span id="view-status" aria-live="polite">全景 · 双层剖面</span>
-        </div>
+        <span id="view-status" class="sr-only" aria-live="polite">全景</span>
       </nav>
       <div class="zoom-control" role="group" aria-label="缩放与复位">
         <button id="zoom-in" aria-label="放大">＋</button>
@@ -68,9 +64,6 @@
       </div>
       <span id="load-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></span>
       <aside class="bottom-bar">
-        <p id="hint">
-          拖动平移 · 捏合 / 滚轮缩放<br /><span>经典 / 正左 / 正右切换视角 · 轻点琴键弹奏</span>
-        </p>
         <button id="sound" aria-label="静音" aria-pressed="false">
           ♫<span>声音</span></button
         ><button id="help" aria-label="查看操作说明">?<span>操作</span></button>
@@ -88,18 +81,11 @@
       <div id="note" aria-live="polite"></div>
       <dialog id="help-dialog">
         <button class="close" aria-label="关闭说明">×</button>
-        <h2>慢慢看看，随手弹弹</h2>
-        <p>
-          点「经典」「正左」「正右」切换预设视角，经典保留等轴构图，正左与正右分别正对房屋的两侧开敞面。镜头会平滑切换并适配当前方向的构图，保留手动缩放倍率；开启系统的减少动态效果后会直接切换。一根或两根手指拖动平移，捏合缩放。平移限制在当前房间附近，放大后可查看边缘。
-        </p>
-        <p>全景展示完整双层；一层暂时剖开上层，二层聚焦卧室与阅读区。点「小熊」近看沙发上的短绒玩偶，仍可切换预设、平移和缩放。切换楼层或点全景会回到该视图的经典角度并居中。</p>
-        <p>
-          电脑上左键或右键拖动平移，滚轮或中键拖动缩放。也可使用右侧 ＋ / −；小房子按钮恢复当前视图的经典角度、缩放并居中。方向键平移查看，＋ / − 缩放，0 或 Home 复位。点「钢琴」可聚焦键盘，再放大近看；直接轻点琴键弹奏，不会自动移动镜头。
-        </p>
-        <p>点「进入漫游」以第一人称在家中行走，没有角色模型。电脑使用 WASD / 方向键移动，按住画面拖动环顾，Esc 退出；手机按住左下摇杆移动，同时在右侧拖动环顾。沿楼梯可上下楼，走近浴室门可按 E 或开门按钮。点「退出漫游」返回刚才的视角；选楼层则退出并切换到对应视图。</p>
-        <p>点击浴室门开关门，点击机箱启停风扇与灯光，点击电脑键盘查看按键反馈。</p>
-        <p>切换晴日与暖夜会保留你的视角。每件家具都在自己的节奏里。</p>
-        <small>建议开启设备媒体音量。真实手机性能尚待验收。</small>
+        <h2>操作说明</h2>
+        <p>选择全景、一层或二层；用「经典」「正左」「正右」切换角度。拖动平移，捏合或滚轮缩放，⌂ 复位。</p>
+        <p>直接点琴键弹奏；点浴室门开关门，点机箱开关风扇、灯光与屏幕，点电脑键盘查看反馈。右下角可开关声音。</p>
+        <p>进入漫游后，电脑用 WASD / 方向键行走、拖动环顾；手机用左侧摇杆移动、右侧拖动环顾。走近浴室门可按 E 或开门按钮，Esc 退出。楼梯可上下楼，退出后恢复原视角。</p>
+        <p>总览键盘操作：方向键平移，＋ / − 缩放，0 / Home 复位。晴日与暖夜切换会保留视角。</p>
       </dialog>
     </main>
   </body>

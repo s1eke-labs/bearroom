@@ -1,7 +1,7 @@
 {
   "name": "bearroom-current-runtime",
   "private": true,
-  "version": "20.4.2",
+  "version": "20.5.0",
   "type": "module",
   "scripts": {
     "restore:assets": "node scripts/restore-assets.mjs",

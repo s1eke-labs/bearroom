@@ -14,7 +14,7 @@ The whole 0–90° interval is available to the transition; no previous 35–55�
 
 ## Framing and transition
 
-Each direction fits its own actual visible mesh projections, with a consistent orthographic aspect ratio and UI padding. The camera frustum adapts continuously during the 420 ms smoothstep transition while preserving the user's zoom multiplier and bounded pan focus. The diagonal midpoint can be wider than either axial endpoint, so fitting is evaluated along the actual angle rather than merely interpolating endpoint sizes. Close-up bear/piano views retain subject-specific bounds.
+Each direction fits its own actual visible mesh projections, with a consistent orthographic aspect ratio and UI padding. The camera frustum adapts continuously during the 420 ms smoothstep transition while preserving the user's zoom multiplier and bounded pan focus. The diagonal midpoint can be wider than either axial endpoint, so fitting is evaluated along the actual angle rather than merely interpolating endpoint sizes. Legacy close-up bear/piano camera algorithms retain subject-specific bounds for regression fidelity, but v20.5 removes their UI entries and rejects these IDs in the public floor-switch handler. Piano playing and plush appearance remain unchanged.
 
 Rapid retargets start from the last visible pose and projection. Input, resize, floor/reset, walking, hidden/blur and context interruption retain the existing safe cancellation behavior; reduced motion selects the endpoint directly. Exact camera/projection snapshots remain covered for walking and interrupted transitions. Camera listeners are still detached on retry cleanup.
 

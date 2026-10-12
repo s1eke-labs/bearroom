@@ -554,12 +554,12 @@ function Xr() {
   syncPresetControls();
 }
 function gv(i) {
-  if (!cs) return;
+  if (!cs || !["overview", "lower", "upper"].includes(i)) return;
   walk?.exit();
   pt && (Xr(), pt.setView(i), Ei = true, pt.fit(innerWidth, innerHeight), Nr?.update(Rt, innerHeight, pt.view), document.querySelectorAll("[data-view]").forEach((e) => {
     const t = e.dataset.view === i;
     e.classList.toggle("selected", t), e.setAttribute("aria-pressed", String(t));
-  }), Ge("#view-status").textContent = { overview: "全景 · 双层剖面", lower: "一层 · 生活空间", upper: "二层 · 休息空间", bear: "小熊 · 近看短绒与缝线", piano: "钢琴 · 直接点按琴键" }[i]);
+  }), Ge("#view-status").textContent = { overview: "全景", lower: "一层", upper: "二层" }[i]);
   syncPresetControls();
 }
 document.querySelectorAll("[data-view]").forEach((i) => i.onclick = () => gv(i.dataset.view));

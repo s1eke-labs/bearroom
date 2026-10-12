@@ -34,3 +34,8 @@
 @media(prefers-reduced-motion:reduce){.loading-bear,#load-meter.is-indeterminate:after{animation:none}#load-progress{transition:none}}
 
 #load-detail[hidden]{display:none}.loading-actions:not(:has(button:not([hidden]))){display:none}
+
+/* Keep the room unobstructed; instructions live in the help dialog. */
+.bottom-bar{justify-content:flex-end}
+#view-status.sr-only{display:block;padding:0}
+@media(max-width:600px){.view-toolbar{width:calc(100% - 24px);column-gap:6px;row-gap:6px}.floor-control button{padding:0 10px}.preset-control button{min-width:44px;padding:0 10px}}

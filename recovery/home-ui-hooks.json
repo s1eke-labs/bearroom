@@ -1,0 +1,8 @@
+{
+  "main": [
+    [
+      "function gv(i) {\n  if (!cs) return;\n  walk?.exit();\n  pt && (Xr(), pt.setView(i), Ei = true, pt.fit(innerWidth, innerHeight), Nr?.update(Rt, innerHeight, pt.view), document.querySelectorAll(\"[data-view]\").forEach((e) => {\n    const t = e.dataset.view === i;\n    e.classList.toggle(\"selected\", t), e.setAttribute(\"aria-pressed\", String(t));\n  }), Ge(\"#view-status\").textContent = { overview: \"全景 · 双层剖面\", lower: \"一层 · 生活空间\", upper: \"二层 · 休息空间\", bear: \"小熊 · 近看短绒与缝线\", piano: \"钢琴 · 直接点按琴键\" }[i]);\n  syncPresetControls();\n}",
+      "function gv(i) {\n  if (!cs || ![\"overview\", \"lower\", \"upper\"].includes(i)) return;\n  walk?.exit();\n  pt && (Xr(), pt.setView(i), Ei = true, pt.fit(innerWidth, innerHeight), Nr?.update(Rt, innerHeight, pt.view), document.querySelectorAll(\"[data-view]\").forEach((e) => {\n    const t = e.dataset.view === i;\n    e.classList.toggle(\"selected\", t), e.setAttribute(\"aria-pressed\", String(t));\n  }), Ge(\"#view-status\").textContent = { overview: \"全景\", lower: \"一层\", upper: \"二层\" }[i]);\n  syncPresetControls();\n}"
+    ]
+  ]
+}

@@ -86,7 +86,7 @@ test('main integration routes render and walk piano raycasts through active came
   assert.match(main,/Ot\.render\(jt, walk\?\.getCamera\(\) \|\| Rt\)/);
   assert.match(main,/jc\.setFromCamera\(Kc, walk\.getCamera\(\)\)/);
   assert.match(main,/if \(walk\?\.active\) walk\.update\(e\);\s*else \{ tn\.update\(\); pt\?\.constrain\(\); \}/);
-  assert.match(main,/function gv\(i\) \{\s*if \(!cs\) return;\s*walk\?\.exit\(\);/);
+  assert.match(main,/function gv\(i\) \{\s*if \(!cs \|\| !\["overview", "lower", "upper"\]\.includes\(i\)\) return;\s*walk\?\.exit\(\);/);
   const html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
   for(const id of ['walk-toggle','walk-stick','walk-stick-knob','walk-door','walk-instructions']) assert.ok(html.includes(`id="${id}"`));
   assert.ok(html.includes('aria-describedby="walk-instructions"'));
