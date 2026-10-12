@@ -1,4 +1,6 @@
-# Bounded external view (v20.1)
+# Bounded external view (v20.1, historical)
+
+Superseded by v20.2 curated viewpoints. Free pointer rotation is no longer enabled; see `curated-viewpoints.md`. The limits and measurements below describe the earlier release.
 
 ## Controls and limits
 

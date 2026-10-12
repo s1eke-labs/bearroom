@@ -114,7 +114,7 @@ test('opaque foreground occludes actions, hidden/clipped geometry and normal roo
 
 function gestures() {
   const dom = qaDOM(500, 400), clock = { value: 0 }, hit = { object: { userData: {} } }, camera = new OrthographicCamera(-4,4,3,-3,.1,100); camera.position.set(4,5,6); camera.zoom=2;
-  const context = { bn: dom.canvas, window: dom.windowTarget, document: dom.documentTarget, performance: { now: () => clock.value }, cancelOrbitGesture, cs: true, walk: null, Rt: camera,
+  const context = { bn: dom.canvas, window: dom.windowTarget, document: dom.documentTarget, performance: { now: () => clock.value }, cancelOrbitGesture, syncPresetControls() {}, cs: true, walk: null, Rt: camera,
     tn: { target: new Vector3(0, 1, 0), update() {}, enableDamping: true }, kx, sceneTapEndsOnCanvas: (event, canvas) => sceneTapEndsOnCanvas(event, canvas, dom.documentTarget), roomHitIsVisible: () => true,
     Kc: new Vector2(), jc: { setFromCamera() {}, intersectObject: () => [hit] }, Qn: {}, pt: { constrain() {} }, _i: 1,
     roomInteractions: { target: () => ({ type: 'test' }), interact() { context.actions++; }, resetKeys() {} }, actions: 0 };

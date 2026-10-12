@@ -7,7 +7,7 @@ import { LoadResources } from '../src/load-resources.js';
 import { AssetLoadError, createPhaseTimings } from '../src/asset-loading.js';
 
 const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
-const names = ['pv', 'loadRoom', 'measurePhase', 'cleanupRoom', 'showLoadFailure', 'setRoomReady', 'suspendGraphics', 'restoreGraphics', 'finishRoomPreparation'];
+const names = ['pv', 'loadRoom', 'measurePhase', 'cleanupRoom', 'showLoadFailure', 'setRoomReady', 'syncPresetControls', 'suspendGraphics', 'restoreGraphics', 'finishRoomPreparation'];
 const source = parseAst(main).body.filter(n => n.type === 'FunctionDeclaration' && names.includes(n.id.name)).map(n => main.slice(n.start, n.end)).join('\n');
 const deferred = () => { let resolve, reject; const promise = new Promise((a,b) => { resolve=a; reject=b; }); return { promise, resolve, reject }; };
 const tick = () => new Promise(resolve => setImmediate(resolve));
@@ -94,4 +94,15 @@ test('early texture failure cancels a still-pending model and preserves the text
   c.fetchUint8Array=(url,{signal})=>url.includes('.glb.gz')?new Promise((resolve,reject)=>signal.addEventListener('abort',()=>{aborted=true;reject(signal.reason);},{once:true})):original(url);
   c.loadTexture=async()=>{throw Error('broken texture');};await c.pv();
   assert.equal(aborted,true);assert.equal(c.cs,false);assert.equal(c.loadTask,null);assert.ok(Ge('#load-detail').textContent.startsWith('画作载入'));
+});
+
+test('actual cleanup detaches room control listeners once before a retry replaces the room', () => {
+  const { c } = fixture();
+  let disposed = 0;
+  c.pt = { dispose() { disposed++; } };
+  c.cleanupRoom();
+  assert.equal(disposed, 1);
+  assert.equal(c.pt, null);
+  c.cleanupRoom();
+  assert.equal(disposed, 1, 'A repeated cleanup cannot dispose an already detached room');
 });

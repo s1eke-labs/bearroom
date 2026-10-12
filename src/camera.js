@@ -3,17 +3,18 @@
  */
 import { kn, ti, en, Ee, L, Kt, vn, Df } from '../vendor/runtime-v11.js';
 import { cancelOrbitGesture } from './orbit-input.js';
+import { CAMERA_LIMITS, CAMERA_PRESETS, DEFAULT_CAMERA_PRESET, PRESET_TRANSITION_MS, getCameraPreset } from './camera-presets.js';
 const Px = Math.acos(1 / Math.sqrt(3)), $n = 2.78, Lx = ["overview", "lower", "upper", "bear", "piano"];
-const radians = Math.PI / 180;
 // Stay in the open southeast corner of the cutaway. Elevation is measured
 // above the floor; OrbitControls measures its polar angle down from world +Y.
 const ROOM_ORBIT = Object.freeze({
   defaultAzimuth: Math.PI / 4, defaultPolar: Px,
-  minAzimuth: 20 * radians, maxAzimuth: 70 * radians,
-  minElevation: 25 * radians, maxElevation: 40 * radians,
-  minPolar: 50 * radians, maxPolar: 65 * radians, distance: 35,
+  ...CAMERA_LIMITS,
+  minPolar: Math.PI / 2 - CAMERA_LIMITS.maxElevation,
+  maxPolar: Math.PI / 2 - CAMERA_LIMITS.minElevation, distance: 35,
 });
 const defaultDirection = () => new L(1, 1, 1).normalize();
+const directionForAngles = (azimuth, elevation) => new L(Math.cos(elevation) * Math.sin(azimuth), Math.sin(elevation), Math.cos(elevation) * Math.cos(azimuth));
 function jh(i) {
   for (let e = i; e; e = e.parent) if (e.name === "Bear_reference_plush") return true;
   return false;
@@ -26,13 +27,15 @@ function Dx(i, e) {
   return e.clippingPlanes?.some((t) => t.distanceToPoint(i) < 0) || false;
 }
 function Ix(i) {
-  i.enableRotate = true, i.enablePan = true, i.screenSpacePanning = true;
-  i.enableDamping = true, i.dampingFactor = 0.12, i.rotateSpeed = 0.65;
+  i.enableRotate = false, i.autoRotate = false, i.enablePan = true, i.screenSpacePanning = true;
+  i.enableDamping = true, i.dampingFactor = 0.12;
   i.zoomSpeed = 0.8, i.zoomToCursor = false, i.minZoom = 0.8, i.maxZoom = 8;
   i.minAzimuthAngle = ROOM_ORBIT.minAzimuth, i.maxAzimuthAngle = ROOM_ORBIT.maxAzimuth;
   i.minPolarAngle = ROOM_ORBIT.minPolar, i.maxPolarAngle = ROOM_ORBIT.maxPolar;
-  i.mouseButtons.LEFT = kn.ROTATE, i.mouseButtons.MIDDLE = kn.DOLLY, i.mouseButtons.RIGHT = kn.PAN;
-  i.touches.ONE = ti.ROTATE, i.touches.TWO = ti.DOLLY_PAN;
+  // The bounds remain a range so update() cannot snap a preset animation back
+  // to one fixed direction. User rotation is disabled independently.
+  i.mouseButtons.LEFT = kn.PAN, i.mouseButtons.MIDDLE = kn.DOLLY, i.mouseButtons.RIGHT = kn.PAN;
+  i.touches.ONE = ti.PAN, i.touches.TWO = ti.DOLLY_PAN;
 }
 const Kh = (i, e, t) => (e.x - i.x) * (t.y - i.y) - (e.y - i.y) * (t.x - i.x);
 function Ux(i) {
@@ -66,13 +69,86 @@ function Fx(i, e) {
 }
 class Ox {
   constructor(e, t, n) {
-    this.root = e, this.camera = t, this.controls = n, this.view = "overview", this.frame = { right: new L(1, 0, -1).normalize(), up: new L(-1, 2, -1).normalize() }, n.addEventListener?.("change", () => this.constrain());
+    this.root = e, this.camera = t, this.controls = n, this.view = "overview", this.frame = { right: new L(1, 0, -1).normalize(), up: new L(-1, 2, -1).normalize() };
+    this.selectedPreset = DEFAULT_CAMERA_PRESET;
+    this.transition = null;
+    this.onControlsChange = () => this.constrain();
+    this.onControlsStart = () => this.cancelTransition();
+    n.addEventListener?.("change", this.onControlsChange);
+    n.addEventListener?.("start", this.onControlsStart);
     const s = /* @__PURE__ */ new WeakMap();
     this.meshes = [], e.updateMatrixWorld(true), e.traverse((r) => {
       if (!r.isMesh) return;
       const a = new Kt().setFromObject(r, true), o = (l) => (s.has(l) || s.set(l, l.clone()), s.get(l));
       r.material = Array.isArray(r.material) ? r.material.map(o) : o(r.material), this.meshes.push({ object: r, bounds: a });
     });
+  }
+  dispose() {
+    // Controls survive room-loading retries. Do not let their listeners retain
+    // or constrain a discarded room, and do not dispose the shared controls.
+    this.controls.removeEventListener?.("change", this.onControlsChange);
+    this.controls.removeEventListener?.("start", this.onControlsStart);
+    this.cancelTransition();
+  }
+  get transitioning() {
+    return this.transition !== null;
+  }
+  selectPreset(id, time = globalThis.performance?.now() || 0, { reducedMotion = false } = {}) {
+    const preset = getCameraPreset(id);
+    if (!preset || !this.viewport || !this.orbitCenter) return false;
+    // Snapshot the last visible frame, even when retargeting an unfinished
+    // transition. Advancing the old timeline here would introduce a jump.
+    this.cancelTransition();
+    cancelOrbitGesture(this.controls);
+    const direction = this.boundedDirection(), target = this.controls.target.clone();
+    const destinationDirection = directionForAngles(preset.azimuth, preset.elevation);
+    const destinationTarget = target.clone();
+    // Preserve the world-space pan focus. Only remove the hidden depth axis;
+    // ordinary viewport bounds are applied continuously along the transition.
+    destinationTarget.addScaledVector(destinationDirection, this.orbitCenter.clone().sub(target).dot(destinationDirection));
+    const zoom = en.clamp(Number.isFinite(this.camera.zoom) ? this.camera.zoom : 1, this.controls.minZoom, this.controls.maxZoom);
+    this.selectedPreset = id;
+    this.transition = {
+      startedAt: Number.isFinite(time) ? time : globalThis.performance?.now() || 0,
+      fromAzimuth: Math.atan2(direction.x, direction.z),
+      fromElevation: Math.asin(en.clamp(direction.y, -1, 1)),
+      toAzimuth: preset.azimuth, toElevation: preset.elevation,
+      fromTarget: target, toTarget: destinationTarget,
+      fromZoom: zoom, toZoom: zoom,
+    };
+    if (reducedMotion || direction.distanceToSquared(destinationDirection) < 1e-20) this.finishTransition();
+    return true;
+  }
+  updateTransition(time) {
+    if (!this.transition || typeof time !== 'number' || Number.isNaN(time)) return false;
+    const progress = en.clamp((time - this.transition.startedAt) / PRESET_TRANSITION_MS, 0, 1);
+    this.applyTransition(progress);
+    if (progress === 1) this.transition = null;
+    return true;
+  }
+  applyTransition(progress) {
+    const transition = this.transition;
+    if (!transition) return;
+    const eased = progress * progress * (3 - 2 * progress);
+    const azimuth = en.lerp(transition.fromAzimuth, transition.toAzimuth, eased);
+    const elevation = en.lerp(transition.fromElevation, transition.toElevation, eased);
+    const target = this.controls.target.copy(transition.fromTarget).lerp(transition.toTarget, eased);
+    this.camera.zoom = transition.fromZoom + (transition.toZoom - transition.fromZoom) * eased;
+    this.camera.position.copy(target).addScaledVector(directionForAngles(azimuth, elevation), ROOM_ORBIT.distance);
+    this.constrain();
+  }
+  finishTransition() {
+    if (!this.transition) return false;
+    this.applyTransition(1);
+    this.transition = null;
+    return true;
+  }
+  cancelTransition() {
+    if (!this.transition) return false;
+    this.transition = null;
+    const direction = this.direction();
+    this.selectedPreset = CAMERA_PRESETS.find(preset => direction.distanceToSquared(directionForAngles(preset.azimuth, preset.elevation)) < 1e-16)?.id || null;
+    return true;
   }
   direction() {
     const direction = this.camera.position.clone().sub(this.controls.target);
@@ -93,12 +169,13 @@ class Ox {
   }
   panByPixels(e, t) {
     if (!this.viewport || !Number.isFinite(e) || !Number.isFinite(t)) return;
+    this.cancelTransition();
     this.syncFrame();
     const { width: n, height: s } = this.viewport, r = this.camera, a = this.frame.right.clone().multiplyScalar(-e * (r.right - r.left) / r.zoom / n).addScaledVector(this.frame.up, t * (r.top - r.bottom) / r.zoom / s);
     this.controls.target.add(a), r.position.add(a), this.constrain();
   }
   setView(e) {
-    Lx.includes(e) && (this.view = e, this.applyCutaway());
+    Lx.includes(e) && (this.cancelTransition(), this.view = e, this.applyCutaway());
   }
   applyCutaway() {
     const e = this.boundedDirection(), t = ["lower", "piano", "bear"].includes(this.view), n = t ? [new vn(new L(0, -1, 0), $n)] : this.view === "upper" ? [new vn(new L(0, 1, 0), -$n)] : [];
@@ -186,16 +263,17 @@ class Ox {
     this.fit(e, t, { reset: true });
   }
   fit(e, t, { reset: n = true } = {}) {
+    this.cancelTransition();
     const s = this.camera, r = this.bounds(), a = r.getCenter(new L());
     this.controls.maxZoom = this.view === "piano" ? 16 : 8;
     cancelOrbitGesture(this.controls);
     this.orbitCenter = a.clone();
     // View buttons and Home reset to the familiar isometric composition;
-    // resize keeps the current orbit, zoom and bounded screen-space position.
-    n && (this.controls.target.copy(a), s.position.copy(a).addScaledVector(defaultDirection(), ROOM_ORBIT.distance), s.zoom = 1);
+    // resize keeps the current direction, zoom and bounded screen-space position.
+    n && (this.selectedPreset = DEFAULT_CAMERA_PRESET, this.controls.target.copy(a), s.position.copy(a).addScaledVector(defaultDirection(), ROOM_ORBIT.distance), s.zoom = 1);
     this.syncFrame(this.boundedDirection()), s.lookAt(this.controls.target), s.updateMatrixWorld(true);
-    // Reserve one stable frustum for the entire permitted orbit, rather than
-    // refitting while dragging or cropping a room corner at an angular limit.
+    // Reserve one stable frustum for every preset and intermediate angle,
+    // rather than refitting (and visibly zooming) during a transition.
     const half = r.getSize(new L()).multiplyScalar(0.5);
     const maxOverRange = (fn, low, high, peak) => Math.max(fn(low), fn(high), fn(en.clamp(peak, low, high)));
     const l = maxOverRange(yaw => half.x * Math.cos(yaw) + half.z * Math.sin(yaw), ROOM_ORBIT.minAzimuth, ROOM_ORBIT.maxAzimuth, Math.atan2(half.z, half.x));
@@ -203,7 +281,7 @@ class Ox {
     const c = maxOverRange(elevation => half.y * Math.cos(elevation) + depth * Math.sin(elevation), ROOM_ORBIT.minElevation, ROOM_ORBIT.maxElevation, Math.atan2(depth, half.y));
     e = Number.isFinite(e) ? Math.max(1, e) : this.viewport?.width || 1;
     t = Number.isFinite(t) ? Math.max(1, t) : this.viewport?.height || 1;
-    const topPadding = t < 500 ? 112 : 150, bottomPadding = t < 500 ? 64 : 112;
+    const topPadding = t < 500 ? e <= 600 ? 180 : 122 : e <= 600 ? 216 : 150, bottomPadding = t < 500 ? 64 : 112;
     const paddingScale = Math.min(1, t * 0.65 / (topPadding + bottomPadding));
     const u = topPadding * paddingScale, h = bottomPadding * paddingScale, d = t - u - h;
     const p = Math.max(e * 0.65, e - (e < 600 ? 28 : 100)), g = e / t, _ = Math.max(c * t / d, l * e / p / g) * 1.08;

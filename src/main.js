@@ -162,6 +162,7 @@ function cleanupRoom() {
   roomInteractions?.dispose(); roomInteractions = null;
   walk?.dispose(); walk = null;
   pcCase?.dispose(); pcCase = null;
+  pt?.dispose?.();
   Fr?.dispose(); Fr = null;
   for (const { light } of Uo) { light.removeFromParent(); light.target?.removeFromParent(); light.shadow?.map?.dispose(); }
   runtimeResources?.dispose(); runtimeResources = null;
@@ -256,7 +257,22 @@ function setRoomReady(ready) {
   tn.enabled = ready && !walk?.active;
   walk?.setInputEnabled(ready);
   for (const button of document.querySelectorAll("#night, #day, [data-view], #walk-toggle, #zoom-in, #zoom-out, #reset-view")) button.disabled = !ready;
+  syncPresetControls(ready);
   bn.setAttribute("aria-busy", String(!ready));
+}
+function syncPresetControls(ready = cs) {
+  const unavailable = !ready || !!walk?.active;
+  const group = Ge("#preset-control");
+  if (group) {
+    group.hidden = unavailable;
+    group.setAttribute("aria-busy", String(!!pt?.transitioning));
+  }
+  for (const button of document.querySelectorAll("[data-preset]")) {
+    const selected = button.dataset.preset === pt?.selectedPreset;
+    button.disabled = unavailable;
+    button.classList.toggle("selected", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  }
 }
 async function finishRoomPreparation() {
   for (;;) {
@@ -314,10 +330,30 @@ Ge(".close").onclick = () => Ge("#help-dialog").close();
 Ge("#help-dialog").onclick = (i) => {
   i.target === Ge("#help-dialog") && Ge("#help-dialog").close();
 };
+const reducedMotionQuery = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+function finishReducedMotionTransition(event) {
+  if (!event.matches || !cs || walk?.active) return;
+  if (pt?.finishTransition?.()) { syncPresetControls(); Ei = true; }
+}
+if (reducedMotionQuery?.addEventListener) reducedMotionQuery.addEventListener("change", finishReducedMotionTransition);
+else reducedMotionQuery?.addListener?.(finishReducedMotionTransition);
+function selectRoomPreset(id) {
+  if (!cs || walk?.active || !pt || document.querySelector("dialog[open]")) return;
+  // Stop input before starting the new tween. Calling Xr afterwards would
+  // cancel this selection; repeated selections retarget the visible pose.
+  Xr();
+  if (pt.selectPreset(id, performance.now(), { reducedMotion: !!reducedMotionQuery?.matches })) {
+    syncPresetControls(); Ei = true;
+  }
+}
+document.querySelectorAll("[data-preset]").forEach(button => button.onclick = () => selectRoomPreset(button.dataset.preset));
 const Ri = /* @__PURE__ */ new Set();
 let dt = null;
 bn.addEventListener("pointerdown", (i) => {
   if (!cs || walk?.active) return;
+  // Freeze before the tap snapshot and before OrbitControls consumes input.
+  // Do not reset the existing gesture: a second finger must keep its owner.
+  pt?.cancelTransition?.(); syncPresetControls();
   if (Ri.add(i.pointerId), Ri.size > 1) {
     dt && (dt.multi = true);
     return;
@@ -350,6 +386,9 @@ bn.addEventListener("lostpointercapture", (event) => {
   // Normal pointerup has already released this owner; preserve a surviving touch.
   if (Ri.has(event.pointerId) || tn._pointers?.includes(event.pointerId)) Xr();
 });
+bn.addEventListener("wheel", () => {
+  if (cs && !walk?.active) Xr();
+}, { capture: true, passive: true });
 window.addEventListener("blur", () => {
   Xr(); roomInteractions?.resetKeys();
 });
@@ -403,12 +442,16 @@ function mv(i) {
 }
 window.addEventListener("resize", () => {
   if (!cs) return;
+  Xr();
   Ot.setSize(innerWidth, innerHeight), walk?.resize(innerWidth, innerHeight);
   if (!walk?.active) pt?.fit(innerWidth, innerHeight, { reset: false });
+  syncPresetControls();
 });
 function Xr() {
   Ri.clear(), dt = null;
+  pt?.cancelTransition?.();
   cancelOrbitGesture(tn);
+  syncPresetControls();
 }
 function gv(i) {
   if (!cs) return;
@@ -417,11 +460,12 @@ function gv(i) {
     const t = e.dataset.view === i;
     e.classList.toggle("selected", t), e.setAttribute("aria-pressed", String(t));
   }), Ge("#view-status").textContent = { overview: "全景 · 双层剖面", lower: "一层 · 生活空间", upper: "二层 · 休息空间", bear: "小熊 · 近看短绒与缝线", piano: "钢琴 · 直接点按琴键" }[i]);
+  syncPresetControls();
 }
 document.querySelectorAll("[data-view]").forEach((i) => i.onclick = () => gv(i.dataset.view));
 Ge("#reset-view").onclick = () => {
   if (!cs || walk?.active) return;
-  Xr(), pt?.reset(innerWidth, innerHeight);
+  Xr(), pt?.reset(innerWidth, innerHeight), syncPresetControls();
 };
 function Br(i) {
   if (!cs || walk?.active) return;
@@ -440,6 +484,7 @@ bn.addEventListener("keydown", (i) => {
     else if (i.key === "+" || i.key === "=") Br(1.25);
     else if (i.key === "-") Br(0.8);
     else return;
+    syncPresetControls();
     i.preventDefault();
   }
 });
@@ -486,6 +531,7 @@ function vv(i) {
       n.obj.rotation.x = n.obj.userData.restRotation - Math.sin(Math.min(1, s / 0.32) * Math.PI) * 0.045, s > 0.32 && (n.obj.rotation.x = n.obj.userData.restRotation, Fo.delete(t)), Na(n.obj), Ei = true;
     }
   }
+  if (!walk?.active && pt?.updateTransition(i)) { syncPresetControls(); Ei = true; }
   if (walk?.active) walk.update(e);
   else { tn.update(); pt?.constrain(); }
   Nr?.update(walk?.getCamera() || Rt, innerHeight, walk?.active ? "walk" : pt?.view);

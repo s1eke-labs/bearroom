@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { ROOM_ORBIT, IsometricRoom, configureControls } from '../src/camera.js';
+import { CAMERA_PRESETS, PRESET_TRANSITION_MS } from '../src/camera-presets.js';
 import { L as Vector3, Gr as OrthographicCamera, x0 as OrbitControls, kn as MOUSE, ti as TOUCH } from '../vendor/runtime-v11.js';
 import { loadSceneForCPU } from './helpers.mjs';
 
@@ -59,14 +60,14 @@ function geometryFingerprint(root) {
   return hash.digest('hex');
 }
 
-test('bounded dollhouse mapping keeps primary rotate, secondary pan, wheel/pinch zoom and a conservative open-corner orbit', () => {
+test('curated dollhouse mapping keeps primary/single-finger pan and wheel/pinch zoom inside the safe preset envelope', () => {
   const { controls } = fixture();
-  assert.equal(controls.enableRotate, true); assert.equal(controls.enablePan, true);
-  assert.equal(controls.mouseButtons.LEFT, MOUSE.ROTATE); assert.equal(controls.mouseButtons.RIGHT, MOUSE.PAN);
-  assert.equal(controls.mouseButtons.MIDDLE, MOUSE.DOLLY); assert.equal(controls.touches.ONE, TOUCH.ROTATE);
+  assert.equal(controls.enableRotate, false); assert.equal(controls.enablePan, true);
+  assert.equal(controls.mouseButtons.LEFT, MOUSE.PAN); assert.equal(controls.mouseButtons.RIGHT, MOUSE.PAN);
+  assert.equal(controls.mouseButtons.MIDDLE, MOUSE.DOLLY); assert.equal(controls.touches.ONE, TOUCH.PAN);
   assert.equal(controls.touches.TWO, TOUCH.DOLLY_PAN); assert.equal(controls.zoomToCursor, false);
-  near(controls.minAzimuthAngle, 20 * Math.PI / 180); near(controls.maxAzimuthAngle, 70 * Math.PI / 180);
-  near(controls.minPolarAngle, 50 * Math.PI / 180); near(controls.maxPolarAngle, 65 * Math.PI / 180);
+  near(controls.minAzimuthAngle, 35 * Math.PI / 180); near(controls.maxAzimuthAngle, 55 * Math.PI / 180);
+  near(controls.minPolarAngle, 52 * Math.PI / 180); near(controls.maxPolarAngle, 58 * Math.PI / 180);
   assert.ok(Object.isFrozen(ROOM_ORBIT)); assert.ok(controls.enableDamping);
 });
 
@@ -80,15 +81,16 @@ test('initial cutaway is correct before camera placement, including an uninitial
   room.fit(1440, 900); assertBounded({ room, camera, controls });
 });
 
-test('the actual vendor controls reach all four angular boundaries and the room clamp preserves them', () => {
+test('programmatic presets reach their exact curated angles with stable frame references and fresh projected bounds', () => {
   const f = fixture(), up = f.room.frame.up, right = f.room.frame.right, firstProjection = f.room.projectedRoom();
-  for (const horizontal of [-1, 1]) for (const vertical of [-1, 1]) {
-    f.controls._sphericalDelta.theta = horizontal * 100;
-    f.controls._sphericalDelta.phi = vertical * 100;
-    f.controls.update();
+  for (const preset of CAMERA_PRESETS) {
+    assert.equal(f.room.selectPreset(preset.id, 1000), true);
+    f.room.updateTransition(1000 + PRESET_TRANSITION_MS);
+    assert.equal(f.room.selectedPreset, preset.id);
+    assert.equal(f.room.transitioning, false);
     assertBounded(f);
-    near(Math.atan2(f.room.direction().x, f.room.direction().z), horizontal < 0 ? ROOM_ORBIT.minAzimuth : ROOM_ORBIT.maxAzimuth);
-    near(Math.acos(f.room.direction().y), vertical < 0 ? ROOM_ORBIT.minPolar : ROOM_ORBIT.maxPolar);
+    near(Math.atan2(f.room.direction().x, f.room.direction().z), preset.azimuth);
+    near(Math.PI / 2 - Math.acos(f.room.direction().y), preset.elevation);
     const before = f.room.direction(); f.room.constrain(); assert.ok(before.distanceTo(f.room.direction()) < 1e-12);
   }
   assert.equal(f.room.frame.up, up); assert.equal(f.room.frame.right, right);
@@ -103,18 +105,20 @@ test('room constraints independently normalize externally supplied rear, overhea
   }
 });
 
-test('hitting a pan boundary cancels only pan momentum, while angular damping continues smoothly', () => {
+test('hitting a pan boundary clears pan momentum without changing the curated angle or interrupting a preset transition', () => {
   const f = fixture(); f.camera.zoom = 3;
-  const before = Math.atan2(f.room.direction().x, f.room.direction().z), delta = .12;
-  f.controls._sphericalDelta.theta = delta;
+  f.room.selectPreset('right', 1000); f.room.updateTransition(1105);
+  const before = f.room.direction();
   f.controls._panOffset.copy(f.room.frame.right).multiplyScalar(1e6);
   f.controls.update();
-  near(Math.atan2(f.room.direction().x, f.room.direction().z), before + delta * f.controls.dampingFactor);
-  near(f.controls._sphericalDelta.theta, delta * (1 - f.controls.dampingFactor));
+  assert.ok(f.room.direction().distanceTo(before) < 1e-12, 'Pan damping never changes the current angle');
+  near(f.controls._sphericalDelta.theta, 0); near(f.controls._sphericalDelta.phi, 0);
   near(f.controls._panOffset.length(), 0); assert.equal(f.controls.enableDamping, true);
-  const after = f.room.direction(); f.room.constrain(); assert.ok(after.distanceTo(f.room.direction()) < 1e-12);
-  f.controls.update();
-  assert.ok(f.room.direction().distanceTo(after) > .001, 'Rotation inertia survives the room pan clamp');
+  assert.equal(f.room.transitioning, true);
+  assert.equal(f.room.updateTransition(1210), true);
+  assert.ok(f.room.direction().distanceTo(before) > .001, 'The next programmatic frame continues the preset transition');
+  f.room.updateTransition(1000 + PRESET_TRANSITION_MS);
+  assert.equal(f.room.selectedPreset, 'right'); assert.equal(f.room.transitioning, false);
   assertBounded(f);
 });
 
@@ -154,7 +158,7 @@ for (const view of ['overview', 'lower', 'upper']) test(`${view}: fitting once c
 });
 
 test('resize preserves the rotated angle and zoom, with finite nonnegative padding even in a collapsed viewport', () => {
-  const f = fixture('lower'); orbitTo(f, 60 * Math.PI / 180, 57 * Math.PI / 180); f.camera.zoom = 2.7;
+  const f = fixture('lower'); orbitTo(f, 53 * Math.PI / 180, 57 * Math.PI / 180); f.camera.zoom = 2.7;
   f.room.panByPixels(57, -31);
   const direction = f.room.direction();
   for (const size of [[390, 844], [844, 390], [320, 180], [1, 1], [0, 0], [NaN, Infinity], [1440, 900]]) {

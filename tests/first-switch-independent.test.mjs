@@ -28,7 +28,7 @@ function fixture({ loss = false, abortOnRender = false } = {}) {
     Xx: () => ({ fill: 0, sun: 0, moon: .18, environment: .3, exposure: 1.02, lamps: 1 }),
     walk: { active: false, resize(width, height) { events.push(['walk-size', width, height]); }, getCamera() { return context.Rt; } },
     tn: { update() { events.push(['controls-update']); } },
-    pt: { view: 'overview', fit(width, height, options) { events.push(['fit', width, height, options.reset]); }, constrain() {} },
+    pt: { view: 'overview', updateTransition() { return false; }, fit(width, height, options) { events.push(['fit', width, height, options.reset]); }, constrain() {} },
     Ot: {
       setSize(width, height) { events.push(['renderer-size', width, height]); },
       getContext() { return { isContextLost: () => loss }; },

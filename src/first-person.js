@@ -21,7 +21,7 @@ const isExterior = object => {
 
 export function captureIsometricState(room, camera, controls) {
   return {
-    view: room.view, position: camera.position.clone(), quaternion: camera.quaternion.clone(), up: camera.up.clone(),
+    view: room.view, selectedPreset: room.selectedPreset, position: camera.position.clone(), quaternion: camera.quaternion.clone(), up: camera.up.clone(),
     target: controls.target.clone(), enabled: controls.enabled, damping: controls.enableDamping,
     minZoom: controls.minZoom, maxZoom: controls.maxZoom,
     projection: Object.fromEntries(PROJECTION_FIELDS.map(key => [key, camera[key]])),
@@ -29,7 +29,9 @@ export function captureIsometricState(room, camera, controls) {
   };
 }
 export function restoreIsometricState(room, camera, controls, saved) {
+  room.cancelTransition?.();
   room.view = saved.view;
+  room.selectedPreset = saved.selectedPreset;
   room.viewport = saved.viewport ? { ...saved.viewport } : null;
   room.projected = null;
   camera.position.copy(saved.position);
@@ -98,6 +100,9 @@ export class FirstPersonController {
   }
   enter() {
     if (this.active || !this.inputEnabled) return;
+    // Preserve the last frame the user actually saw, never a tween endpoint
+    // that could resume invisibly while roaming or after returning outside.
+    this.room.cancelTransition?.();
     this.saved = captureIsometricState(this.room, this.isometricCamera, this.orbitControls);
     this.savedSize = { ...this.size };
     cancelOrbitGesture(this.orbitControls);
@@ -161,7 +166,7 @@ export class FirstPersonController {
     if (this.toggleButton) this.toggleButton.textContent = '进入漫游';
     if (this.hint) this.hint.innerHTML = this.savedHint;
     if (this.status) this.status.textContent = this.savedStatus;
-    this.canvas.setAttribute('aria-label', '小熊的三维 Loft，单指或左键拖动有限旋转，双指或右键平移，捏合或滚轮缩放，直接轻点琴键弹奏');
+    this.canvas.setAttribute('aria-label', '小熊的三维 Loft，经典、偏左和偏右预设视角，单指或鼠标拖动平移，捏合或滚轮缩放，直接轻点琴键弹奏');
     this.canvas.focus?.({ preventScroll: true });
     this.onChange(false);
   }

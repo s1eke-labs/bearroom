@@ -1,4 +1,6 @@
-# Bounded dollhouse orbit: offline review
+# Bounded dollhouse orbit: historical v20.1 review
+
+Free rotation was replaced by curated presets in v20.2; use `../preset-review/README.md` for current review. The 20–70° / 25–40° evidence below refers to commit `d96c691a`. These helpers read runtime constants, so reproducing those exact historical angles requires that commit rather than the current camera limits.
 
 These read-only helpers inspect the current runtime camera framing against the editable source. They never save a Blender file or alter the published model/GI. The source master is hashed before and after rendering.
 

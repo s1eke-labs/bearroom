@@ -66,7 +66,7 @@ test('walk QA: walking, dragging, multitouch and cancelled gestures never play p
  pointer(f.canvas,'pointerdown',7);pointer(f.windowTarget,'pointercancel',7);assert.equal(f.taps,1);f.controller.dispose();
 });
 test('walk QA: resize retains floor preset and zoom, sets perspective aspect, and Escape exits',()=>{
- const f=fixture('piano');const zoom=f.isometricCamera.zoom;f.controller.enter();f.controller.resize(390,844);assert.equal(f.controller.camera.aspect,390/844);key(f,'Escape');assert.equal(f.controller.active,false);assert.equal(f.room.view,'piano');assert.equal(f.isometricCamera.zoom,zoom);assert.equal(f.room.viewport.width,390);assert.equal(f.room.viewport.height,844);assert.equal(f.orbitControls.enableRotate,true);f.controller.dispose();
+ const f=fixture('piano');const zoom=f.isometricCamera.zoom;f.controller.enter();f.controller.resize(390,844);assert.equal(f.controller.camera.aspect,390/844);key(f,'Escape');assert.equal(f.controller.active,false);assert.equal(f.room.view,'piano');assert.equal(f.isometricCamera.zoom,zoom);assert.equal(f.room.viewport.width,390);assert.equal(f.room.viewport.height,844);assert.equal(f.orbitControls.enableRotate,false);f.controller.dispose();
 });
 test('walk QA: day/night, preset and piano integration retain explicit guarded source hooks',()=>{
  const main=fs.readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8'),css=fs.readFileSync(new URL('../src/style.css',import.meta.url),'utf8');

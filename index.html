@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#18232c" />
     <meta
       name="description"
-      content="可在家中第一人称漫游、欣赏细节，也可切回有限旋转剖面视角与弹琴的小熊 Loft。"
+      content="可在家中第一人称漫游、欣赏细节，也可切换精选剖面视角与弹琴的小熊 Loft。"
     />
     <link rel="icon" href="/favicon.svg" />
     <title>小熊的家 · bearroom</title>
@@ -21,7 +21,7 @@
       <canvas
         id="room"
         data-model-worker="__MODEL_WORKER__"
-        aria-label="小熊的三维 Loft，单指或左键拖动有限旋转，双指或右键平移，捏合或滚轮缩放，直接轻点琴键弹奏"
+        aria-label="小熊的三维 Loft，经典、偏左和偏右预设视角，单指或鼠标拖动平移，捏合或滚轮缩放，直接轻点琴键弹奏"
         tabindex="0"
       ></canvas>
       <header>
@@ -43,6 +43,11 @@
           <button data-view="bear" aria-pressed="false">小熊</button>
           <button data-view="piano" aria-pressed="false">钢琴</button>
         </div>
+        <div id="preset-control" class="preset-control" role="group" aria-label="预设视角" aria-busy="false" hidden>
+          <button type="button" data-preset="classic" class="selected" aria-pressed="true" disabled>经典</button>
+          <button type="button" data-preset="left" aria-pressed="false" disabled>偏左</button>
+          <button type="button" data-preset="right" aria-pressed="false" disabled>偏右</button>
+        </div>
         <button id="walk-toggle" aria-pressed="false" aria-describedby="walk-instructions" disabled>进入漫游</button>
         <div class="orientation-control" role="group" aria-label="视角方向">
           <span id="view-status" aria-live="polite">全景 · 双层剖面</span>
@@ -62,7 +67,7 @@
       </div>
       <aside class="bottom-bar">
         <p id="hint">
-          拖动有限旋转 · 双指 / 右键平移 · 捏合 / 滚轮缩放<br /><span>点「小熊」近看短绒 · 点「钢琴」近看琴键</span>
+          拖动平移 · 捏合 / 滚轮缩放<br /><span>经典 / 偏左 / 偏右切换视角 · 轻点琴键弹奏</span>
         </p>
         <button id="sound" aria-label="静音" aria-pressed="false">
           ♫<span>声音</span></button
@@ -83,11 +88,11 @@
         <button class="close" aria-label="关闭说明">×</button>
         <h2>慢慢看看，随手弹弹</h2>
         <p>
-          一根手指拖动可在正面附近有限旋转；双指拖动平移、捏合缩放。左右和俯仰都有边界，不能转到房屋背面或底部。平移限制在当前房间附近，放大后可查看边缘。
+          点「经典」「偏左」「偏右」切换预设视角，镜头会平滑转到新的角度；开启系统的减少动态效果后会直接切换。一根或两根手指拖动平移，捏合缩放。平移限制在当前房间附近，放大后可查看边缘。
         </p>
-        <p>全景展示完整双层；一层暂时剖开上层，二层聚焦卧室与阅读区。点「小熊」近看沙发上的短绒玩偶，仍可有限旋转、平移和缩放。切换楼层或点全景会回到该视图的默认角度并居中。</p>
+        <p>全景展示完整双层；一层暂时剖开上层，二层聚焦卧室与阅读区。点「小熊」近看沙发上的短绒玩偶，仍可切换预设、平移和缩放。切换楼层或点全景会回到该视图的经典角度并居中。</p>
         <p>
-          电脑上左键拖动有限旋转，右键拖动平移，滚轮或中键拖动缩放。也可使用右侧 ＋ / −；小房子按钮重置当前视图角度、缩放并居中。方向键平移查看，＋ / − 缩放，0 或 Home 复位。点「钢琴」可聚焦键盘，再放大近看；直接轻点琴键弹奏，不会自动移动镜头。
+          电脑上左键或右键拖动平移，滚轮或中键拖动缩放。也可使用右侧 ＋ / −；小房子按钮恢复当前视图的经典角度、缩放并居中。方向键平移查看，＋ / − 缩放，0 或 Home 复位。点「钢琴」可聚焦键盘，再放大近看；直接轻点琴键弹奏，不会自动移动镜头。
         </p>
         <p>点「进入漫游」以第一人称在家中行走，没有角色模型。电脑使用 WASD / 方向键移动，按住画面拖动环顾，Esc 退出；手机按住左下摇杆移动，同时在右侧拖动环顾。沿楼梯可上下楼，走近浴室门可按 E 或开门按钮。点「退出漫游」返回刚才的视角；选楼层则退出并切换到对应视图。</p>
         <p>点击浴室门开关门，点击机箱启停风扇与灯光，点击电脑键盘查看按键反馈。</p>

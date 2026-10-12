@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import { parseAst } from 'rollup/parseAst';
 const main=fs.readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
-const wanted=['suspendGraphics','restoreGraphics','setRoomReady','vv','cl'];
+const wanted=['suspendGraphics','restoreGraphics','setRoomReady','syncPresetControls','vv','cl'];
 const source=parseAst(main).body.filter(n=>n.type==='FunctionDeclaration'&&wanted.includes(n.id.name)).map(n=>main.slice(n.start,n.end)).join('\n');
 function fixture(){
  const log=[],elements=new Map();
@@ -13,7 +13,7 @@ function fixture(){
   tn:{enabled:false},walk:{active:true,setInputEnabled(v){this.enabled=v;log.push(['input',v])}},bn:{setAttribute(){}},
   document:{visibilityState:'visible',querySelectorAll:()=>[]},Xr(){log.push(['clear-taps'])},roomInteractions:{resetKeys(){log.push(['reset-keys'])}},
   Fo:new Map(),Na(){},cancelAnimationFrame(){},requestAnimationFrame(){log.push(['scheduled']);return 2},Hs:1,oi:{errors:[]},setTimeout(){},
-  Qn:{},Fr:{textures:[]},No:[],Ot:{},jt:{},Rt:{},It:{},performance:{now:()=>5},Cr:0,
+  pt:null,Qn:{},Fr:{textures:[]},No:[],Ot:{},jt:{},Rt:{},It:{},performance:{now:()=>5},Cr:0,
   prepareFirstSwitch:async options=>{log.push(['prepare',options.signal]);return{}},
   showLoadFailure(error){c.cs=false;c.setRoomReady(false);c.oi.errors.push(String(error))},
   async finishRoomPreparation(){log.push(['final-frame']);c.cs=true;c.setRoomReady(true)},
