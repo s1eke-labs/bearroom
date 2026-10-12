@@ -4,7 +4,7 @@ This is the **current production-v11 runtime recovered into editable modules**, 
 
 The original source files and source maps for that revision were unavailable after workspace recovery. We preserved the deployed code and split its app layer at existing declaration boundaries. Minifier aliases remain in function bodies deliberately, avoiding risky rewrites. Public module exports have descriptive names for tests and future work. Vendor code is frozen from the deployment so dependency changes cannot silently change rendering or controls.
 
-Current release: **v20.4.1 minimal loading status**. The loading page shows one short current-stage sentence and a progress bar. Byte counts, image counts, batch counts and parallel-task diagnostics stay internal; failures reveal a reason and retry button. The thirteen real work stages, readiness guard, retries, diagnostics and accessibility announcement throttling remain intact. See `docs/loading-progress.md`.
+Current release: **v20.4.2 minimal loading status**. The loading page preserves its original animated bear logo, followed by one short current-stage sentence and a progress bar. Byte counts, image counts, batch counts and parallel-task diagnostics stay internal; failures reveal a reason and retry button. The thirteen real work stages, readiness guard, retries, diagnostics and accessibility announcement throttling remain intact. See `docs/loading-progress.md`.
 
 The classic / 正左 / 正右 axial camera presets and smooth transitions remain unchanged (`docs/axial-viewpoints.md`).
 

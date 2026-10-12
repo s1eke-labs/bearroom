@@ -20,7 +20,7 @@ The internal stages still follow these real operations (the visible labels are s
 12. 准备楼层与昼夜光照
 13. 绘制首帧, then 一切就绪 only after readiness validation
 
-The loading page now shows only a short current-stage sentence and the work bar. Labels are 下载房间、展开房间、整理家具、布置房间、载入画作、布置画作、准备机箱、载入光照、布置光照、准备漫游、准备材质、准备光照、呈现房间. Errors reveal their reason and a retry button. No detail toggle, numeric diagnostics, background-task line or step list is shown.
+The loading page preserves the original ʕ•ᴥ•ʔ logo and its breathing animation, with one short current-stage sentence and the work bar. Labels are 下载房间、展开房间、整理家具、布置房间、载入画作、布置画作、准备机箱、载入光照、布置光照、准备漫游、准备材质、准备光照、呈现房间. Errors reveal their reason and a retry button. No detail toggle, numeric diagnostics, background-task line or step list is shown.
 
 Real bytes, attempts, decoded image counts, uploads and warm-up batches remain in the internal snapshots and diagnostics. Unknown work remains semantically indeterminate; completion is still tied to real events, never a timer.
 
@@ -53,4 +53,4 @@ Exact main-module changes are recorded in `recovery/loading-progress-hooks.json`
 
 The original detailed-status release passed 333 tests and the 1 MiB reserve requirement. The minimal presentation retains those loading lifecycle guards and adds visible-content regression coverage. Regression coverage includes real/unknown totals, parallel completion, bounded announcements, retries and stale callbacks, cancellation/timeout, duplicate retry clicks, context-loss restoration and readiness-only completion. Asset contracts and recovery fidelity also pass.
 
-Minimal UI release verification: `npm run verify` passes 339 tests with zero failures/skips. Distribution: 19,818,401 bytes; headroom: 1,153,119 bytes, still above the required 1 MiB reserve. No browser/device visual acceptance was performed.
+Minimal UI release verification: `npm run verify` passes 339 tests with zero failures/skips. With the original logo restored: distribution 19,818,455 bytes; headroom 1,153,065 bytes, still above the required 1 MiB reserve. No browser/device visual acceptance was performed.

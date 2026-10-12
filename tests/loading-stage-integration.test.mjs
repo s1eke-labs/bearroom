@@ -220,7 +220,17 @@ test('only the dedicated status node announces loading; it survives hidden overl
   assert.match(html, /aria-describedby="load-meter-description"/);
   assert.match(html, /准备步骤与就绪确认，不表示已用时间或剩余时间/);
   assert.match(css, /prefers-reduced-motion:reduce/);
-  assert.doesNotMatch(overlay, /load-secondary|loading-bear/);
+  assert.doesNotMatch(overlay, /load-secondary/);
+  assert.match(overlay, /<div class="loading-bear">ʕ•ᴥ•ʔ<\/div>/);
+  assert.equal((overlay.match(/class="loading-bear"/g) || []).length, 1);
+  assert.ok(overlay.indexOf('class="loading-bear"') < overlay.indexOf('id="load-stage"'));
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{\.loading-bear,#load-meter\.is-indeterminate:after\{animation:none\}/);
+  assert.match(css, /\.loading-bear\{font:64px Georgia;color:#e4d8c7;animation:breathe 3s infinite\}/);
+  assert.match(css, /@keyframes breathe\{50%\{transform:translateY\(-8px\)\}\}/);
+  assert.match(css, /#loading\{[^}]*display:flex;flex-direction:column;align-items:center;justify-content:center/);
+  assert.match(css, /#loading #load-stage\{max-width:calc\(100vw - 40px\)/);
+  assert.match(css, /#load-meter\{[^}]*width:min\(280px,calc\(100vw - 48px\)\)/);
+  assert.doesNotMatch(css, /\.loading-bear\s*\{[^}]*(?:display:none|visibility:hidden|opacity:0)/);
   assert.match(overlay, /<p id="load-stage">下载房间<\/p>/);
   assert.match(overlay, /<small id="load-detail" hidden><\/small>/);
   assert.match(overlay, /<button id="load-retry" hidden>/);
