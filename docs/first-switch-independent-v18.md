@@ -1,5 +1,7 @@
 # Independent first-switch preparation review
 
+This is the historical v18 review. Its mesh/batch counts are not current: the v19 scene has 365 model meshes plus the roaming ceiling, 47 batches per topology and 188 batch draws across four topologies. Current adaptive scheduling and deterministic evidence are documented in `first-switch-preparation-v18.md` and `runtime-optimization.md`.
+
 ## Result and limits
 
 The reviewed patch covers the identified cold-resource paths without changing the v17 scene assets, existing material/GI shader behavior, camera controls, light powers, shadow resolution, or steady-state sun-shadow toggle. Independent CPU lifecycle tests pass. This supports source-level acceptance, subject to the final aggregate build/asset/budget checks.

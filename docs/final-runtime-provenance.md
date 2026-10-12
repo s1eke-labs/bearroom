@@ -1,8 +1,10 @@
 # Final runtime provenance: v19
 
+Post-v19 lossless repacking now ships a 17,610,286-byte gzip (SHA256 `0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7`), decoding to 34,733,080 bytes (SHA256 `8a1a2c47e914ba7a08f014ba5f0ff43383e122f460aee253f26e0fb2d47c1e54`). The identities below record the original export, not the current packed runtime. Editable source and GI identities are unchanged. Exact decoded pixels, color chunks and nonimage payloads are checked by the certificate described in `lossless-asset-budget.md`; startup changes and current totals are in `runtime-optimization.md`.
+
 The current runtime descends from deployed v11 commit `679d19306992b8a895dab5c47da0a8aad0f86e4d`. Original authored v11 app sources/maps were lost during workspace recovery; its deployed code was retained and split at declaration boundaries. This is recovered provenance, not a claim that the lost originals were recovered. The immediately preceding v18 production commit is `f36da3ed604406e259f264a8458f56eb18de1b51`. Earlier source history and reports remain preserved, including `runtime-provenance-through-v18.md`.
 
-## Frozen identities
+## Original v19 frozen identities
 
 - Editable source: `source-assets/bearroom-bathroom-v19.blend`, 22,593,333 bytes; SHA256 `96c4f90312490c45489c64a4f836094a2f80d4a7bd077a093494eac72948d173`.
 - Canonical decoded GLB: 35,915,484 bytes; SHA256 `1f1fcc773da5cf4d44a314d3c5063b8d1a2a1f6486dfe158228eb4abdbb4269e`.

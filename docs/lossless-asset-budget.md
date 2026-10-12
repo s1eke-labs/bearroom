@@ -29,3 +29,7 @@
 3. `node scripts/prove-lossless-png.mjs before.glb.gz final.glb.gz png.glb.gz.png-equivalence.json`
 
 运行时仅继续使用原有 gzip 路径，不引入 Brotli 支持要求。发布的内容寻址分片及 manifest 已更新，恢复流程会校验分片和完整压缩文件。编辑用源资产保持原样。
+
+## Final integrated release
+
+After adding worker loading, retries, cleanup, input fixes and adaptive preparation, the complete distribution is 19,870,238 bytes: 1,087,608 bytes smaller than the original v19 distribution and 1,101,282 bytes below the 20 MiB limit. CI now requires at least 1 MiB headroom. This is a file-size result, not measured GPU memory or FPS.

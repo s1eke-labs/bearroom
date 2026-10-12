@@ -11,13 +11,15 @@ This GitHub snapshot is restored from the complete published v19 source (commit 
 - Existing matching files are retained. A differing existing output is rejected, never overwritten.
 - Restored copies are ignored by Git. Do not commit duplicate raw GLB/gzip/Blender copies.
 
-The v19 master SHA-256 is `96c4f90312490c45489c64a4f836094a2f80d4a7bd077a093494eac72948d173`. The decoded runtime model SHA-256 is `1f1fcc773da5cf4d44a314d3c5063b8d1a2a1f6486dfe158228eb4abdbb4269e`.
+The v19 master SHA-256 is `96c4f90312490c45489c64a4f836094a2f80d4a7bd077a093494eac72948d173`. The current losslessly repacked decoded runtime model SHA-256 is `8a1a2c47e914ba7a08f014ba5f0ff43383e122f460aee253f26e0fb2d47c1e54`. The original export identity remains documented in `docs/final-runtime-provenance.md`.
 
 ## Model reproduction
 
 After restoring sources, use Blender 4.3.2 plus the Python/NumPy and python-zopfli dependencies documented in the preserved pipeline:
 
     BATHROOM_RUNTIME_OUT=/tmp/bearroom-v19-runtime bash source-assets/bathroom-v19/build_runtime_v19.sh source-assets/bearroom-bathroom-v19.blend 96c4f90312490c45489c64a4f836094a2f80d4a7bd077a093494eac72948d173
+
+After the original export, apply the exact PNG re-encoding and proof workflow in `docs/lossless-asset-budget.md` before updating the current packed runtime; no texture dimensions or decoded pixels change.
 
 `bathroom-v19/build_bathroom_v19.py` can rebuild the authored bathroom from the included v17 master. `bathroom-v19/gi-rebuild/` contains the fresh-bake pipeline, with `baked-gi-v17/irradiance.json` retained as its reference. Current published GI is `public/assets/baked-gi/irradiance.json`.
 
