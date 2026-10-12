@@ -6,7 +6,7 @@
 
 ## Loading and recovery
 
-The model, paired GI and external screen textures begin loading concurrently. Gzip decoding uses a same-origin hashed module worker with isolated, pinned fflate 0.8.3 (4,367-byte worker), transferring a copy so fallback remains possible. If a worker cannot start, native asynchronous DecompressionStream is used; there is no synchronous main-thread JavaScript gunzip fallback. Real old/current asset bytes are compared with both the frozen decoder and Node zlib in automated tests.
+The model, paired GI and external screen textures begin loading concurrently. Gzip decoding uses a same-origin hashed module worker with isolated, pinned fflate 0.8.3 (4,434-byte worker), transferring a copy so fallback remains possible. If a worker cannot start, native asynchronous DecompressionStream is used; there is no synchronous main-thread JavaScript gunzip fallback. Real old/current asset bytes are compared with both the frozen decoder and Node zlib in automated tests.
 
 Downloads have 15-second header/stall deadlines, bounded total wall-clock budgets (model 180 seconds), byte caps and at most three attempts for transient network/408/429/500/502/503/504 failures. Decode and resource parsing have bounded waits. Hidden-page time still counts; throttled timers are checked after awaited work returns. Cancellation aborts pending readers, worker, peers and preparation. Corrupt decode errors are not retried as compatibility failures. Repeated retry activation is single-flight. A labelled status region, keyboard-focusable retry/cancel controls and visible stage-specific errors replace a stuck loading screen. No download resumes automatically after pagehide cancellation.
 
