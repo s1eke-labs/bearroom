@@ -1,0 +1,8 @@
+{
+  "main": [
+    [
+      "r = s ? new Kt().setFromObject(s, true).getCenter(new L()).toArray() : null;",
+      "r = e.focus === \"Bear_reference_plush\" ? [-0.9424259662628174, 0.9112450480461121, 1.8003298044204712] : s ? new Kt().setFromObject(s, true).getCenter(new L()).toArray() : null;"
+    ]
+  ]
+}

@@ -5,23 +5,23 @@
       "id": "runtime-model",
       "group": "runtime",
       "target": "public/assets/bearroom.glb.gz",
-      "bytes": 17610286,
-      "sha256": "0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7",
+      "bytes": 17538872,
+      "sha256": "5527e5d8e340f5e96b5c3b2c011bca96262a3946f95012037e39f4428bde7e57",
       "parts": [
         {
-          "path": "source-assets/packed/runtime-model-0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7.part01",
+          "path": "source-assets/packed/runtime-model-5527e5d8e340f5e96b5c3b2c011bca96262a3946f95012037e39f4428bde7e57.part01",
           "bytes": 8388608,
-          "sha256": "b6cafdf145aad27b78a02ce90f49399fabf2ddf31f78cbb7ca0d5713d72579c3"
+          "sha256": "63f637433a9207f561e8754e6938124df2c70cf05c685e6dfbc2126ff1c019fd"
         },
         {
-          "path": "source-assets/packed/runtime-model-0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7.part02",
+          "path": "source-assets/packed/runtime-model-5527e5d8e340f5e96b5c3b2c011bca96262a3946f95012037e39f4428bde7e57.part02",
           "bytes": 8388608,
-          "sha256": "6c2d5753e77afbbb487934b1b8864885f9cc611f0afe7e689355973233e5b489"
+          "sha256": "ddb3af92b7136bfb5649cc0c9b9432e3d293add0a436d709fc85b6b1386c0190"
         },
         {
-          "path": "source-assets/packed/runtime-model-0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7.part03",
-          "bytes": 833070,
-          "sha256": "8ea58c6b1d640a5c931424205e2d4aca3e96e3065e6278b44c1b1abdf8827563"
+          "path": "source-assets/packed/runtime-model-5527e5d8e340f5e96b5c3b2c011bca96262a3946f95012037e39f4428bde7e57.part03",
+          "bytes": 761656,
+          "sha256": "7467893b899e0736028b87637458d5515879ddde0c5c24a3d70f9eca7f736e19"
         }
       ]
     },
@@ -94,6 +94,30 @@
           "path": "source-assets/packed/baseline-v17.part03",
           "bytes": 1910891,
           "sha256": "5db4273bd01d096974175c3527ed436a2fc5c8470af98def3f0ad1442788aed0"
+        }
+      ]
+    },
+    {
+      "id": "blender-seated-v20",
+      "group": "source",
+      "target": "source-assets/bearroom-seated-v20.blend",
+      "bytes": 22627321,
+      "sha256": "a52b85508b36419f019ab3afc0a684aad2641124412a9b4955747c0413fcc041",
+      "parts": [
+        {
+          "path": "source-assets/packed/blender-seated-v20-a52b85508b36419f019ab3afc0a684aad2641124412a9b4955747c0413fcc041.part01",
+          "bytes": 8388608,
+          "sha256": "9821e0369fae8e35d42b6310ac3058324edfd3826085166a6754c0ec3f9fa91e"
+        },
+        {
+          "path": "source-assets/packed/blender-seated-v20-a52b85508b36419f019ab3afc0a684aad2641124412a9b4955747c0413fcc041.part02",
+          "bytes": 8388608,
+          "sha256": "482d27a80a2e193f253d0ef71578ed3ec59759a601fc49436994721d3d863fac"
+        },
+        {
+          "path": "source-assets/packed/blender-seated-v20-a52b85508b36419f019ab3afc0a684aad2641124412a9b4955747c0413fcc041.part03",
+          "bytes": 5850105,
+          "sha256": "17ccf1f8c2438a526cd2ef2c36e5767c5e89032e40f520b20c6da28ea4d11308"
         }
       ]
     }

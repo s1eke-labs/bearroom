@@ -1,5 +1,5 @@
-/** Bake source revision identifies the source scene used for the actual indirect bake. */
+/** Bake source revision identifies the actual frozen seated-bear scene used for indirect and sky baking. */
 export const ASSET_REVISION = Object.freeze({
-  "bakeSourceSha256": "96c4f90312490c45489c64a4f836094a2f80d4a7bd077a093494eac72948d173",
-  "modelSha256": "8a1a2c47e914ba7a08f014ba5f0ff43383e122f460aee253f26e0fb2d47c1e54"
+  "bakeSourceSha256": "a52b85508b36419f019ab3afc0a684aad2641124412a9b4955747c0413fcc041",
+  "modelSha256": "1dd9a211538747e36a0e132f78cdfb50c6248ea08be5fd31273c2b430bed258c"
 });

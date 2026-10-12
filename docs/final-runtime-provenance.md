@@ -1,4 +1,6 @@
-# Final runtime provenance: v19
+# Historical runtime provenance: v19
+
+The current v20 seated-bear source/runtime/GI identities and review are documented in `seated-bear-v20.md`. The original v19 and post-v19 lossless identities below are preserved historical evidence.
 
 Post-v19 lossless repacking now ships a 17,610,286-byte gzip (SHA256 `0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7`), decoding to 34,733,080 bytes (SHA256 `8a1a2c47e914ba7a08f014ba5f0ff43383e122f460aee253f26e0fb2d47c1e54`). The identities below record the original export, not the current packed runtime. Editable source and GI identities are unchanged. Exact decoded pixels, color chunks and nonimage payloads are checked by the certificate described in `lossless-asset-budget.md`; startup changes and current totals are in `runtime-optimization.md`.
 

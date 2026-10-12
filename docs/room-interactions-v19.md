@@ -12,7 +12,7 @@ This is the existing instantaneous hinge transition with a preflight collision s
 
 Tapping any case surface toggles session-only case power. Off freezes the current transforms of all nine fan rotors and sets all four shared RGB emissive-zone intensities to zero. These zones remain excluded from the generic day/night emissive loop, and the PC update path returns before any fan/RGB writes while off. Lighting changes, camera changes, and returning from hidden/offscreen views do not switch the case back on.
 
-Power-on resumes using elapsed powered time, excluding the off interval. The existing portrait local clock and separate monitor slideshow remain as before. No lights, shadows, geometry, timers or persistent storage are added.
+Power-on resumes using elapsed powered time, excluding the off interval. As of v20, the portrait case display goes black and stops clock updates while off; power-on refreshes the current time immediately. The separate monitor slideshow remains unchanged. No lights, shadows, geometry, timers or persistent storage are added.
 
 ## Computer keyboard
 

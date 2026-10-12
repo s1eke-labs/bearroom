@@ -1,0 +1,13 @@
+# Reproduce the seated-bear revision
+
+The frozen master and runtime identities are documented in `../../docs/seated-bear-v20.md`. Restore source parts first with `npm run restore:sources`. All work should use an isolated output directory; never overwrite the authoring baseline.
+
+1. Use Blender 4.3.2 with `--python-exit-code 1` to run `reshape_seated_bear.py -- ORIGINAL_V19.blend OUTPUT_DIRECTORY`. This preserves unrelated source data and checks the finite pose invariants. Blender file metadata can vary between runs: compare semantic source checks rather than assuming a newly saved file has the frozen binary hash.
+2. Run `audit_support_balance.py -- NEW.blend` and `check_full_intersections.py -- NEW.blend`. Run `render_review.py -- NEW.blend OUTPUT_DIRECTORY after front side threequarter sofa`, and inspect the resulting pixels.
+3. Export both original and reviewed new sources with `../bathroom-v19/export_bathroom_runtime_v19.py`. The original production runtime remains the transfer base; a full Blender export is only a donor, never an unreviewed replacement.
+4. Run `python transplant_runtime.py BASELINE_RUNTIME.glb.gz ORIGINAL_EXPORT.glb NEW_EXPORT.glb CANDIDATE.glb`. This preserves the existing BIN layout, index/UV/color/material/image data and every unrelated node. Run `verify_runtime_pair.py CANDIDATE.glb NEW_EXPORT.glb REPORT.json` for all indexed world-space bear vertices.
+5. Run `node certify_runtime.mjs BASELINE_RUNTIME.glb.gz CANDIDATE.glb FROZEN_NEW_SOURCE.blend CERTIFICATE.json`. The exact baseline is `8a1a2c47…`; it can be recovered from the shipped v20 GLB using `restoreSeatedBearModel` in `scripts/seated-bear-contract.mjs`, or from the pre-pose Git revision. The certificate contains only compressed inverse evidence for the finite changed fields, not another full model.
+6. Run the source-only GI pipeline documented in `GI_REPRODUCTION.md`, then pair it with the final canonical candidate and exact runtime lamp target. Never replace a bake's source hash without actually rebaking that source.
+7. Gzip with `scripts/optimize-gzip.py --iterations 15`; verify decoded bytes unchanged. Install model/GI/revision/certificate together, repack with `node scripts/pack-runtime-model.mjs --write`, and run `npm run verify`. `pack_source.mjs SOURCE.blend EXPECTED_SHA256` creates the initial content-addressed v20 source parts while preserving v19; future edits need a new revision.
+
+Generated renders, raw exports, reports, logs and EXR atlases are validation artifacts, not tracked deployment files. The current source master, scripts, exact inverse certificate, paired runtime assets and necessary calibration baseline are retained. Offline review does not replace browser or device acceptance.

@@ -1,6 +1,8 @@
-# Bearroom v19 source assets
+# Bearroom source assets: v19 baseline and v20 seated master
 
 This GitHub snapshot is restored from the complete published v19 source (commit `eb070d43f1cc602fa32acdeae1fa5c0f58be8f4d`). It preserves the current application, exact runtime, paired GI, editable master and the baselines required to reproduce the current model. Old Site Git history, hosting configuration, generated builds, renders and verification reports are excluded.
+
+The current v20 master and paired model/GI are documented in `../docs/seated-bear-v20.md`; reproduce the finite pose from the retained v19 baseline using `seated-bear-v20/README.md`. The original v19 identity below remains historical provenance.
 
 ## Lossless parts
 
@@ -11,7 +13,7 @@ This GitHub snapshot is restored from the complete published v19 source (commit 
 - Existing matching files are retained. A differing existing output is rejected, never overwritten.
 - Restored copies are ignored by Git. Do not commit duplicate raw GLB/gzip/Blender copies.
 
-The v19 master SHA-256 is `96c4f90312490c45489c64a4f836094a2f80d4a7bd077a093494eac72948d173`. The current losslessly repacked decoded runtime model SHA-256 is `8a1a2c47e914ba7a08f014ba5f0ff43383e122f460aee253f26e0fb2d47c1e54`. The original export identity remains documented in `docs/final-runtime-provenance.md`.
+The v19 master SHA-256 is `96c4f90312490c45489c64a4f836094a2f80d4a7bd077a093494eac72948d173`. The current v20 decoded runtime model SHA-256 is `1dd9a211538747e36a0e132f78cdfb50c6248ea08be5fd31273c2b430bed258c`. The reversible pre-pose model identity is `8a1a2c47e914ba7a08f014ba5f0ff43383e122f460aee253f26e0fb2d47c1e54`. The original export identity remains documented in `docs/final-runtime-provenance.md`.
 
 ## Model reproduction
 

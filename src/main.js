@@ -87,7 +87,7 @@ function lv(i, e, t = 30, n = "#ffe5c8", s = 7, r = false, a = null) {
 }
 function cv() {
   for (const [i, e] of Object.entries(Vx)) {
-    const t = wi.get(`light_${i}`), n = t ? t.getWorldPosition(new L()) : new L(...e.fallback), s = e.focus ? wi.get(e.focus) : null, r = s ? new Kt().setFromObject(s, true).getCenter(new L()).toArray() : null;
+    const t = wi.get(`light_${i}`), n = t ? t.getWorldPosition(new L()) : new L(...e.fallback), s = e.focus ? wi.get(e.focus) : null, r = e.focus === "Bear_reference_plush" ? [-0.9424259662628174, 0.9112450480461121, 1.8003298044204712] : s ? new Kt().setFromObject(s, true).getCenter(new L()).toArray() : null;
     lv(i, n, e.power, e.color || "#ffe7cc", e.distance, !!e.shadow, r);
   }
 }
