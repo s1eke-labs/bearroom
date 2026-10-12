@@ -6,6 +6,7 @@ import {pathToFileURL} from 'node:url';
 import {parseGLB} from './asset-contract.mjs';
 import {stable} from './model-node-snapshot.mjs';
 import {decodeRGB8PNG,pngEquivalence} from './lossless-png-contract.mjs';
+import {loadSeatedBearCertificate,restoreSeatedBearModel} from './seated-bear-contract.mjs';
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 export function modelProof(model,certificate=pngEquivalence){
  const {json,bytes}=model,binary=bytes.subarray(28+bytes.readUInt32LE(12));
@@ -21,7 +22,10 @@ export function modelProof(model,certificate=pngEquivalence){
  semantic.bufferViews=semantic.bufferViews.map(({byteOffset,byteLength,...rest},index)=>omitted.has(index)?rest:{...rest,byteLength});
  return {nonImageBufferViewsSha256:digest.digest('hex'),nonLayoutJsonSha256:sha(JSON.stringify(stable(semantic)))};
 }
-export function verifyCertifiedModel(model,certificate=pngEquivalence){
+export function verifyCertifiedModel(model,certificate=pngEquivalence,seatedCertificate=loadSeatedBearCertificate()){
+ // The original PNG certificate remains historical and byte-exact. A later pose
+ // must first reverse to its original model; it cannot rewrite the PNG proof.
+ if(seatedCertificate&&sha(model.bytes)!==certificate.modelSha256)model=restoreSeatedBearModel(model,seatedCertificate);
  const proof=modelProof(model,certificate);
  for(const key of Object.keys(proof))assert.equal(proof[key],certificate[key],`${key}: unexpected model change`);
  const binary=model.bytes.subarray(28+model.bytes.readUInt32LE(12));

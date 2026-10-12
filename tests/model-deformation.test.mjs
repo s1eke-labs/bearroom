@@ -9,11 +9,14 @@ import { LIGHTS, lightingState } from '../src/lighting.js';
 import { IsometricRoom, configureControls, isWorldVisible, isClipped } from '../src/camera.js';
 import { L as Vector3, Gr as Camera, Ee as Vector2, Lf as Raycaster, ii as MeshBasicMaterial } from '../vendor/runtime-v11.js';
 import { sha256 } from '../scripts/asset-contract.mjs';
+import {snapshotScene} from '../scripts/model-node-snapshot.mjs';
+import {restoreSeatedBearSnapshots} from '../scripts/seated-bear-contract.mjs';
 
 const scene = await loadSceneForCPU();
 test('reference revision preserves furniture, bear, animation, key and screen world transforms and piano/art geometry', () => {
   const frozen = JSON.parse(fs.readFileSync(new URL('../recovery/v12-runtime-contract.json', import.meta.url)));
   scene.updateMatrixWorld(true);
+  const protectedSnapshots=new Map(restoreSeatedBearSnapshots(snapshotScene(scene)).map(node=>[node.name,node]));
   const hashArray = array => sha256(Buffer.from(array.buffer, array.byteOffset, array.byteLength));
   const pcReplacement = JSON.parse(fs.readFileSync(new URL('../recovery/pc-case-replacements.json', import.meta.url)));
   const hasReferencePc = !!scene.getObjectByName(pcReplacement.requiredReplacementScreen);
@@ -31,7 +34,7 @@ test('reference revision preserves furniture, bear, animation, key and screen wo
     const actual = scene.getObjectByName(expected.name);
     assert.ok(actual, expected.name);
     const expectedMatrix=expectedProtectedWorld(expected.name,expected.matrixWorld,hasOrganic);
-    actual.matrixWorld.elements.forEach((v, i) => assert.ok(Math.abs(v - expectedMatrix[i]) < 1e-6, `${expected.name}: world matrix entry ${i} moved`));
+    protectedSnapshots.get(expected.name).matrixWorld.forEach((v, i) => assert.ok(Math.abs(v - expectedMatrix[i]) < 1e-6, `${expected.name}: world matrix entry ${i} moved`));
     if (expected.attributes) {
       const attributes = Object.fromEntries(Object.entries(actual.geometry.attributes).map(([name, attribute]) => [name, {itemSize: attribute.itemSize, count: attribute.count, sha256: hashArray(attribute.array)}]));
       assert.deepEqual(attributes, expected.attributes, `${expected.name}: protected geometry changed`);
