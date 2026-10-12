@@ -5,23 +5,23 @@
       "id": "runtime-model",
       "group": "runtime",
       "target": "public/assets/bearroom.glb.gz",
-      "bytes": 18713768,
-      "sha256": "7169a4e69d9a0d86829f31f495185951c4f6f1491f6acdb514d290ef7f2c12e4",
+      "bytes": 17610286,
+      "sha256": "0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7",
       "parts": [
         {
-          "path": "source-assets/packed/runtime-model.part01",
+          "path": "source-assets/packed/runtime-model-0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7.part01",
           "bytes": 8388608,
-          "sha256": "af69031ff5741180591d55b26eef4afd8576e65141adb3844dc35828c98ee1a8"
+          "sha256": "b6cafdf145aad27b78a02ce90f49399fabf2ddf31f78cbb7ca0d5713d72579c3"
         },
         {
-          "path": "source-assets/packed/runtime-model.part02",
+          "path": "source-assets/packed/runtime-model-0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7.part02",
           "bytes": 8388608,
-          "sha256": "f5d09b0242b7e65ed38fb0ddca8c3475c3191fd20dcf25cb8946a9f27883655a"
+          "sha256": "6c2d5753e77afbbb487934b1b8864885f9cc611f0afe7e689355973233e5b489"
         },
         {
-          "path": "source-assets/packed/runtime-model.part03",
-          "bytes": 1936552,
-          "sha256": "2eff30352870868e6fd6b6fd9a35bdf65aab58ad69f6e8fe3fdf226410fe02bb"
+          "path": "source-assets/packed/runtime-model-0462ad7e7b4fa4adda27a484d97cc86187cb66731dfd2224d8f0823d079342d7.part03",
+          "bytes": 833070,
+          "sha256": "8ea58c6b1d640a5c931424205e2d4aca3e96e3065e6278b44c1b1abdf8827563"
         }
       ]
     },
