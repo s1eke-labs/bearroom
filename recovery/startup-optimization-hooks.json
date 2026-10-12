@@ -1,0 +1,33 @@
+{
+  "description": "Exact authorized context recovery and startup hooks; frozen rendering math and unrelated code remain fully compared.",
+  "main": [
+    [
+      "const preparationAbort = new AbortController();",
+      "let preparationAbort = new AbortController();\nlet graphicsAvailable = true, contextWasReady = false;"
+    ],
+    [
+      "setTimeout(() => Ge(\"#loading\").remove(), 1e3);",
+      "Ge(\"#loading\").setAttribute(\"aria-hidden\", \"true\");"
+    ],
+    [
+      "  tn.enabled = ready;",
+      "  tn.enabled = ready && !walk?.active;\n  walk?.setInputEnabled(ready);"
+    ],
+    [
+      "    pt.fit(innerWidth, innerHeight, { reset: false });",
+      "    if (!walk?.active) pt.fit(innerWidth, innerHeight, { reset: false });"
+    ],
+    [
+      "bn.addEventListener(\"webglcontextlost\", (i) => {\n  i.preventDefault(), preparationAbort.abort(new Error(\"WebGL context lost during loading\")), oi.errors.push(\"WebGL context lost\"), Ge(\"#note\").textContent = \"画面暂时中断，正在恢复\", Ge(\"#note\").classList.add(\"show\");\n});\nbn.addEventListener(\"webglcontextrestored\", () => {\n  if (!cs) { Ge(\"#load-detail\").textContent = \"图形环境已恢复，请刷新重新准备空间\"; return; }\n  Ei = true, Ge(\"#note\").textContent = \"画面已恢复\", setTimeout(() => Ge(\"#note\").classList.remove(\"show\"), 2e3);\n});\n",
+      "function suspendGraphics(event) {\n  event.preventDefault();\n  contextWasReady = contextWasReady || cs;\n  graphicsAvailable = false;\n  preparationAbort.abort(new Error(\"WebGL context lost\"));\n  cs = false; setRoomReady(false); Xr(); roomInteractions?.resetKeys();\n  for (const note of Fo.values()) { note.obj.rotation.x = note.obj.userData.restRotation; Na(note.obj); }\n  Fo.clear();\n  cancelAnimationFrame(Hs); Hs = null;\n  oi.errors.push(\"WebGL context lost\");\n  Ge(\"#note\").textContent = \"画面暂时中断，正在恢复\";\n  Ge(\"#note\").classList.add(\"show\");\n}\nasync function restoreGraphics() {\n  graphicsAvailable = true;\n  if (!contextWasReady || !Qn || !Fr || !walk) {\n    Ge(\"#load-detail\").textContent = \"图形环境已恢复，请重新载入空间\";\n    return;\n  }\n  const controller = preparationAbort = new AbortController();\n  Ge(\"#loading\").classList.remove(\"hidden\");\n  Ge(\"#loading\").setAttribute(\"aria-hidden\", \"false\");\n  Ge(\"#load-detail\").textContent = \"重新准备材质与昼夜光照\";\n  try {\n    oi.preparation = await prepareFirstSwitch({ renderer: Ot, scene: jt, camera: Rt, daylight: It,\n      signal: controller.signal, extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures] });\n    if (controller.signal.aborted || controller !== preparationAbort) return;\n    await finishRoomPreparation();\n    contextWasReady = false;\n    Ge(\"#loading\").classList.add(\"hidden\");\n    Ge(\"#loading\").setAttribute(\"aria-hidden\", \"true\");\n    Ge(\"#note\").textContent = \"画面已恢复\";\n    setTimeout(() => Ge(\"#note\").classList.remove(\"show\"), 2e3);\n  } catch (error) {\n    cs = false; setRoomReady(false);\n    Ge(\"#load-detail\").textContent = \"图形恢复未完成，请重新载入空间\";\n    oi.errors.push(String(error));\n  }\n}\nbn.addEventListener(\"webglcontextlost\", suspendGraphics);\nbn.addEventListener(\"webglcontextrestored\", restoreGraphics);\n"
+    ],
+    [
+      "  Hs === null && document.visibilityState !== \"hidden\" && (Hs = requestAnimationFrame(vv));",
+      "  graphicsAvailable && Hs === null && document.visibilityState !== \"hidden\" && (Hs = requestAnimationFrame(vv));"
+    ],
+    [
+      "  if (Hs = null, document.visibilityState === \"hidden\") return;",
+      "  if (Hs = null, document.visibilityState === \"hidden\" || !graphicsAvailable) return;"
+    ]
+  ]
+}

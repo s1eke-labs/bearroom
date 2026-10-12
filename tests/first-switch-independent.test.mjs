@@ -19,7 +19,7 @@ function fixture({ loss = false, abortOnRender = false } = {}) {
   const spot = { intensity: 1, castShadow: true, shadow: { needsUpdate: false } };
   const context = {
     document: { visibilityState: 'hidden' }, preparationAbort: new AbortController(),
-    innerWidth: 800, innerHeight: 600, cs: false, Ei: false, kr: false, Hs: 98, Cr: 0,
+    innerWidth: 800, innerHeight: 600, graphicsAvailable: true, cs: false, Ei: false, kr: false, Hs: 98, Cr: 0,
     _i: 0, _n: 0, Or: 'night', qc: 0, rv: 1 / 30, Fr: null, Qh: {}, It: sun, ol: {},
     Uo: [{ light: spot, power: 24 }], eu: [], No: [], tu: [], nu: [], Fo: new Map(),
     Nr: null, pcCase: null, roomInteractions: null, Rt: {}, _v: 0, xv: 1,

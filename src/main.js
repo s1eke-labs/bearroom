@@ -45,7 +45,8 @@ let pt, Nr, Fr;
 let walk = null;
 let pcCase = null;
 let roomInteractions = null;
-const preparationAbort = new AbortController();
+let preparationAbort = new AbortController();
+let graphicsAvailable = true, contextWasReady = false;
 setRoomReady(false);
 const Qh = new gf("#bdcfed", "#a49282", 0.46);
 jt.add(Qh);
@@ -170,13 +171,14 @@ async function pv() {
       renderer: Ot, scene: jt, camera: Rt, daylight: It, signal: preparationAbort.signal,
       extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures],
       onProgress: ({ phase, completed, total }) => ji(0.94 + 0.055 * completed / Math.max(1, total), phase === "textures" ? "准备材质与纹理" : "准备楼层与昼夜光照"),
-    }), await finishRoomPreparation(), ji(1, "一切就绪"), Yc = performance.now(), oi.loadedAt = Yc, Ge("#loading").classList.add("hidden"), setTimeout(() => Ge("#loading").remove(), 1e3);
+    }), await finishRoomPreparation(), ji(1, "一切就绪"), Yc = performance.now(), oi.loadedAt = Yc, Ge("#loading").classList.add("hidden"), Ge("#loading").setAttribute("aria-hidden", "true");
   } catch (i) {
     cs = false, setRoomReady(false), oi.errors.push(String(i)), Ge("#load-detail").textContent = "载入未完成，请刷新重试", Ge("#loading p").textContent = "小熊的家暂时没有准备好", console.error(i);
   }
 }
 function setRoomReady(ready) {
-  tn.enabled = ready;
+  tn.enabled = ready && !walk?.active;
+  walk?.setInputEnabled(ready);
   for (const button of document.querySelectorAll("#night, #day, [data-view], #walk-toggle, #zoom-in, #zoom-out, #reset-view")) button.disabled = !ready;
   bn.setAttribute("aria-busy", String(!ready));
 }
@@ -186,7 +188,7 @@ async function finishRoomPreparation() {
     // Refit for the latest size; resize events cannot disturb the temporary GPU viewport.
     Ot.setSize(innerWidth, innerHeight);
     walk?.resize(innerWidth, innerHeight);
-    pt.fit(innerWidth, innerHeight, { reset: false });
+    if (!walk?.active) pt.fit(innerWidth, innerHeight, { reset: false });
     Ei = true; kr = true;
     // Warm-up batches leave partial shadow maps. The original frame loop must draw
     // the complete restored scene before controls are enabled or loading disappears.
@@ -271,13 +273,47 @@ window.addEventListener("blur", () => {
   Ri.clear(), dt = null; roomInteractions?.resetKeys();
 });
 window.addEventListener("pagehide", () => { Xr(); roomInteractions?.resetKeys(); });
-bn.addEventListener("webglcontextlost", (i) => {
-  i.preventDefault(), preparationAbort.abort(new Error("WebGL context lost during loading")), oi.errors.push("WebGL context lost"), Ge("#note").textContent = "画面暂时中断，正在恢复", Ge("#note").classList.add("show");
-});
-bn.addEventListener("webglcontextrestored", () => {
-  if (!cs) { Ge("#load-detail").textContent = "图形环境已恢复，请刷新重新准备空间"; return; }
-  Ei = true, Ge("#note").textContent = "画面已恢复", setTimeout(() => Ge("#note").classList.remove("show"), 2e3);
-});
+function suspendGraphics(event) {
+  event.preventDefault();
+  contextWasReady = contextWasReady || cs;
+  graphicsAvailable = false;
+  preparationAbort.abort(new Error("WebGL context lost"));
+  cs = false; setRoomReady(false); Xr(); roomInteractions?.resetKeys();
+  for (const note of Fo.values()) { note.obj.rotation.x = note.obj.userData.restRotation; Na(note.obj); }
+  Fo.clear();
+  cancelAnimationFrame(Hs); Hs = null;
+  oi.errors.push("WebGL context lost");
+  Ge("#note").textContent = "画面暂时中断，正在恢复";
+  Ge("#note").classList.add("show");
+}
+async function restoreGraphics() {
+  graphicsAvailable = true;
+  if (!contextWasReady || !Qn || !Fr || !walk) {
+    Ge("#load-detail").textContent = "图形环境已恢复，请重新载入空间";
+    return;
+  }
+  const controller = preparationAbort = new AbortController();
+  Ge("#loading").classList.remove("hidden");
+  Ge("#loading").setAttribute("aria-hidden", "false");
+  Ge("#load-detail").textContent = "重新准备材质与昼夜光照";
+  try {
+    oi.preparation = await prepareFirstSwitch({ renderer: Ot, scene: jt, camera: Rt, daylight: It,
+      signal: controller.signal, extraTextures: [...No.flatMap(screen => screen.imgs), ...Fr.textures] });
+    if (controller.signal.aborted || controller !== preparationAbort) return;
+    await finishRoomPreparation();
+    contextWasReady = false;
+    Ge("#loading").classList.add("hidden");
+    Ge("#loading").setAttribute("aria-hidden", "true");
+    Ge("#note").textContent = "画面已恢复";
+    setTimeout(() => Ge("#note").classList.remove("show"), 2e3);
+  } catch (error) {
+    cs = false; setRoomReady(false);
+    Ge("#load-detail").textContent = "图形恢复未完成，请重新载入空间";
+    oi.errors.push(String(error));
+  }
+}
+bn.addEventListener("webglcontextlost", suspendGraphics);
+bn.addEventListener("webglcontextrestored", restoreGraphics);
 function mv(i) {
   const e = Rr.find((t) => t.userData.midi === i);
   e && (Fo.set(i, { obj: e, time: performance.now() }), Mi.play(i), oi.noteEvents.push({ midi: i, time: performance.now() }), Ge("#note").textContent = av.get(i).name, Ge("#note").classList.add("show"), clearTimeout(window.noteTimer), window.noteTimer = setTimeout(() => Ge("#note").classList.remove("show"), 800));
@@ -325,14 +361,14 @@ bn.addEventListener("keydown", (i) => {
 });
 let Cr = performance.now(), Hs = null, kr = true;
 function cl() {
-  Hs === null && document.visibilityState !== "hidden" && (Hs = requestAnimationFrame(vv));
+  graphicsAvailable && Hs === null && document.visibilityState !== "hidden" && (Hs = requestAnimationFrame(vv));
 }
 document.addEventListener("visibilitychange", () => {
   document.visibilityState === "hidden" ? (cancelAnimationFrame(Hs), Hs = null, Ri.clear(), dt = null, roomInteractions?.resetKeys()) : (Cr = performance.now(), Ei = true, cl());
 });
 const _v = new we("#192b3b"), xv = new we("#afc8d3");
 function vv(i) {
-  if (Hs = null, document.visibilityState === "hidden") return;
+  if (Hs = null, document.visibilityState === "hidden" || !graphicsAvailable) return;
   cl();
   if (!cs) { Cr = i; return; }
   const e = Math.min(0.05, (i - Cr) / 1e3);

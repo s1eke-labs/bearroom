@@ -87,6 +87,7 @@ export class FirstPersonController {
     this.desiredEye = new Vector3();
     this.eyeY = NaN;
     this.active = false;
+    this.inputEnabled = true;
     this.yaw = 0;
     this.pitch = 0;
     this.keys = new Set();
@@ -107,7 +108,7 @@ export class FirstPersonController {
     this.listeners.push(() => target.removeEventListener(name, handler, options));
   }
   enter() {
-    if (this.active) return;
+    if (this.active || !this.inputEnabled) return;
     this.saved = captureIsometricState(this.room, this.isometricCamera, this.orbitControls);
     this.savedSize = { ...this.size };
     stopOrbitGesture(this.orbitControls);
@@ -196,7 +197,7 @@ export class FirstPersonController {
   hasMovement() { return this.keys.size > 0 || Math.hypot(this.stick.x, this.stick.z) > 0; }
   dialogOpen() { return !!this.documentTarget?.querySelector?.('dialog[open]'); }
   update(dt) {
-    if (!this.active) return;
+    if (!this.active || !this.inputEnabled) return;
     if (this.dialogOpen() || this.documentTarget?.visibilityState === 'hidden') { this.clearInput(); return; }
     const right = Number(this.keys.has('KeyD') || this.keys.has('ArrowRight')) - Number(this.keys.has('KeyA') || this.keys.has('ArrowLeft')) + this.stick.x;
     const forward = Number(this.keys.has('KeyW') || this.keys.has('ArrowUp')) - Number(this.keys.has('KeyS') || this.keys.has('ArrowDown')) - this.stick.z;
@@ -217,7 +218,7 @@ export class FirstPersonController {
     }
   }
   interactDoor({ fromScene = false } = {}) {
-    if ((!this.active && !fromScene) || this.dialogOpen() || (this.active && !this.navigation.doorAction?.())) return;
+    if (!this.inputEnabled || (!this.active && !fromScene) || this.dialogOpen() || (this.active && !this.navigation.doorAction?.())) return;
     this.clearInput();
     const result = this.navigation.toggleDoor({ checkPlayer: this.active });
     this.doorBlockedUntil = result?.blocked ? performance.now() + 1600 : 0;
@@ -225,6 +226,12 @@ export class FirstPersonController {
     this.refreshDoorAction();
     if (result?.blocked && this.doorButton) this.doorButton.textContent = "请退开一点再开关门";
     return result;
+  }
+  setInputEnabled(enabled) {
+    this.inputEnabled = !!enabled;
+    // Both suspension and recovery start from rest. Keep the current mode,
+    // camera and shared door state intact until a fresh gesture arrives.
+    this.clearInput();
   }
   clearInput() {
     this.keys.clear();
@@ -257,30 +264,33 @@ export class FirstPersonController {
     this.stick.z = distance ? y / distance * strength : 0;
   }
   bindInputs() {
-    this.listen(this.toggleButton, 'click', () => this.active ? this.exit() : this.enter());
+    this.listen(this.toggleButton, 'click', () => {
+      if (this.inputEnabled) this.active ? this.exit() : this.enter();
+    });
     this.listen(this.doorButton, 'click', () => this.interactDoor());
     this.listen(this.windowTarget, 'keydown', event => {
-      if (!this.active || this.dialogOpen() || event.target?.matches?.('input, textarea, select, [contenteditable="true"]')) return;
+      if (!this.inputEnabled || !this.active || this.dialogOpen() || event.target?.matches?.('input, textarea, select, [contenteditable="true"]')) return;
       if (event.code === 'Escape' || event.key === 'Escape') { event.preventDefault(); this.exit(); return; }
       if (event.ctrlKey || event.metaKey || event.altKey) return;
       const code = inputCode(event);
       if (code === 'KeyE') { event.preventDefault(); if (!event.repeat) this.interactDoor(); return; }
       if (!MOVEMENT_KEYS.has(code)) return;
+      if (event.repeat && !this.keys.has(code)) return;
       event.preventDefault();
       if (!this.keys.has(code)) this.inputSerial++;
       this.keys.add(code);
     });
     this.listen(this.windowTarget, 'keyup', event => {
       const code = inputCode(event);
-      if (MOVEMENT_KEYS.has(code)) { this.keys.delete(code); if (this.active) event.preventDefault(); }
+      if (MOVEMENT_KEYS.has(code)) { this.keys.delete(code); if (this.active && this.inputEnabled) event.preventDefault(); }
     });
     this.listen(this.windowTarget, 'blur', () => this.clearInput());
     this.listen(this.windowTarget, 'pagehide', () => this.clearInput());
     this.listen(this.documentTarget, 'visibilitychange', () => this.clearInput());
-    this.listen(this.canvas, 'contextmenu', event => { if (this.active) event.preventDefault(); });
-    this.listen(this.canvas, 'wheel', event => { if (this.active) event.preventDefault(); }, { passive: false });
+    this.listen(this.canvas, 'contextmenu', event => { if (this.active && this.inputEnabled) event.preventDefault(); });
+    this.listen(this.canvas, 'wheel', event => { if (this.active && this.inputEnabled) event.preventDefault(); }, { passive: false });
     this.listen(this.canvas, 'pointerdown', event => {
-      if (!this.active || this.dialogOpen()) return;
+      if (!this.inputEnabled || !this.active || this.dialogOpen()) return;
       event.preventDefault();
       const gesture = { x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY,
         at: performance.now(), distance: 0, button: event.button, multi: this.lookPointers.size > 0,
@@ -291,7 +301,7 @@ export class FirstPersonController {
       this.capture(this.canvas, event.pointerId);
     });
     this.listen(this.canvas, 'pointermove', event => {
-      if (!this.active) return;
+      if (!this.inputEnabled || !this.active) return;
       const gesture = this.lookPointers.get(event.pointerId);
       if (!gesture) return;
       event.preventDefault();
@@ -310,15 +320,23 @@ export class FirstPersonController {
       gesture.distance = Math.max(gesture.distance, Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y));
       this.lookPointers.delete(event.pointerId);
       if (this.lookPointerId === event.pointerId) this.lookPointerId = null;
+      if (this.lookPointers.size === 1) {
+        const [id, remaining] = this.lookPointers.entries().next().value;
+        this.lookPointerId = id;
+        // Moves keep lastX/lastY current even while multitouch pauses looking.
+        // Resume from that pointer's latest position, never the lifted finger's.
+        // The whole gesture remains multitouch and must not become a scene tap.
+        remaining.multi = true;
+      }
       this.release(this.canvas, event.pointerId);
-      if (!cancelled && this.active && !this.dialogOpen() && sceneTapEndsOnCanvas(event, this.canvas, this.documentTarget) && !gesture.multi && !gesture.moving && !this.hasMovement() && this.joystickPointerId === null &&
+      if (!cancelled && this.inputEnabled && this.active && !this.dialogOpen() && sceneTapEndsOnCanvas(event, this.canvas, this.documentTarget) && !gesture.multi && !gesture.moving && !this.hasMovement() && this.joystickPointerId === null &&
         gesture.serial === this.inputSerial && gesture.button === 0 && gesture.distance <= 7 && performance.now() - gesture.at < 650) this.onTap(event);
     };
     this.listen(this.windowTarget, 'pointerup', event => finishLook(event, false));
     this.listen(this.windowTarget, 'pointercancel', event => finishLook(event, true));
     this.listen(this.canvas, 'lostpointercapture', event => finishLook(event, true));
     this.listen(this.joystick, 'pointerdown', event => {
-      if (!this.active || this.joystickPointerId !== null || this.dialogOpen()) return;
+      if (!this.inputEnabled || !this.active || this.joystickPointerId !== null || this.dialogOpen()) return;
       event.preventDefault(); event.stopPropagation();
       this.joystickPointerId = event.pointerId;
       this.inputSerial++;
@@ -326,7 +344,7 @@ export class FirstPersonController {
       this.setStick(event);
     });
     this.listen(this.joystick, 'pointermove', event => {
-      if (event.pointerId !== this.joystickPointerId) return;
+      if (!this.inputEnabled || event.pointerId !== this.joystickPointerId) return;
       event.preventDefault(); event.stopPropagation(); this.setStick(event);
     });
     const finishStick = event => {
