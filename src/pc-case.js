@@ -92,6 +92,10 @@ export class PcCaseController {
     for (let index = genericEmissives.length - 1; index >= 0; index--) {
       if (this.zones.some(zone => zone.material === genericEmissives[index].mat)) genericEmissives.splice(index, 1);
     }
+    this.originalMaterial = this.screen.material;
+    // Keep the physical panel and its occlusion/raycast surface when power is off.
+    // A map-free material also prevents a late wallpaper refresh from lighting it.
+    this.offMaterial = new MeshBasicMaterial({ name: 'PC_Case_Display_Off', color: 0x000000, toneMapped: false, fog: false, side: this.originalMaterial.side });
     if (!wallpaper?.image) return;
     this.canvas = canvasFactory(); this.canvas.width = PC_CASE_CONFIG.displayWidth; this.canvas.height = PC_CASE_CONFIG.displayHeight;
     this.context = this.canvas.getContext('2d');
@@ -102,11 +106,16 @@ export class PcCaseController {
     this.texture.name = 'PC_Case_Clock_Texture'; this.texture.colorSpace = SRGBColorSpace; this.texture.flipY = false;
     this.texture.generateMipmaps = false; this.texture.minFilter = LinearFilter; this.texture.magFilter = LinearFilter;
     this.texture.anisotropy = 1;
-    this.originalMaterial = this.screen.material;
     this.material = new MeshBasicMaterial({ name: 'PC_Case_Display_Runtime', map: this.texture, toneMapped: false });
-    this.material.clippingPlanes = this.originalMaterial.clippingPlanes;
-    this.screen.material = this.material;
+    this.setDisplayMaterial(this.material);
     this.updateClock(0, true);
+  }
+  setDisplayMaterial(material) {
+    // Cutaway changes apply to the active material; carry them across each swap.
+    const current = this.screen.material;
+    material.clippingPlanes = current.clippingPlanes;
+    material.clipIntersection = current.clipIntersection; material.clipShadows = current.clipShadows;
+    this.screen.material = material;
   }
   advancePowerTime(time) {
     const t = finiteTime(time);
@@ -117,6 +126,13 @@ export class PcCaseController {
     if (this.disposed || !this.root || this.powered === !!powered) return false;
     this.advancePowerTime(time);
     this.powered = !!powered; this.elapsed = -Infinity;
+    if (this.offMaterial) {
+      if (this.powered) {
+        this.updateClock(this.lastTime, true);
+        if (this.material) this.material.color.setScalar(.80 + .15 * Math.min(1, Math.max(0, this.day)));
+      }
+      this.setDisplayMaterial(this.powered ? this.material || this.originalMaterial : this.offMaterial);
+    }
     for (const { material, zone, base } of this.zones) {
       pcLightSample(this.powerTime, zone, this.day, this.sample);
       material.emissiveIntensity = this.powered ? base * this.sample.intensity : 0;
@@ -125,7 +141,7 @@ export class PcCaseController {
   }
   togglePower(time = this.lastTime) { this.setPower(!this.powered, time); return this.powered; }
   updateClock(time, force = false) {
-    if (!this.texture || (!force && time < this.nextClockCheck)) return;
+    if (this.disposed || !this.powered || !this.texture || (!force && time < this.nextClockCheck)) return;
     this.nextClockCheck = time + PC_CASE_CONFIG.displayCheckSeconds;
     const epoch = this.now(), minute = pcClockMinute(epoch);
     if (!force && minute === this.minute) return;
@@ -147,10 +163,10 @@ export class PcCaseController {
     const interval = pcUpdateInterval(normalizedRadius * viewportHeight, this.center.distanceTo(this.cameraPosition), camera.isPerspectiveCamera === true);
     if (!Number.isFinite(interval)) return false;
     this.visible = true;
+    // Power-off sleeps the entire case, including canvas draws and GPU uploads.
+    if (!this.powered) return false;
     this.updateClock(t);
     if (this.material) this.material.color.setScalar(.80 + .15 * Math.min(1, Math.max(0, day)));
-    // The retained clock may update; powered-off fans and RGB never do.
-    if (!this.powered) return false;
     if (t >= this.elapsed && t - this.elapsed < interval - 1e-6) return false;
     this.elapsed = t;
     for (const rotor of this.rotors) {
@@ -172,7 +188,7 @@ export class PcCaseController {
     if (this.disposed) return;
     this.disposed = true;
     for (const rotor of this.rotors) { rotor.object.rotation[rotor.axis] = rotor.base; updateAnimatedTransform(rotor.object); }
-    if (this.screen && this.originalMaterial) this.screen.material = this.originalMaterial;
-    this.texture?.dispose(); this.material?.dispose();
+    if (this.screen && this.originalMaterial) this.setDisplayMaterial(this.originalMaterial);
+    this.texture?.dispose(); this.material?.dispose(); this.offMaterial?.dispose();
   }
 }
