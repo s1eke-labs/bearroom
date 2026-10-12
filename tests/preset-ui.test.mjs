@@ -86,10 +86,10 @@ function fixture({ reduced = false, width = 1440, height = 900 } = {}) {
     dispose() { walk.dispose(); controls.dispose(); },
   };
 }
-const pose = f => ({ position: f.camera.position.toArray(), quaternion: f.camera.quaternion.toArray(), target: f.controls.target.toArray(), zoom: f.camera.zoom });
+const pose = f => ({ position: f.camera.position.toArray(), quaternion: f.camera.quaternion.toArray(), target: f.controls.target.toArray(), zoom: f.camera.zoom, frustum: [f.camera.left, f.camera.right, f.camera.top, f.camera.bottom], projection: f.camera.projectionMatrix.toArray() });
 const pressed = f => f.buttons.filter(button => button.getAttribute('aria-pressed') === 'true').map(button => button.dataset.preset);
 function samePose(actual, expected) {
-  for (const field of ['position', 'quaternion', 'target']) {
+  for (const field of ['position', 'quaternion', 'target', 'frustum', 'projection']) {
     for (let i = 0; i < actual[field].length; i++) assert.ok(Math.abs(actual[field][i] - expected[field][i]) < 1e-10, `${field}[${i}] must not drift`);
   }
   assert.equal(actual.zoom, expected.zoom);
@@ -100,9 +100,10 @@ function pointer(f, type, id = 1, x = 500, y = 350) {
 
 test('preset UI: native buttons expose labels, selected state and loading/walking availability', () => {
   const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  assert.deepEqual(CAMERA_PRESETS.map(({ id, label }) => [id, label]), [['classic', '经典'], ['left', '正左'], ['right', '正右']]);
   for (const { id, label } of CAMERA_PRESETS) assert.match(html, new RegExp(`<button type="button" data-preset="${id}"[^>]*aria-pressed="(?:true|false)"[^>]*>${label}</button>`));
   assert.match(html, /id="preset-control"[^>]*role="group"[^>]*aria-label="预设视角"[^>]*hidden/);
-  assert.doesNotMatch(html, /有限旋转/);
+  assert.doesNotMatch(html, /有限旋转|偏左|偏右/);
   const f = fixture();
   assert.deepEqual(pressed(f), ['classic']); assert.equal(f.element('#preset-control').hidden, false);
   f.context.setRoomReady(false); f.context.cs = false;
@@ -125,15 +126,18 @@ test('preset UI: repeated button activation retargets current pose, completes th
   assert.equal(f.room.transitioning, false); assert.deepEqual(pressed(f), ['right']);
   assert.equal(f.element('#preset-control').getAttribute('aria-busy'), 'false');
   assert.equal(f.camera.zoom, before.zoom);
+  assert.ok(Math.abs(f.room.direction().z) < 1e-12, 'The actual right button reaches the exact axial side');
+  assert.notDeepEqual(pose(f).frustum, before.frustum, 'The actual frame loop updates orthographic framing');
   const destination = pose(f); f.frame(3000); samePose(pose(f), destination); f.dispose();
 });
 
 test('preset UI: initial and runtime reduced-motion preferences finish without a stale animation', () => {
   const initial = fixture({ reduced: true }); initial.click('left');
-  assert.equal(initial.room.transitioning, false); assert.deepEqual(pressed(initial), ['left']); initial.dispose();
+  assert.equal(initial.room.transitioning, false); assert.deepEqual(pressed(initial), ['left']); assert.ok(Math.abs(initial.room.direction().x) < 1e-12); initial.dispose();
   const f = fixture(); f.click('right'); f.frame(1150);
   f.media.matches = true; dispatch(f.media, 'change', { matches: true });
   assert.equal(f.room.transitioning, false); assert.deepEqual(pressed(f), ['right']);
+  assert.ok(Math.abs(f.room.direction().z) < 1e-12, 'Reduced motion still lands exactly at the right axial endpoint');
   const finished = pose(f); f.frame(5000); samePose(pose(f), finished);
   f.media.matches = false; dispatch(f.media, 'change', { matches: false }); f.frame(6000); samePose(pose(f), finished); f.dispose();
 });

@@ -93,6 +93,11 @@ function snapshot(f) { return captureIsometricState(f.room, f.camera, f.controls
 function nearVector(actual, expected, label) {
   assert.ok(actual.distanceTo(expected) < 1e-9, `${label}: ${actual.toArray()} != ${expected.toArray()}`);
 }
+function nearProjection(f, expected, label) {
+  assert.equal(f.camera.zoom, expected.zoom, `${label}: zoom must remain exact`);
+  for (const [field, value] of Object.entries(expected)) assert.ok(Math.abs(f.camera[field] - value) < 1e-10, `${label}: ${field} must not jump`);
+  for (const value of f.camera.projectionMatrix.elements) assert.ok(Number.isFinite(value));
+}
 function assertRest(f) {
   assert.deepEqual(f.controls._pointers, []);
   assert.deepEqual(f.controls._pointerPositions, {});
@@ -109,10 +114,12 @@ for (const pointerType of ['touch', 'mouse']) test(`vendor input: ${pointerType}
   const f = fixture();
   for (const preset of CAMERA_PRESETS) {
     f.room.selectPreset(preset.id, 1000, { reducedMotion: true });
-    const before = direction(f), target = f.controls.target.clone();
+    const before = direction(f), target = f.controls.target.clone(), projection = snapshot(f).projection;
+    assert.ok(Math.abs(Math.atan2(before.x, before.z) - ({ classic: Math.PI / 4, left: 0, right: Math.PI / 2 }[preset.id])) < 1e-12, 'Real controls reach the exact preset before a gesture');
     drag(f, 1, { pointerType });
     assert.ok(f.controls.target.distanceTo(target) > .001, 'Primary drag moves the screen-space target');
     nearVector(direction(f), before, 'Primary drag preserves preset direction');
+    nearProjection(f, projection, 'Primary drag preserves the per-angle frustum');
     for (const [x, y] of [[1e6, 1e6], [-1e6, -1e6]]) {
       pointer(f, 'pointermove', 1, x, y, { pointerType }); frame(f);
       nearVector(direction(f), before, 'Even extreme primary drag cannot rotate');
@@ -182,7 +189,7 @@ for (const view of ['overview', 'lower', 'upper', 'bear', 'piano']) test(`${view
     nearVector(direction(f), beforeDirection, 'rotation cannot spring after exit');
     nearVector(f.camera.position, before.position, 'pan cannot drift after exit');
     nearVector(f.controls.target, before.target, 'target cannot drift after exit');
-    assert.equal(f.camera.zoom, before.projection.zoom); assertRest(f);
+    nearProjection(f, before.projection, 'Later exterior frames retain the saved frustum and zoom'); assertRest(f);
   }
   f.dispose();
 });
@@ -286,6 +293,7 @@ test('real vendor gestures are fully discarded when selecting or retargeting a p
   f.room.selectPreset('left', 1000);
   assertRest(f); assert.equal(f.room.transitioning, true);
   nearVector(f.camera.position, beforeSelection.position, 'Selection starts at the visible frame');
+  assert.deepEqual(snapshot(f).projection, beforeSelection.projection, 'Selection cannot jump the frustum');
   pointer(f, 'pointermove', 1, 1100, 750); pointer(f, 'pointermove', 2, 300, 100);
   nearVector(f.camera.position, beforeSelection.position, 'Old pointer owners cannot alter a new transition');
   f.room.updateTransition(1210);
@@ -294,7 +302,7 @@ test('real vendor gestures are fully discarded when selecting or retargeting a p
   assertRest(f); assert.equal(f.room.selectedPreset, 'right');
   nearVector(f.camera.position, beforeRetarget.position, 'Retargeting does not jump position');
   nearVector(f.controls.target, beforeRetarget.target, 'Retargeting does not jump focus');
-  assert.equal(f.camera.zoom, beforeRetarget.projection.zoom);
+  assert.deepEqual(snapshot(f).projection, beforeRetarget.projection, 'Retargeting cannot jump scale or zoom');
   f.room.updateTransition(1210 + PRESET_TRANSITION_MS);
   assert.equal(f.room.transitioning, false);
   const stopped = snapshot(f);
@@ -312,10 +320,12 @@ test('main pointer capture freezes a preset tween before tap snapshot and never 
   assert.equal(f.room.transitioning, false); assert.equal(f.room.selectedPreset, null);
   nearVector(f.camera.position, visible.position, 'Pointer capture freezes the visible position');
   nearVector(direction(f), visibleDirection, 'Pointer capture freezes the visible angle');
+  nearProjection(f, visible.projection, 'Pointer capture freezes the interpolated frustum');
   pointer(f, 'pointerup', 1); assert.equal(f.taps, 1); assertRest(f);
   assert.equal(f.room.updateTransition(100000), false);
   for (let i = 0; i < 5; i++) frame(f);
   nearVector(f.camera.position, visible.position, 'Completed tap cannot resume the cancelled tween');
+  nearProjection(f, visible.projection, 'Completed tap cannot resume fitting');
   f.dispose();
 });
 
@@ -336,6 +346,7 @@ for (const event of ['blur', 'pagehide', 'visibilitychange', 'webglcontextlost']
   for (let i = 0; i < 5; i++) frame(f);
   nearVector(f.camera.position, before.position, `${event} preserves the last visible camera position`);
   nearVector(f.controls.target, before.target, `${event} preserves the last visible focus`);
+  nearProjection(f, before.projection, `${event} preserves the last visible frustum`);
   assert.equal(f.taps, 0);
   if (event === 'visibilitychange') {
     f.documentTarget.visibilityState = 'visible'; dispatch(f.documentTarget, event);
@@ -390,5 +401,6 @@ test('walking halfway through a preset saves exactly that visible frame and neve
   for (let i = 0; i < 5; i++) frame(f);
   nearVector(f.camera.position, visible.position, 'Walking exit preserves the mid-transition camera exactly');
   nearVector(f.controls.target, visible.target, 'Walking exit preserves the mid-transition focus exactly');
+  nearProjection(f, visible.projection, 'Walking exit preserves the interrupted per-angle frustum');
   f.dispose();
 });

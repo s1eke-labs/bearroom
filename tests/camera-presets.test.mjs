@@ -20,13 +20,14 @@ function fixture(view = 'overview', width = 1440, height = 900) {
   return { root, camera, controls, room };
 }
 function pose({ camera, controls }) {
-  return { position: camera.position.clone(), target: controls.target.clone(), quaternion: camera.quaternion.clone(), zoom: camera.zoom };
+  return { position: camera.position.clone(), target: controls.target.clone(), quaternion: camera.quaternion.clone(), zoom: camera.zoom, frustum: Object.fromEntries(["left", "right", "top", "bottom"].map(key => [key, camera[key]])) };
 }
 function assertPose(f, expected) {
   nearVector(f.camera.position, expected.position);
   nearVector(f.controls.target, expected.target);
   for (const axis of ['x', 'y', 'z', 'w']) near(f.camera.quaternion[axis], expected.quaternion[axis]);
   assert.equal(f.camera.zoom, expected.zoom);
+  for (const [key, value] of Object.entries(expected.frustum)) near(f.camera[key], value);
 }
 function assertSafe(f) {
   const { camera, controls, room } = f, direction = room.direction();
@@ -50,7 +51,7 @@ function assertPreset(f, id) {
   assertSafe(f);
 }
 
-test('the three immutable compositions have exact isometric default and conservative side angles', () => {
+test('the three immutable compositions expose the classic diagonal and true orthogonal axial views', () => {
   assert.equal(DEFAULT_CAMERA_PRESET, 'classic');
   assert.equal(PRESET_TRANSITION_MS, 420);
   assert.deepEqual(CAMERA_PRESETS.map(preset => preset.id), ['classic', 'left', 'right']);
@@ -62,8 +63,11 @@ test('the three immutable compositions have exact isometric default and conserva
   }
   near(getCameraPreset('classic').azimuth, 45 * radians);
   near(getCameraPreset('classic').elevation, Math.asin(1 / Math.sqrt(3)));
-  near(getCameraPreset('left').azimuth, 35 * radians);
-  near(getCameraPreset('right').azimuth, 55 * radians);
+  assert.deepEqual(CAMERA_PRESETS.map(preset => preset.label), ['经典', '正左', '正右']);
+  near(getCameraPreset('left').azimuth, 0);
+  near(getCameraPreset('right').azimuth, Math.PI / 2);
+  for (const preset of CAMERA_PRESETS) near(preset.elevation, getCameraPreset('classic').elevation);
+  near(CAMERA_LIMITS.minAzimuth, 0); near(CAMERA_LIMITS.maxAzimuth, Math.PI / 2);
   assert.equal(getCameraPreset('free-orbit'), null);
 });
 
@@ -71,7 +75,8 @@ test('preset transitions are finite, smooth, exact at 420ms and unaffected by ve
   const f = fixture(), { room, camera, controls } = f;
   camera.zoom = 2.8; room.constrain(); room.panByPixels(60, -35);
   const original = pose(f), frameUp = room.frame.up, frameRight = room.frame.right;
-  const frustum = [camera.left, camera.right, camera.top, camera.bottom];
+  const originalHalfHeight = (camera.top - camera.bottom) / 2;
+  let previousHalfHeight = originalHalfHeight;
   assert.equal(room.selectPreset('left', 1000), true);
   assertPose(f, original); assert.equal(room.transitioning, true); assert.equal(room.selectedPreset, 'left');
   let previousYaw = Math.atan2(room.direction().x, room.direction().z);
@@ -82,19 +87,23 @@ test('preset transitions are finite, smooth, exact at 420ms and unaffected by ve
     nearVector(room.direction(), beforeControls);
     const yaw = Math.atan2(room.direction().x, room.direction().z);
     assert.ok(yaw <= previousYaw + 1e-12);
-    assert.ok(Math.abs(yaw - previousYaw) < 1 * radians, 'No one-frame angular jump');
+    assert.ok(Math.abs(yaw - previousYaw) < 2.3 * radians, 'No one-frame angular jump');
     previousYaw = yaw;
     assert.equal(camera.zoom, original.zoom);
-    assert.deepEqual([camera.left, camera.right, camera.top, camera.bottom], frustum);
+    const halfHeight = (camera.top - camera.bottom) / 2;
+    assert.ok(Math.abs(halfHeight / previousHalfHeight - 1) < .03, "The per-angle fit changes continuously");
+    previousHalfHeight = halfHeight;
+    near((camera.right - camera.left) / (camera.top - camera.bottom), 1440 / 900);
     assertSafe(f);
   }
   assertPreset(f, 'left');
+  assert.ok(Math.abs(previousHalfHeight - originalHalfHeight) > .1, 'Axial endpoint receives its own framing');
   assert.equal(room.frame.up, frameUp); assert.equal(room.frame.right, frameRight);
   assert.equal(room.updateTransition(2000), false);
   const completed = pose(f); controls.update(); room.constrain(); assertPose(f, completed);
 });
 
-test('switching presets preserves the existing world pan focus and zoom instead of refitting', () => {
+test('switching presets preserves the existing world pan focus and user zoom while refitting its base projection', () => {
   const f = fixture(); f.camera.zoom = 4; f.room.constrain(); f.room.panByPixels(65, -30);
   const focus = f.controls.target.clone(), zoom = f.camera.zoom;
   f.room.selectPreset('right', 0, { reducedMotion: true });
@@ -234,4 +243,79 @@ test('disposing a room releases both singleton-control subscriptions across retr
     assert.equal(staleChanges, 0); assert.equal(staleStarts, 0);
   }
   room.dispose();
+});
+
+test('axial presets physically align the horizontal viewing vector with perpendicular room axes', () => {
+  const f = fixture();
+  for (const [id, axis, screenRight] of [
+    ['left', new Vector3(0, 0, 1), new Vector3(1, 0, 0)],
+    ['right', new Vector3(1, 0, 0), new Vector3(0, 0, -1)],
+  ]) {
+    f.room.selectPreset(id, 0, { reducedMotion: true });
+    const direction = f.room.direction(), horizontal = direction.clone().setY(0).normalize();
+    nearVector(horizontal, axis, 1e-12);
+    nearVector(f.room.frame.right, screenRight, 1e-12);
+    // Orthographic axes use one physical pixel scale, never CSS/nonuniform scale.
+    near((f.camera.right - f.camera.left) / 1440, (f.camera.top - f.camera.bottom) / 900);
+    f.room.applyCutaway();
+    for (const { object, bounds } of f.room.meshes) {
+      if (/wall_east|wall_south/.test(object.name)) assert.equal(object.visible, false, object.name);
+      if (/wall_west/.test(object.name) && bounds.max.y >= 0) assert.equal(object.visible, true, object.name);
+    }
+  }
+});
+
+test('each preset independently fills the usable viewport for portrait and nonuniform room footprints', () => {
+  for (const [scaleX, scaleZ] of [[1, 1], [1.8, .55], [.6, 1.7]]) {
+    const root = source.clone(true);
+    root.getObjectByName('Exterior_city')?.removeFromParent();
+    // A non-square fixture detects accidental reuse of classic or whole-arc fit.
+    root.scale.set(scaleX, 1, scaleZ); root.updateMatrixWorld(true);
+    const camera = new OrthographicCamera(-12, 12, 10, -10, .1, 100), controls = new OrbitControls(camera);
+    configureControls(controls);
+    const room = new IsometricRoom(root, camera, controls);
+    for (const view of ['overview', 'lower', 'upper']) {
+      room.setView(view);
+      for (const [width, height] of [[1440, 900], [390, 844], [844, 390]]) {
+        room.fit(width, height);
+        for (const preset of CAMERA_PRESETS) {
+          room.selectPreset(preset.id, 0, { reducedMotion: true });
+          assertPreset({ room, camera, controls }, preset.id);
+          const { side, top, bottom } = room.viewport;
+          const usableWidth = width - 2 * side, usableHeight = height - top - bottom;
+          const points = room.roomCorners.map(point => point.clone().project(camera));
+          const minX = Math.min(...points.map(point => (point.x + 1) * width / 2));
+          const maxX = Math.max(...points.map(point => (point.x + 1) * width / 2));
+          const minY = Math.min(...points.map(point => (1 - point.y) * height / 2));
+          const maxY = Math.max(...points.map(point => (1 - point.y) * height / 2));
+          assert.ok(minX >= side - 1e-7 && maxX <= width - side + 1e-7);
+          assert.ok(minY >= top - 1e-7 && maxY <= height - bottom + 1e-7);
+          near(Math.max((maxX - minX) / usableWidth, (maxY - minY) / usableHeight), 1 / 1.08, 1e-8);
+          near((camera.right - camera.left) / (camera.top - camera.bottom), width / height);
+        }
+      }
+    }
+    room.dispose();
+  }
+});
+
+test('an axial-to-axial transition grows its frustum for the diagonal midpoint without clipping', () => {
+  const f = fixture('lower', 390, 844), { room, camera } = f;
+  room.selectPreset('left', 0, { reducedMotion: true });
+  const leftHalfHeight = (camera.top - camera.bottom) / 2;
+  room.selectPreset('right', 1000);
+  for (let elapsed = 0; elapsed <= PRESET_TRANSITION_MS; elapsed += 7) {
+    room.updateTransition(1000 + elapsed);
+    assertSafe(f);
+    const { width, height, side, top, bottom } = room.viewport;
+    for (const point of room.roomCorners) {
+      const projected = point.clone().project(camera);
+      assert.ok(projected.x >= -1 + 2 * side / width - 1e-8 && projected.x <= 1 - 2 * side / width + 1e-8);
+      assert.ok(projected.y >= -1 + 2 * bottom / height - 1e-8 && projected.y <= 1 - 2 * top / height + 1e-8);
+    }
+  }
+  const rightHalfHeight = (camera.top - camera.bottom) / 2;
+  room.selectPreset('left', 2000); room.updateTransition(2210);
+  near(Math.atan2(room.direction().x, room.direction().z), Math.PI / 4);
+  assert.ok((camera.top - camera.bottom) / 2 > Math.max(leftHalfHeight, rightHalfHeight), 'The widest diagonal is fit during the transition');
 });

@@ -1,3 +1,5 @@
+> Historical v20.2 review: its 35°/55° oblique endpoints were replaced by true axial views. Use `../axial-review/README.md` for current review; reproducing the old evidence requires commit `4318f336`.
+
 # Curated dollhouse cameras: offline review
 
 These read-only helpers export the actual runtime preset endpoints and review them against the editable seated-v20 source in CPU Blender. They never save a Blender file or alter the model, materials, geometry or baked GI. All generated JSON, PNG, logs and reports stay outside the repository.

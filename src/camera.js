@@ -7,6 +7,7 @@ import { CAMERA_LIMITS, CAMERA_PRESETS, DEFAULT_CAMERA_PRESET, PRESET_TRANSITION
 const Px = Math.acos(1 / Math.sqrt(3)), $n = 2.78, Lx = ["overview", "lower", "upper", "bear", "piano"];
 // Stay in the open southeast corner of the cutaway. Elevation is measured
 // above the floor; OrbitControls measures its polar angle down from world +Y.
+// The closed azimuth interval includes both true axial views, not just diagonals.
 const ROOM_ORBIT = Object.freeze({
   defaultAzimuth: Math.PI / 4, defaultPolar: Px,
   ...CAMERA_LIMITS,
@@ -115,6 +116,7 @@ class Ox {
       toAzimuth: preset.azimuth, toElevation: preset.elevation,
       fromTarget: target, toTarget: destinationTarget,
       fromZoom: zoom, toZoom: zoom,
+      fromFrustum: Object.fromEntries(["left", "right", "top", "bottom"].map(key => [key, this.camera[key]])),
     };
     if (reducedMotion || direction.distanceToSquared(destinationDirection) < 1e-20) this.finishTransition();
     return true;
@@ -135,7 +137,9 @@ class Ox {
     const target = this.controls.target.copy(transition.fromTarget).lerp(transition.toTarget, eased);
     this.camera.zoom = transition.fromZoom + (transition.toZoom - transition.fromZoom) * eased;
     this.camera.position.copy(target).addScaledVector(directionForAngles(azimuth, elevation), ROOM_ORBIT.distance);
-    this.constrain();
+    // Refit the current eased angle, not a linear blend of endpoint sizes:
+    // the room can be widest halfway between the two axial views.
+    this.constrain(progress === 0 ? transition.fromFrustum : null);
   }
   finishTransition() {
     if (!this.transition) return false;
@@ -178,11 +182,11 @@ class Ox {
     Lx.includes(e) && (this.cancelTransition(), this.view = e, this.applyCutaway());
   }
   applyCutaway() {
-    const e = this.boundedDirection(), t = ["lower", "piano", "bear"].includes(this.view), n = t ? [new vn(new L(0, -1, 0), $n)] : this.view === "upper" ? [new vn(new L(0, 1, 0), -$n)] : [];
+    const t = ["lower", "piano", "bear"].includes(this.view), n = t ? [new vn(new L(0, -1, 0), $n)] : this.view === "upper" ? [new vn(new L(0, 1, 0), -$n)] : [];
     for (const { object: s, bounds: r } of this.meshes) {
       const a = s.name;
       let o = !/^Exterior_city|^street_/.test(a);
-      t && r.min.y >= $n && (o = false), this.view === "upper" && r.max.y < $n && (o = false), /wall_east/.test(a) && e.x > 0 && (o = false), /wall_west/.test(a) && e.x < 0 && (o = false), /wall_south/.test(a) && e.z > 0 && (o = false), /window_glass|Architecture__metal_graphite|Architecture__fabric_ivory_linen/.test(a) && e.z < 0 && (o = false), s.userData.cutawayVisible = o, s.visible = o && s.userData.plushDetailVisible !== false;
+      t && r.min.y >= $n && (o = false), this.view === "upper" && r.max.y < $n && (o = false), /wall_east|wall_south/.test(a) && (o = false), s.userData.cutawayVisible = o, s.visible = o && s.userData.plushDetailVisible !== false;
       const l = Array.isArray(s.material) ? s.material : [s.material];
       for (const c of l) c.clippingPlanes = n, c.clipShadows = true;
     }
@@ -223,17 +227,40 @@ class Ox {
     const polygon = Ux(points), box = new Df().setFromPoints(points);
     return this.projected = { polygon, box };
   }
+  fittedFrustum() {
+    const { width, height, side, top, bottom } = this.viewport;
+    let box = this.projectedRoom().box;
+    if (this.focusBounds) {
+      const points = [], { min, max } = this.focusBounds;
+      for (const x of [min.x, max.x]) for (const y of [min.y, max.y]) for (const z of [min.z, max.z]) {
+        const point = new L(x, y, z);
+        points.push(new Ee(point.dot(this.frame.right), point.dot(this.frame.up)));
+      }
+      box = new Df().setFromPoints(points);
+    }
+    const halfHeight = Math.max(
+      (box.max.y - box.min.y) * .5 * height / (height - top - bottom),
+      (box.max.x - box.min.x) * .5 * height / (width - 2 * side),
+      1e-6,
+    ) * 1.08;
+    const halfWidth = halfHeight * width / height, offset = (top - bottom) / height * halfHeight;
+    return { left: -halfWidth, right: halfWidth, top: halfHeight + offset, bottom: -halfHeight + offset };
+  }
   panLimits() {
     if (!this.viewport) return null;
     const { width: e, height: t, top: n, bottom: s, side: r } = this.viewport, a = this.camera, o = (a.left + a.right) / 2, l = (a.top + a.bottom) / 2, c = (a.right - a.left) / 2 / a.zoom, u = (a.top - a.bottom) / 2 / a.zoom, h = o + (-1 + 2 * r / e) * c, d = o + (1 - 2 * r / e) * c, p = l + (-1 + 2 * s / t) * u, g = l + (1 - 2 * n / t) * u, { box: _ } = this.projectedRoom(), m = (w, C, R, N) => C - w <= N - R ? [(w + C - R - N) / 2, (w + C - R - N) / 2] : [w - R, C - N], [f, b] = m(_.min.x, _.max.x, h, d), [E, y] = m(_.min.y, _.max.y, p, g);
     return { minX: f, maxX: b, minY: E, maxY: y, left: h, right: d, low: p, high: g };
   }
-  constrain() {
+  constrain(frustum = null) {
     if (!this.viewport || this.constraining) return;
     this.constraining = true;
     try {
       const camera = this.camera, target = this.controls.target, direction = this.boundedDirection();
       this.syncFrame(direction);
+      // At the first transition frame retain the exact projection snapshot.
+      // Subsequent angles derive their own fit continuously, including the
+      // larger diagonal between axial endpoints.
+      Object.assign(camera, frustum || this.fittedFrustum());
       camera.zoom = en.clamp(typeof camera.zoom === "number" && !Number.isNaN(camera.zoom) ? camera.zoom : 1, this.controls.minZoom, this.controls.maxZoom);
       camera.updateProjectionMatrix();
       const limits = this.panLimits(), { minX, maxX, minY, maxY, left, right, low, high } = limits;
@@ -272,22 +299,18 @@ class Ox {
     // resize keeps the current direction, zoom and bounded screen-space position.
     n && (this.selectedPreset = DEFAULT_CAMERA_PRESET, this.controls.target.copy(a), s.position.copy(a).addScaledVector(defaultDirection(), ROOM_ORBIT.distance), s.zoom = 1);
     this.syncFrame(this.boundedDirection()), s.lookAt(this.controls.target), s.updateMatrixWorld(true);
-    // Reserve one stable frustum for every preset and intermediate angle,
-    // rather than refitting (and visibly zooming) during a transition.
-    const half = r.getSize(new L()).multiplyScalar(0.5);
-    const maxOverRange = (fn, low, high, peak) => Math.max(fn(low), fn(high), fn(en.clamp(peak, low, high)));
-    const l = maxOverRange(yaw => half.x * Math.cos(yaw) + half.z * Math.sin(yaw), ROOM_ORBIT.minAzimuth, ROOM_ORBIT.maxAzimuth, Math.atan2(half.z, half.x));
-    const depth = maxOverRange(yaw => half.x * Math.sin(yaw) + half.z * Math.cos(yaw), ROOM_ORBIT.minAzimuth, ROOM_ORBIT.maxAzimuth, Math.atan2(half.x, half.z));
-    const c = maxOverRange(elevation => half.y * Math.cos(elevation) + depth * Math.sin(elevation), ROOM_ORBIT.minElevation, ROOM_ORBIT.maxElevation, Math.atan2(depth, half.y));
+    // Detail views retain their subject-specific composition. Whole-floor views
+    // fit the actual visible mesh projections, avoiding empty composite-AABB
+    // corners and the large reservation formerly shared by the whole orbit arc.
+    this.focusBounds = ["bear", "piano"].includes(this.view) ? r.clone() : null;
     e = Number.isFinite(e) ? Math.max(1, e) : this.viewport?.width || 1;
     t = Number.isFinite(t) ? Math.max(1, t) : this.viewport?.height || 1;
     const topPadding = t < 500 ? e <= 600 ? 180 : 122 : e <= 600 ? 216 : 150, bottomPadding = t < 500 ? 64 : 112;
     const paddingScale = Math.min(1, t * 0.65 / (topPadding + bottomPadding));
-    const u = topPadding * paddingScale, h = bottomPadding * paddingScale, d = t - u - h;
-    const p = Math.max(e * 0.65, e - (e < 600 ? 28 : 100)), g = e / t, _ = Math.max(c * t / d, l * e / p / g) * 1.08;
-    s.left = -_ * g, s.right = _ * g;
-    const m = (u - h) / t * _;
-    s.top = _ + m, s.bottom = -_ + m, this.viewport = { width: e, height: t, side: (e - p) / 2, top: (t - d + u - h) / 2, bottom: (t - d - u + h) / 2 }, s.updateProjectionMatrix(), this.constrain(), this.controls.update(), this.constrain();
+    const u = topPadding * paddingScale, h = bottomPadding * paddingScale;
+    const p = Math.max(e * 0.65, e - (e < 600 ? 28 : 100));
+    this.viewport = { width: e, height: t, side: (e - p) / 2, top: u, bottom: h };
+    this.constrain(), this.controls.update(), this.constrain();
   }
 }
 

@@ -166,7 +166,7 @@ export class FirstPersonController {
     if (this.toggleButton) this.toggleButton.textContent = '进入漫游';
     if (this.hint) this.hint.innerHTML = this.savedHint;
     if (this.status) this.status.textContent = this.savedStatus;
-    this.canvas.setAttribute('aria-label', '小熊的三维 Loft，经典、偏左和偏右预设视角，单指或鼠标拖动平移，捏合或滚轮缩放，直接轻点琴键弹奏');
+    this.canvas.setAttribute('aria-label', '小熊的三维 Loft，经典、正左和正右预设视角，单指或鼠标拖动平移，捏合或滚轮缩放，直接轻点琴键弹奏');
     this.canvas.focus?.({ preventScroll: true });
     this.onChange(false);
   }

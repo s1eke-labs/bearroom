@@ -31,7 +31,7 @@ function assertBounded({ camera, controls, room }) {
   const direction = room.direction(), yaw = Math.atan2(direction.x, direction.z), polar = Math.acos(direction.y);
   assert.ok(yaw >= ROOM_ORBIT.minAzimuth - 1e-10 && yaw <= ROOM_ORBIT.maxAzimuth + 1e-10);
   assert.ok(polar >= ROOM_ORBIT.minPolar - 1e-10 && polar <= ROOM_ORBIT.maxPolar + 1e-10);
-  assert.ok(direction.x > 0 && direction.y > 0 && direction.z > 0, 'No rear, below-floor or straight-down angle');
+  assert.ok(direction.x >= -1e-12 && direction.y > 0 && direction.z >= -1e-12, 'Axial endpoints are allowed; rear, below-floor and straight-down angles are not');
   near(direction.length(), 1); near(room.frame.right.length(), 1); near(room.frame.up.length(), 1);
   near(room.frame.right.dot(room.frame.up), 0); near(direction.dot(room.frame.right), 0); near(direction.dot(room.frame.up), 0);
   near(camera.position.distanceTo(controls.target), ROOM_ORBIT.distance);
@@ -66,7 +66,7 @@ test('curated dollhouse mapping keeps primary/single-finger pan and wheel/pinch 
   assert.equal(controls.mouseButtons.LEFT, MOUSE.PAN); assert.equal(controls.mouseButtons.RIGHT, MOUSE.PAN);
   assert.equal(controls.mouseButtons.MIDDLE, MOUSE.DOLLY); assert.equal(controls.touches.ONE, TOUCH.PAN);
   assert.equal(controls.touches.TWO, TOUCH.DOLLY_PAN); assert.equal(controls.zoomToCursor, false);
-  near(controls.minAzimuthAngle, 35 * Math.PI / 180); near(controls.maxAzimuthAngle, 55 * Math.PI / 180);
+  near(controls.minAzimuthAngle, 0); near(controls.maxAzimuthAngle, Math.PI / 2);
   near(controls.minPolarAngle, 52 * Math.PI / 180); near(controls.maxPolarAngle, 58 * Math.PI / 180);
   assert.ok(Object.isFrozen(ROOM_ORBIT)); assert.ok(controls.enableDamping);
 });
@@ -81,7 +81,7 @@ test('initial cutaway is correct before camera placement, including an uninitial
   room.fit(1440, 900); assertBounded({ room, camera, controls });
 });
 
-test('programmatic presets reach their exact curated angles with stable frame references and fresh projected bounds', () => {
+test('programmatic presets reach exact classic and axial angles with stable frame references and fresh projected bounds', () => {
   const f = fixture(), up = f.room.frame.up, right = f.room.frame.right, firstProjection = f.room.projectedRoom();
   for (const preset of CAMERA_PRESETS) {
     assert.equal(f.room.selectPreset(preset.id, 1000), true);
@@ -89,7 +89,12 @@ test('programmatic presets reach their exact curated angles with stable frame re
     assert.equal(f.room.selectedPreset, preset.id);
     assert.equal(f.room.transitioning, false);
     assertBounded(f);
-    near(Math.atan2(f.room.direction().x, f.room.direction().z), preset.azimuth);
+    const expectedAzimuth = { classic: Math.PI / 4, left: 0, right: Math.PI / 2 }[preset.id];
+    near(preset.azimuth, expectedAzimuth);
+    near(preset.elevation, Math.asin(1 / Math.sqrt(3)));
+    near(Math.atan2(f.room.direction().x, f.room.direction().z), expectedAzimuth);
+    if (preset.id === 'left') near(f.camera.position.x, f.controls.target.x, 1e-12);
+    if (preset.id === 'right') near(f.camera.position.z, f.controls.target.z, 1e-12);
     near(Math.PI / 2 - Math.acos(f.room.direction().y), preset.elevation);
     const before = f.room.direction(); f.room.constrain(); assert.ok(before.distanceTo(f.room.direction()) < 1e-12);
   }
@@ -102,6 +107,17 @@ test('room constraints independently normalize externally supplied rear, overhea
   for (const offset of [new Vector3(-20, -20, -20), new Vector3(0, 100, 0), new Vector3(0, -100, 0), new Vector3(100, 0, -100), new Vector3()]) {
     f.camera.position.copy(f.controls.target).add(offset);
     f.room.constrain(); assertBounded(f);
+  }
+});
+
+test('axial limits admit the entire front quadrant and clamp only outside its exact endpoints', () => {
+  const f = fixture();
+  for (const yaw of [-.01, 0, .01, Math.PI / 2 - .01, Math.PI / 2, Math.PI / 2 + .01]) {
+    orbitTo(f, yaw, ROOM_ORBIT.defaultPolar);
+    near(Math.atan2(f.room.direction().x, f.room.direction().z), Math.max(0, Math.min(Math.PI / 2, yaw)), 1e-12);
+    assertBounded(f);
+    const before = f.room.direction(); f.controls.update();
+    assert.ok(f.room.direction().distanceTo(before) < 1e-12, 'Vendor controls cannot reclamp an axial view to the former diagonal envelope');
   }
 });
 
@@ -136,25 +152,84 @@ for (const view of views) test(`${view}: rotated extreme pan/zoom keeps all orig
   assert.ok(f.room.direction().distanceTo(new Vector3(1, 1, 1).normalize()) < 1e-12);
 });
 
-for (const view of ['overview', 'lower', 'upper']) test(`${view}: fitting once contains the whole room across the full angular range without changing the frustum`, () => {
+for (const view of ['overview', 'lower', 'upper']) test(`${view}: per-angle orthographic fitting contains the whole room across the axial range and preserves aspect`, () => {
   const f = fixture(view);
   for (const [width, height] of [[1440, 900], [390, 844], [844, 390]]) {
     f.room.fit(width, height);
-    const frustum = [f.camera.left, f.camera.right, f.camera.top, f.camera.bottom];
+    const fittedHeights = [];
     for (let yaw = ROOM_ORBIT.minAzimuth; yaw <= ROOM_ORBIT.maxAzimuth + 1e-10; yaw += (ROOM_ORBIT.maxAzimuth - ROOM_ORBIT.minAzimuth) / 6) {
       for (let polar = ROOM_ORBIT.minPolar; polar <= ROOM_ORBIT.maxPolar + 1e-10; polar += (ROOM_ORBIT.maxPolar - ROOM_ORBIT.minPolar) / 4) {
         orbitTo(f, yaw, polar);
-        assert.deepEqual([f.camera.left, f.camera.right, f.camera.top, f.camera.bottom], frustum);
+        const frustumWidth = f.camera.right - f.camera.left, frustumHeight = f.camera.top - f.camera.bottom;
+        near(frustumWidth / frustumHeight, width / height);
+        near(f.camera.zoom, 1);
+        fittedHeights.push(frustumHeight);
         const { side, top, bottom } = f.room.viewport;
-        for (const point of f.room.roomCorners) {
-          const projected = point.clone().project(f.camera);
+        const projectedCorners = f.room.roomCorners.map(point => point.clone().project(f.camera));
+        const horizontalOccupancy = (Math.max(...projectedCorners.map(point => point.x)) - Math.min(...projectedCorners.map(point => point.x))) / (2 - 4 * side / width);
+        const verticalOccupancy = (Math.max(...projectedCorners.map(point => point.y)) - Math.min(...projectedCorners.map(point => point.y))) / (2 - 2 * (top + bottom) / height);
+        near(Math.max(horizontalOccupancy, verticalOccupancy), 1 / 1.08, 1e-7);
+        for (const projected of projectedCorners) {
           assert.ok(projected.x >= -1 + 2 * side / width - 1e-8 && projected.x <= 1 - 2 * side / width + 1e-8, 'Room width fits usable viewport');
           assert.ok(projected.y >= -1 + 2 * bottom / height - 1e-8 && projected.y <= 1 - 2 * top / height + 1e-8, 'Room height fits usable viewport');
           assert.ok(projected.z > -1 && projected.z < 1, 'All room depths remain between near and far');
         }
       }
     }
+    assert.ok(Math.max(...fittedHeights) - Math.min(...fittedHeights) > .1, 'The frustum fits each angle rather than retaining an oversized all-angle envelope');
   }
+});
+
+for (const view of ['overview', 'piano']) for (const [width, height] of [[1440, 900], [390, 844]]) test(`${view} ${width}×${height}: axial transitions smoothly refit the real frustum without a zoom jump`, () => {
+  const f = fixture(view, width, height);
+  f.room.selectPreset('left', 1000, { reducedMotion: true });
+  f.camera.zoom = 2.7; f.room.constrain();
+  const frustum = () => [f.camera.left, f.camera.right, f.camera.top, f.camera.bottom];
+  const initial = frustum(), initialProjection = f.camera.projectionMatrix.toArray();
+  f.room.selectPreset('right', 2000);
+  assert.deepEqual(frustum(), initial, 'Selection does not jump the visible frustum');
+  assert.deepEqual(f.camera.projectionMatrix.toArray(), initialProjection, 'Selection does not jump projection');
+  f.room.updateTransition(2000);
+  initial.forEach((value, i) => near(frustum()[i], value));
+  f.room.updateTransition(2000 + .001);
+  initial.forEach((value, i) => near(frustum()[i], value, 1e-8));
+  const samples = [initial], yaws = [0];
+  const { side, top, bottom } = f.room.viewport;
+  const diameter = f.room.bounds().getSize(new Vector3()).length();
+  const fitChangePerRadian = .54 * diameter * Math.max(height / (height - top - bottom), height / (width - 2 * side));
+  const extentMultipliers = [width / height, width / height, 1 + (top - bottom) / height, 1 - (top - bottom) / height];
+  for (let step = 1; step <= 120; step++) {
+    f.room.updateTransition(2000 + PRESET_TRANSITION_MS * step / 120);
+    const progress = step / 120;
+    near(Math.atan2(f.room.direction().x, f.room.direction().z), Math.PI / 2 * progress * progress * (3 - 2 * progress));
+    near(f.camera.zoom, 2.7);
+    near((f.camera.right - f.camera.left) / (f.camera.top - f.camera.bottom), width / height);
+    assertBounded(f);
+    const points = (view === 'piano' ? corners(f.room.bounds()) : f.room.roomCorners).map(point => point.clone().project(f.camera));
+    const horizontalOccupancy = (Math.max(...points.map(point => point.x)) - Math.min(...points.map(point => point.x))) / (2 - 4 * side / width);
+    const verticalOccupancy = (Math.max(...points.map(point => point.y)) - Math.min(...points.map(point => point.y))) / (2 - 2 * (top + bottom) / height);
+    near(Math.max(horizontalOccupancy, verticalOccupancy), 2.7 / 1.08, 1e-7);
+    samples.push(frustum());
+    yaws.push(Math.atan2(f.room.direction().x, f.room.direction().z));
+  }
+  for (let axis = 0; axis < 4; axis++) {
+    const values = samples.map(sample => sample[axis]);
+    const extent = Math.max(...values) - Math.min(...values);
+    assert.ok(extent > .001, 'The real orthographic frustum changes during the rotation');
+    // A projected span changes by at most the subject diameter times the
+    // angular change. This bound allows real piano proportions while rejecting
+    // frustum jumps, endpoint-only fitting and quantized scale changes.
+    for (let i = 1; i < values.length; i++) {
+      const maxChange = fitChangePerRadian * extentMultipliers[axis] * Math.abs(yaws[i] - yaws[i - 1]);
+      assert.ok(Math.abs(values[i] - values[i - 1]) <= maxChange + 1e-8, 'Frustum changes remain continuous with the eased angle');
+    }
+  }
+  near(f.room.direction().z, 0, 1e-12);
+  assert.equal(f.room.transitioning, false);
+  const finished = frustum();
+  f.controls.update(); f.room.constrain();
+  finished.forEach((value, i) => near(frustum()[i], value));
+  near(f.camera.zoom, 2.7);
 });
 
 test('resize preserves the rotated angle and zoom, with finite nonnegative padding even in a collapsed viewport', () => {

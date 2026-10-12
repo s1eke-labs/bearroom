@@ -1,4 +1,6 @@
-# Curated external viewpoints (v20.2)
+# Curated external viewpoints (v20.2, historical)
+
+Superseded by the requested true axial 正左/正右 views in v20.3. See `axial-viewpoints.md`; the 35°/55° oblique angles below are historical and are no longer the current presets.
 
 ## Composition and controls
 

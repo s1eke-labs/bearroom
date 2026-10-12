@@ -21,7 +21,7 @@
       <canvas
         id="room"
         data-model-worker="__MODEL_WORKER__"
-        aria-label="小熊的三维 Loft，经典、偏左和偏右预设视角，单指或鼠标拖动平移，捏合或滚轮缩放，直接轻点琴键弹奏"
+        aria-label="小熊的三维 Loft，经典、正左和正右预设视角，单指或鼠标拖动平移，捏合或滚轮缩放，直接轻点琴键弹奏"
         tabindex="0"
       ></canvas>
       <header>
@@ -45,8 +45,8 @@
         </div>
         <div id="preset-control" class="preset-control" role="group" aria-label="预设视角" aria-busy="false" hidden>
           <button type="button" data-preset="classic" class="selected" aria-pressed="true" disabled>经典</button>
-          <button type="button" data-preset="left" aria-pressed="false" disabled>偏左</button>
-          <button type="button" data-preset="right" aria-pressed="false" disabled>偏右</button>
+          <button type="button" data-preset="left" aria-pressed="false" disabled>正左</button>
+          <button type="button" data-preset="right" aria-pressed="false" disabled>正右</button>
         </div>
         <button id="walk-toggle" aria-pressed="false" aria-describedby="walk-instructions" disabled>进入漫游</button>
         <div class="orientation-control" role="group" aria-label="视角方向">
@@ -67,7 +67,7 @@
       </div>
       <aside class="bottom-bar">
         <p id="hint">
-          拖动平移 · 捏合 / 滚轮缩放<br /><span>经典 / 偏左 / 偏右切换视角 · 轻点琴键弹奏</span>
+          拖动平移 · 捏合 / 滚轮缩放<br /><span>经典 / 正左 / 正右切换视角 · 轻点琴键弹奏</span>
         </p>
         <button id="sound" aria-label="静音" aria-pressed="false">
           ♫<span>声音</span></button
@@ -88,7 +88,7 @@
         <button class="close" aria-label="关闭说明">×</button>
         <h2>慢慢看看，随手弹弹</h2>
         <p>
-          点「经典」「偏左」「偏右」切换预设视角，镜头会平滑转到新的角度；开启系统的减少动态效果后会直接切换。一根或两根手指拖动平移，捏合缩放。平移限制在当前房间附近，放大后可查看边缘。
+          点「经典」「正左」「正右」切换预设视角，经典保留等轴构图，正左与正右分别正对房屋的两侧开敞面。镜头会平滑切换并适配当前方向的构图，保留手动缩放倍率；开启系统的减少动态效果后会直接切换。一根或两根手指拖动平移，捏合缩放。平移限制在当前房间附近，放大后可查看边缘。
         </p>
         <p>全景展示完整双层；一层暂时剖开上层，二层聚焦卧室与阅读区。点「小熊」近看沙发上的短绒玩偶，仍可切换预设、平移和缩放。切换楼层或点全景会回到该视图的经典角度并居中。</p>
         <p>

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {FirstPersonController,WALK_VIEW,captureIsometricState} from '../src/first-person.js';
 import {IsometricRoom,configureControls} from '../src/camera.js';
+import {CAMERA_PRESETS} from '../src/camera-presets.js';
 import {L as Vector3,Gr as OrthographicCamera,Mh as Scene} from '../vendor/runtime-v11.js';
 import {loadSceneForCPU} from './helpers.mjs';
 import {qaDOM,dispatch,QAElement} from './walk-qa-helpers.mjs';
@@ -26,15 +27,17 @@ function snapshot(f){return captureIsometricState(f.room,f.isometricCamera,f.orb
 function key(f,code,type='keydown'){dispatch(f.windowTarget,type,{code,key:code.startsWith('Key')?code.slice(3).toLowerCase():code});}
 function pointer(target,type,id,x=400,y=300,extras={}){dispatch(target,type,{pointerId:id,clientX:x,clientY:y,button:0,pointerType:'touch',...extras});}
 for(const view of ['overview','lower','upper','bear','piano'])test(`walk QA: ${view} repeated entry/exit restores exact camera, clipping, visibility, pan and zoom`,()=>{
- const f=fixture(view),before=snapshot(f),visibility=[],materials=new Map();f.root.traverse(o=>{if(!o.isMesh)return;visibility.push([o,o.visible,o.userData.cutawayVisible]);for(const m of Array.isArray(o.material)?o.material:[o.material])materials.set(m,[m.clippingPlanes,m.clipShadows]);});
+ const f=fixture(view),visibility=[],materials=new Map();f.root.traverse(o=>{if(!o.isMesh)return;visibility.push([o,o.visible,o.userData.cutawayVisible]);for(const m of Array.isArray(o.material)?o.material:[o.material])materials.set(m,[m.clippingPlanes,m.clipShadows]);});
  const count=[];f.root.traverse(o=>count.push(o));
  for(let i=0;i<3;i++){
+  const preset=CAMERA_PRESETS[i];f.room.selectPreset(preset.id,1000,{reducedMotion:true});f.room.panByPixels(37,-28);const before=snapshot(f);
+  assert.ok(Math.abs(Math.atan2(f.room.direction().x,f.room.direction().z)-({classic:Math.PI/4,left:0,right:Math.PI/2}[preset.id]))<1e-12);
   f.orbitControls._panOffset.set(1,2,3);f.orbitControls._scale=1.5;
   f.controller.enter();assert.equal(f.controller.active,true);assert.equal(f.orbitControls.enabled,false);assert.equal(f.navigation.floor,view==='upper'?'upper':'lower');assert.equal(f.controller.getCamera().isPerspectiveCamera,true);assert.equal(f.controller.ceiling.visible,true);assert.equal(f.controller.ceiling.castShadow,false);assert.equal(f.controller.ceiling.parent,f.scene);
   f.root.traverse(o=>{if(o.isMesh&&!/^Exterior_city|^street_/.test(o.name)){assert.equal(o.userData.cutawayVisible,true);if(o.userData.plushDetailVisible!==false)assert.equal(o.visible,true);}});
   for(const m of materials.keys())assert.deepEqual(m.clippingPlanes,[]);
   key(f,'KeyW');f.controller.update(.03);pointer(f.canvas,'pointerdown',1);pointer(f.canvas,'pointermove',1,510,420);f.controller.exit();
-  assert.equal(f.controller.ceiling.visible,false);assert.deepEqual(snapshot(f),before);assert.equal(f.controller.getCamera(),f.isometricCamera);assert.equal(f.orbitControls._panOffset.length(),0);assert.equal(f.orbitControls._scale,1);
+  assert.equal(f.controller.ceiling.visible,false);assert.deepEqual(snapshot(f),before);assert.equal(f.room.selectedPreset,preset.id);assert.equal(f.controller.getCamera(),f.isometricCamera);assert.equal(f.orbitControls._panOffset.length(),0);assert.equal(f.orbitControls._scale,1);
   for(const[o,v,c]of visibility){assert.equal(o.visible,v);assert.equal(o.userData.cutawayVisible,c);}
   for(const[m,[planes,shadow]]of materials){assert.equal(m.clippingPlanes,planes);assert.equal(m.clipShadows,shadow);}
   assert.equal(f.controller.keys.size,0);assert.equal(f.controller.lookPointers.size,0);assert.equal(f.hint.innerHTML,'Original hint');assert.equal(f.status.textContent,view);
@@ -65,8 +68,8 @@ test('walk QA: walking, dragging, multitouch and cancelled gestures never play p
  pointer(f.canvas,'pointerdown',5);pointer(f.canvas,'pointerdown',6);pointer(f.windowTarget,'pointerup',5);pointer(f.windowTarget,'pointerup',6);assert.equal(f.taps,1);
  pointer(f.canvas,'pointerdown',7);pointer(f.windowTarget,'pointercancel',7);assert.equal(f.taps,1);f.controller.dispose();
 });
-test('walk QA: resize retains floor preset and zoom, sets perspective aspect, and Escape exits',()=>{
- const f=fixture('piano');const zoom=f.isometricCamera.zoom;f.controller.enter();f.controller.resize(390,844);assert.equal(f.controller.camera.aspect,390/844);key(f,'Escape');assert.equal(f.controller.active,false);assert.equal(f.room.view,'piano');assert.equal(f.isometricCamera.zoom,zoom);assert.equal(f.room.viewport.width,390);assert.equal(f.room.viewport.height,844);assert.equal(f.orbitControls.enableRotate,false);f.controller.dispose();
+for(const preset of ['left','right'])test(`walk QA: resize retains ${preset} axial floor preset and zoom, sets perspective aspect, and Escape exits`,()=>{
+ const f=fixture('piano');f.room.selectPreset(preset,1000,{reducedMotion:true});const direction=f.room.direction(),zoom=f.isometricCamera.zoom;f.controller.enter();f.controller.resize(390,844);assert.equal(f.controller.camera.aspect,390/844);key(f,'Escape');assert.equal(f.controller.active,false);assert.equal(f.room.view,'piano');assert.equal(f.isometricCamera.zoom,zoom);assert.equal(f.room.viewport.width,390);assert.equal(f.room.viewport.height,844);assert.equal(f.orbitControls.enableRotate,false);assert.equal(f.room.selectedPreset,preset);assert.ok(f.room.direction().distanceTo(direction)<1e-12);assert.ok(Math.abs((f.isometricCamera.right-f.isometricCamera.left)/(f.isometricCamera.top-f.isometricCamera.bottom)-390/844)<1e-12);f.controller.dispose();
 });
 test('walk QA: day/night, preset and piano integration retain explicit guarded source hooks',()=>{
  const main=fs.readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8'),css=fs.readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
